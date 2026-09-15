@@ -4,6 +4,8 @@
 
 本次修订：gld 本地不接 exec-server；Claude 复用 exec-server 从默认架构降为独立、无模型的收益验证。Codex 原生 exec-server 路线保留。
 
+**用户决定（2026-09-15）**：① 三个仓库统一 `rust-version`，执行时点见第 11 节；② 同意为本计划的模型验证消耗订阅额度，记账与上限见第 10.1 节。
+
 本版是当前方案讨论入口。[v1 原文](implementation-plan.md)保持不变，供差异追溯；其“已确认”“已获同意”和阶段编号不自动成为 v2 的实施或费用授权。两个产品的实际进度仍分别由各自仓库记录，特别是 ccnm 的 `docs/plan/status.json`。
 
 ## 0. 一页纸结论
@@ -25,7 +27,7 @@
 | v1 | v2 |
 | --- | --- |
 | Codex 用 exec-server，Claude 的完整执行能力另写 | gld 与 ccnm 直接执行路径共用库；Claude 可单独验证复用 exec-server 的少量机制，不据此重写/替换全部工具 |
-| 先统一三个仓库 Rust 1.89，再开展全部工作 | 先验证真实依赖和 MSRV；独立二进制的 MSRV 不传播到客户端，编译链接时再明确升级影响 |
+| 先统一三个仓库 Rust 1.89，再开展全部工作 | 仍统一三个仓库的 `rust-version`，但不提前动：第一个共享 crate 被 gld 或 ccnm 链接时一次性统一（第 11 节） |
 | 预先建设完整 Root、编辑、执行会话、MCP 与工具集 crate | 共享库先提取真实重复的小模块；Claude 的 Read + Process 试验独立进行，不先建全套空框架 |
 | 拿 guard 后直接 `exec` 官方服务 | 包装进程持有 guard，监督子进程；确认写进程结束后释放，不丢弃锁与收尾责任 |
 | WebSocket 只接受首连接 | 验证连接身份或不可伪造的连接能力；首连接限制不是认证 |
@@ -167,6 +169,7 @@ gld 目前也不能假设已有覆盖 MCP/Actions/hub 与后台进程的一把�
 
 - MCP 路径沿用公开 SSH bridge；默认在 Runtime 内直接使用共享库，仅实验分支再以受管 stdio 连接 exec-server。不另开公网执行端口。
 - Codex 原生 transport 按固定版本支持情况验证；若需要本机 WebSocket 桥，必须证明连接身份或不可伪造连接能力，随机端口与“只允许首连接”都不等于认证。
+- **V2-G05 候选方案：URL 路径携带一次性连接能力。** 事实（0.154.0 源码）：ccnm 带 `--ignore-user-config` 启动 Codex 时只读 `CODEX_EXEC_SERVER_URL`，自定义 HTTP 头只能来自被忽略的 `environments.toml`；但客户端经 `into_client_request()` 按完整 URL 发起升级请求，路径原样保留（`exec-server/src/client_transport.rs:531-537`）；官方服务端本身不认证，只拒绝带 Origin 头的请求（`server/transport.rs:210`）。候选做法：ccnm 本机桥监听回环地址，`CODEX_EXEC_SERVER_URL=ws://127.0.0.1:<端口>/<每会话 256 位随机串>`，桥只接受路径完全匹配的一次升级，成功后立即作废，会话结束也作废。能挡：其他 OS 用户（读不到 Codex 进程环境变量）。不在防护范围：同一 Agent 账号的进程（它本来就能读 Codex 登录）。已知坑：客户端把完整 URL 写进连接标签 `exec-server websocket {url}`（`client_transport.rs:554`），验证时必须检查日志与遥测是否出现该串；出现则该方案否决或需额外脱敏。未通过前 Codex 原生链只做合成数据实验。
 - 无法建立可靠认证的 transport 只做合成数据、无敏感目录的隔离实验，不进入产品。不能为绕过此门禁自动移除 `--ignore-user-config` 或复用个人配置。
 - 每个请求绑定物理工作区、调用作用域、配置版本和执行会话；模型不能传入/提升 root、身份、bridge executable 或权限上限。
 - 原生 RPC 路线同样需要检查，不允许只在 MCP 前端做授权，然后把原生连接当无限权限字节管道。
@@ -244,6 +247,7 @@ Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明
 | V2-K 共享库主线 | 先提取有界文本读取，再分批共享编辑/提交、进程/输出机制；gld 与 ccnm 直接适配 | 各自兼容与安全回归通过；gld 本地在未安装 Codex 的环境也能构建、安装、运行并维持交互会话 | 0 |
 | V2-H hub 接入线 | AuthContext、静态 remote 工具、合成 peer、公开 bridge、read 后 coding | 使用 ccnm 默认直接路径先离线后真机；V2-G12 及相关权限/恢复门禁通过，不依赖 exec-server 或工具面 A/B | 离线 0；Web 实际使用单独记账 |
 | V2-C Codex 原生路线 | 保留官方原生 exec-server 接入，独立锁定客户端/服务端组合和监督器 | 原生链的协议、权限、执行位置、guard和恢复门禁通过；不以 Claude 试验通过为前提 | 离线 0；真实回合需明确预算 |
+| V2-Q Claude 工具面快速验证 | Q1：实测 instructions 超过 2KB 时 Claude Code 是否截断（带标记行，1 次回合）；Q2：ccnm 7 个工具加 `_meta["anthropic/alwaysLoad"]`（纯加法，不删可空联合、不做 schema 去噪）后与现状做小样本对照 | 按第 10.2 节规则判定；只改工具元数据和 instructions 顺序，不碰执行路径、冻结工具语义与共享库；不采纳时撤回该字段 | 按第 10.1 节实验单记账 |
 | V2-P0 Claude 试验基线 | 固定当前 ccnm 与 adapter/backend 版本；同身份/目录/环境/命令/预算的对照；明确拟新增约束、成本阈值和取得二进制的方式 | 基线可重建，收益/成本判据在候选运行前冻结，不修改生产配置 | 0 |
 | **V2-P1 Claude 收益验证（保留）** | 中立 MCP 客户端与原生 RPC 客户端完成分块读/进程闭环；对照直接执行，分别记录沙箱增量和RPC/部署/维护成本 | 完成 V2-G01–G04 的能力/正确性记录和 V2-G13 的测量报告，回答第 3.2 节问题，输出继续/仅进程/否决结论。失败或无净收益可以判否决并结束，只有拟继续的能力必须通过相应门禁 | **0** |
 | V2-P2 候选深入门禁 | 仅对 P1 值得继续的能力完善监督、权限、取消、断连、输出与互斥 | V2-G05–G10 适用项通过；任何权限弱化或未知写权停止接入 | 0 |
@@ -251,13 +255,14 @@ Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明
 | V2-P4 Claude 小范围 opt-in | 仅启用获准的进程/沙箱或分块读委派；搜索、编辑、journal、输出存储继续共享库；不改 gld 本地 | 受影响硬门禁、独立版本部署、升级和回退均通过；真实 Claude 回合仅在已有授权范围内进行 | 仅有明确预算时 |
 | V2-P5 可选优化与收敛 | alwaysLoad/native@1/lean@1、小样本 A/B；分别收敛已验证的共享库与可选 backend | 优化不要求先采纳 exec-server；只删除真正被替代的重复代码，默认切换另作决定 | 按实验单批准 |
 
-V2-K、V2-H、V2-C 按各自依赖推进，不被 Claude 试验阻塞。Claude 实验线为 P0 → P1（继续才进入）P2 → P3 → P4；否决后停止该实验线，不暂停共享库或 hub。若 P3 决定采用 B，扩展版本须重跑收益验证、权限与相关兼容门禁，不能继承官方原版通过记录。P5 不阻塞主线。
+V2-K、V2-H、V2-C、V2-Q 按各自依赖推进，不被 Claude 试验阻塞。V2-Q 不依赖任何其他线，可最早开始。Claude 实验线为 P0 → P1（继续才进入）P2 → P3 → P4；否决后停止该实验线，不暂停共享库或 hub。若 P3 决定采用 B，扩展版本须重跑收益验证、权限与相关兼容门禁，不能继承官方原版通过记录。P5 不阻塞主线。
 
 ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计划记录跨仓依赖，不代替产品状态。不为了宣称统一而同时开展多个互相覆盖的核心重构。
 
 ### 第一批可执行任务
 
-1. 共享库线保存旧 fixture，先提取两个产品真正共用的有界文本原语；hub 线先做类型/认证与合成 peer。
+0. V2-Q：instructions 2KB 截断实测，然后 alwaysLoad 小样本对照；同时修第 13 节标"立即修"的缺陷。
+1. 共享库线保存旧 fixture，先提取两个产品真正共用的有界文本原语；hub 线先做类型/认证与合成 peer；Codex 线先按第 5.2 节候选方案验证 URL 能力认证（无模型）。
 2. Claude 实验线冻结直接执行对照和候选沙箱策略，写两个无模型协议客户端，验证分块读与进程生命周期。
 3. 用合成 canary 明确证明额外约束来自执行端，记录无沙箱/有沙箱的开销，以及二进制部署与版本升级成本。
 4. 对照成熟库可实现的同等约束，形成继续/仅进程/否决结论；任何结果都不把 gld 本地接到 exec-server。
@@ -289,7 +294,7 @@ ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计
 - 活动写进程不因缓存淘汰而丢失监督和写权；只清理已确认终态且允许过期的结果。磁盘写失败独立上报，不能伪造命令失败或成功。
 - 超时测试用 2 秒期限，取消后 5 秒内确认普通受管后代退出和管道回收；逃离进程组的对抗情形另列平台隔离边界。
 - 读取测试使用生成式流和 8/128 MiB 样本，固定页面预算；记录峰值 RSS、扫描量及耗时，禁止整行无界缓存。原 RPC 的大整文件分配不因返回内容被截断就算有界。
-- 并发、取消、请求已执行未回包等选定故障点各至少重复 20 次；零越权副作用、零被隐藏的错误片段写入、零违反已声明重试语义的重复执行。
+- 涉及写权/写锁移交、并发写和“请求已执行未回包”的故障点各至少重复 20 次；其余故障点（只读取消、连接失败、输出上限等）各至少 5 次。零越权副作用、零被隐藏的错误片段写入、零违反已声明重试语义的重复执行。
 
 平台与内核能力未验到时只声明已验证范围，不以 Windows 交叉编译代替进程树/文件替换实测。新上限与旧契约冲突时，不覆盖旧默认：调整产品预算、缩小启用能力或进入新版本，须明确决策。
 
@@ -299,7 +304,9 @@ ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计
 
 各自无模型门禁通过后，Codex 原生链可独立做最小真实回合。Claude 只有在 V2-P1/P3 收益与准入得到支持后才测试委派回合；未采纳时继续直接执行/共享库路径，不为凑齐双入口评测而消耗额度。只有已有授权覆盖的回合才能运行；新额度、系统部署或权限变化按既有规则确认。
 
-每个实验单列 `max_runs`、重试是否计入、deadline、停止条件和授权引用。预算用“提供方 × 任务 × 组数 × 重复次数 + 冒烟/重试”明确计算；历史对照复用必须证明版本/模型/配置/夹具一致，不同时声称与本轮随机交替运行。v1 的 145 次不自动延续到本版。
+每个实验单列 `max_runs`、重试是否计入、deadline、停止条件和授权引用。预算用“提供方 × 任务 × 组数 × 重复次数 + 冒烟/重试”明确计算；历史对照复用必须证明版本/模型/配置/夹具一致，不同时声称与本轮随机交替运行。
+
+**额度授权**：用户已于 2026-09-15 同意为本计划的模型验证消耗 Claude/ChatGPT 订阅额度。授权引用写 `user-consent-2026-09-15`；全部实验累计上限 145 次模型运行（沿用 v1 估算），每个实验单的 `max_runs` 计入累计并记入 evidence。以下情况先告知用户再运行：累计将超过上限、新增不在本计划中的实验类型、需要系统部署或权限变化。
 
 ### 10.2 正确性先于 token
 
@@ -311,7 +318,7 @@ ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计
 
 ### 10.3 新工具面单独版本化
 
-alwaysLoad、短 instructions、native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提示都是后置实验，不绑进底层机制迁移。MCP 名称相似不代表 Claude 原生权限规则/hooks 自动适用；纯文本模式若保留 outputSchema，仍须符合 MCP 输出要求。
+native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提示都是后置实验，不绑进底层机制迁移。alwaysLoad 与 instructions 截断实测例外：它们只改工具元数据和说明顺序，按 V2-Q 提前做。MCP 名称相似不代表 Claude 原生权限规则/hooks 自动适用；纯文本模式若保留 outputSchema，仍须符合 MCP 输出要求。
 
 不以未锁定版本的宿主行为矩阵、外部项目百分比或单段字符串 tokenizer 对比，直接承诺本项目节约比例。
 
@@ -319,7 +326,7 @@ alwaysLoad、短 instructions、native@1、lean@1、纯文本输出、自动上�
 
 ### 工程与来源
 
-- 不先统一三个仓库工具链。基础纯文本代码可维持 Rust 1.85；需要编译链接 1.89+ 或更高依赖时列出实际依赖闭包、平台和迁移理由，再决定产品 MSRV。独立 exec-server 的构建要求单列。
+- **三个仓库统一 `rust-version`（用户决定）。** 执行时点：第一个共享 crate 被 gld 或 ccnm 链接时，三个仓库在同一批提交里改成同一个值，并各加一个 MSRV CI 任务（`cargo +<版本> check --workspace --all-targets --locked`）。统一值取"三仓现有声明"与"共享 crate 实际依赖闭包要求"中的最大者；当前下限是 ccnm 的 1.89。在此之前不改任何仓库的声明。以后升级也三仓同步，提交说明写明是哪个依赖或 std API 要求。独立构建的 exec-server 二进制不计入。
 - 只建立有真实消费者的模块；gld 本地与 ccnm 直接路径共享库，优先采用成熟组件而非重写机制。exec-client 独立可选，不能把 Codex 二进制/实验协议引入 gld 默认依赖、安装器或 Windows 发布物。
 - Codex 原生客户端/服务端按已验组合部署；Claude 若最终采纳，使用显式固定的 backend 路径、版本与独立升级流程，不跟随全局 `codex` 自动替换。共同使用某个版本是可选运维决策，不是 Claude 必须随每次 Codex CLI 升级的技术结论。
 - 常规依赖优先 crates.io；必要的 Git 依赖固定完整 revision，发布前验证打包要求。应用保留自己的 Cargo.lock，不照抄整个上游 lock 解决 root patch 问题。
@@ -338,8 +345,8 @@ alwaysLoad、短 instructions、native@1、lean@1、纯文本输出、自动上�
 
 | 阶段 | 状态 | 本轮证据 |
 | --- | --- | --- |
-| v2 方案文档 | 已按反馈收窄，待评审 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验 |
-| V2-K / V2-H / V2-C | 未开始 | 共享库、hub、Codex 原生链无本轮新增实施记录 |
+| v2 方案文档 | 已按反馈收窄，并写入用户两项决定 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验；统一 rust-version、额度授权见第 11、10.1 节 |
+| V2-K / V2-H / V2-C / V2-Q | 未开始 | 共享库、hub、Codex 原生链、工具面快速验证无本轮新增实施记录 |
 | V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
 
 本轮只生成 Markdown、更新 README 入口并保留 v1 原文。不安装依赖、不构建 exec-server、不运行模型或 SSH、不修改 gld/ccnm 产品状态与执行路径。后续结果放入可追溯的 evidence 目录，记录命令、固定版本、输入/输出 hash、OS/身份、通过/失败/跳过与限制；真实秘密不进入证据。
@@ -358,3 +365,20 @@ alwaysLoad、短 instructions、native@1、lean@1、纯文本输出、自动上�
 - [JSON Schema：null 不等于省略](https://json-schema.org/understanding-json-schema/reference/null)、[MCP outputSchema](https://modelcontextprotocol.io/specification/2025-11-25/server/tools#output-schema)
 
 本地兼容依据：`/Users/bing/xdw/ccnm/docs/protocol/remote-workspace-mcp-v1.md`、`/Users/bing/xdw/ccnm/docs/protocol/machine-protocol-v1.md`、`/Users/bing/xdw/ccnm/crates/ccnm-core/src/mcp/write_guard.rs`、`/Users/bing/xdw/gld/docs/rfc/0002-shared-kernel-and-ccnm-hub.md`。这些文件的既有状态不被本草案自动覆写。
+
+## 13. 已知缺陷队列（独立修复，不夹带进抽库或迁移）
+
+每项先写失败测试再修；修复提交单独说明行为变化。"立即修"表示不等任何主线；其余在对应主线迁移前修。
+
+| 仓库 | 缺陷 | 证据 | 时点 |
+| --- | --- | --- | --- |
+| gld | `run_git` 接收超时参数后 `let _ = limit` 丢弃，git 卡住时工具调用一直挂着 | `crates/core/src/tools/git.rs:476-503` | 立即修 |
+| gld | Cargo.toml 声明 Apache-2.0，仓库无 LICENSE 文件 | 仓库根目录 | 立即修 |
+| gld | unified diff 解析丢弃 `@@` 位置，每个 hunk 从文件开头找第一处匹配，重复片段可能改错位置 | `crates/core/src/tools/patch.rs:198-204`、`:335-407` | V2-K 编辑/提交迁移前 |
+| gld | 超时与显式取消只对直接子进程发信号，不保证清理子孙进程 | `crates/core/src/tools/exec.rs:250-279`、`session.rs:223-231`、`:550-559` | V2-K 进程迁移前 |
+| gld | inline 正常结束立即移除 session，快速超预算输出返回的引用可能读不到（timeout 与 yield 路径不同） | `crates/core/src/tools/exec.rs:309-324`、`:347-374` | 先复现；V2-K 进程迁移前 |
+| gld | schema 声明的上限代码未收紧；search 默认值 schema 与代码不一致 | `crates/core/src/tools/registry.rs`、`file.rs:243` | V2-P5 lean@1 前 |
+| ccnm | 读取超长单行先整行 `read_until` 进内存，读完才检查 64MiB 扫描上限 | `crates/ccnm-core/src/mcp/read.rs:292-332` | V2-K 有界文本原语落地时 |
+| ccnm | 协议文档 exec 预览写"头尾各 16KiB"，代码是默认总 4KiB、上限总 16KiB；patch 写"单文件 1MiB"，代码是整次请求合计 | `docs/protocol/remote-workspace-mcp-v1.md:256-258` | 立即修 |
+| ccnm | AGENTS.md 仍称 Remote Workspace MCP "experimental、无真实 Host 验证"，协议实际已于 2026-09-11 冻结 | `AGENTS.md:22` | 立即修 |
+| ccnm | instructions 可能被 Claude Code 截到 2KB，路径清单与标记行在末尾会先被截 | `crates/ccnm-core/src/provider/claude/context.rs` | V2-Q1 实测后决定 |
