@@ -349,6 +349,7 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | V2-K / V2-H / V2-C | 未开始 | 共享库、hub、Codex 原生链无本轮新增实施记录 |
 | V2-Q | Q1 客户端层已确认，模型侧确认受阻；Q2 未开始 | Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志）；唯一一次尝试因本机 CLI 未登录、未发出模型请求，累计模型运行 0/145。见 `evidence/v2-q1/README.md` |
 | 第 13 节"立即修" | 4 项已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
+| ccnm instructions 预算与顺序 | 已修（ccnm P13） | `60ad480` 代码、`557837d` 阶段验收；记录在 ccnm `docs/research/p13-instructions-host-cap-2026-09-16.md` |
 | V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
 
 2026-09-15 第一批：修了第 13 节 4 项"立即修"（只改 gld git 工具超时这一处执行路径，另三项是文档/许可证），做了 V2-Q1。未安装依赖、未构建 exec-server、未跑 SSH、未改 ccnm 阶段状态。后续结果放入可追溯的 evidence 目录，记录命令、固定版本、输入/输出 hash、OS/身份、通过/失败/跳过与限制；真实秘密不进入证据。
@@ -383,4 +384,4 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | ccnm | 读取超长单行先整行 `read_until` 进内存，读完才检查 64MiB 扫描上限 | `crates/ccnm-core/src/mcp/read.rs:292-332` | V2-K 有界文本原语落地时 |
 | ccnm | 协议文档 exec 预览写"头尾各 16KiB"，代码是默认总 4KiB、上限总 16KiB；patch 写"单文件 1MiB"，代码是整次请求合计 | `docs/protocol/remote-workspace-mcp-v1.md:256-258` | 已修 `dc30b69` |
 | ccnm | AGENTS.md 仍称 Remote Workspace MCP "experimental、无真实 Host 验证"，协议实际已于 2026-09-11 冻结 | `AGENTS.md:22` | 已修 `741f23c` |
-| ccnm | Claude Code 把 instructions 截到 2048 个 UTF-16 码元，ccnm 按 16 KiB 字节做预算，且清单与标记行在末尾，超长时先被截掉 | `crates/ccnm-core/src/provider/context.rs:151-167`；`evidence/v2-q1/README.md` | 客户端层已确认；ccnm 立阶段后改预算与顺序，不等模型侧确认 |
+| ccnm | Claude Code 把 instructions 截到 2048 个 UTF-16 码元，ccnm 按 16 KiB 字节做预算，且清单与标记行在末尾，超长时先被截掉 | `crates/ccnm-core/src/provider/context.rs:151-167`；`evidence/v2-q1/README.md` | 已修：ccnm P13（`60ad480`），Claude/外部按 2048 码元、标记行前置；真实 Claude Code 连接改前截断 4600→2048、改后 2030 无截断 |
