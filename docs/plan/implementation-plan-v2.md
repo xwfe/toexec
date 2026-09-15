@@ -348,7 +348,7 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | v2 方案文档 | 已按反馈收窄，并写入用户两项决定 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验；统一 rust-version、额度授权见第 11、10.1 节 |
 | V2-K / V2-H / V2-C | 未开始 | 共享库、hub、Codex 原生链无本轮新增实施记录 |
 | V2-Q | Q1 客户端层已确认，模型侧确认受阻；Q2 未开始 | Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志）；唯一一次尝试因本机 CLI 未登录、未发出模型请求，累计模型运行 0/145。见 `evidence/v2-q1/README.md` |
-| 第 13 节"立即修" | 4 项已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
+| 第 13 节缺陷队列 | 除新发现的 task_context 外全部已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
 | ccnm instructions 预算与顺序 | 已修（ccnm P13） | `60ad480` 代码、`557837d` 阶段验收；记录在 ccnm `docs/research/p13-instructions-host-cap-2026-09-16.md` |
 | V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
 
@@ -377,11 +377,12 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | --- | --- | --- | --- |
 | gld | `run_git` 接收超时参数后 `let _ = limit` 丢弃，git 卡住时工具调用一直挂着 | `crates/core/src/tools/git.rs:476-503` | 已修 `7aac894` |
 | gld | Cargo.toml 声明 Apache-2.0，仓库无 LICENSE 文件 | 仓库根目录 | 已修 `bfcdffb` |
-| gld | unified diff 解析丢弃 `@@` 位置，每个 hunk 从文件开头找第一处匹配，重复片段可能改错位置 | `crates/core/src/tools/patch.rs:198-204`、`:335-407` | V2-K 编辑/提交迁移前 |
-| gld | 超时与显式取消只对直接子进程发信号，不保证清理子孙进程 | `crates/core/src/tools/exec.rs:250-279`、`session.rs:223-231`、`:550-559` | V2-K 进程迁移前 |
-| gld | inline 正常结束立即移除 session，快速超预算输出返回的引用可能读不到（timeout 与 yield 路径不同） | `crates/core/src/tools/exec.rs:309-324`、`:347-374` | 先复现；V2-K 进程迁移前 |
-| gld | schema 声明的上限代码未收紧；search 默认值 schema 与代码不一致 | `crates/core/src/tools/registry.rs`、`file.rs:243` | V2-P5 lean@1 前 |
-| ccnm | 读取超长单行先整行 `read_until` 进内存，读完才检查 64MiB 扫描上限 | `crates/ccnm-core/src/mcp/read.rs:292-332` | V2-K 有界文本原语落地时 |
+| gld | unified diff 解析丢弃 `@@` 位置，每个 hunk 从文件开头找第一处匹配，重复片段可能改错位置 | `crates/core/src/tools/patch.rs:198-204`、`:335-407` | 已修 `3697f4d`：hunk 只在上一个之后找，按 `@@ -a,b` 行号取最近匹配，Codex `@@ 锚点` 生效（gld 0.4.0） |
+| gld | 超时与显式取消只对直接子进程发信号，不保证清理子孙进程 | `crates/core/src/tools/exec.rs:250-279`、`session.rs:223-231`、`:550-559` | 已修 `3f18e10`：Unix 进程组整组发信号；Windows 改 `taskkill /T`，只经 CI 编译、未在 Windows 实跑 |
+| gld | inline 正常结束立即移除 session，快速超预算输出返回的引用可能读不到（timeout 与 yield 路径不同） | `crates/core/src/tools/exec.rs:309-324`、`:347-374` | 已复现并修 `4248b79`：正常结束也保留 30 秒 |
+| gld | schema 声明的上限代码未收紧；search 默认值 schema 与代码不一致 | `crates/core/src/tools/registry.rs`、`file.rs:243` | 已修 `bdb5ba6`：30 个整数参数集中到 `tools/args.rs`，测试逐项比对 schema；search_text 默认 max_results 1000→100 |
+| ccnm | 读取超长单行先整行 `read_until` 进内存，读完才检查 64MiB 扫描上限 | `crates/ccnm-core/src/mcp/read.rs:292-332` | 已修：ccnm P14（`ce13fbf`），200 MiB 单行峰值 215→13 MiB（ccnm 0.7.0） |
 | ccnm | 协议文档 exec 预览写"头尾各 16KiB"，代码是默认总 4KiB、上限总 16KiB；patch 写"单文件 1MiB"，代码是整次请求合计 | `docs/protocol/remote-workspace-mcp-v1.md:256-258` | 已修 `dc30b69` |
 | ccnm | AGENTS.md 仍称 Remote Workspace MCP "experimental、无真实 Host 验证"，协议实际已于 2026-09-11 冻结 | `AGENTS.md:22` | 已修 `741f23c` |
 | ccnm | Claude Code 把 instructions 截到 2048 个 UTF-16 码元，ccnm 按 16 KiB 字节做预算，且清单与标记行在末尾，超长时先被截掉 | `crates/ccnm-core/src/provider/context.rs:151-167`；`evidence/v2-q1/README.md` | 已修：ccnm P13（`60ad480`），Claude/外部按 2048 码元、标记行前置；真实 Claude Code 连接改前截断 4600→2048、改后 2030 无截断 |
+| gld | `task_context` 的 schema 声明 `max_bytes`（8192–131072），代码不读，固定取 100 条事件并返回 `truncated: false`，输出无上限 | `crates/core/src/harness/tools.rs:117-131` | 2026-09-16 修 schema 范围时发现；V2-H 暴露任务工具前修 |
