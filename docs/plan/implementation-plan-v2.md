@@ -247,7 +247,7 @@ Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明
 | V2-K 共享库主线 | 先提取有界文本读取，再分批共享编辑/提交、进程/输出机制；gld 与 ccnm 直接适配 | 各自兼容与安全回归通过；gld 本地在未安装 Codex 的环境也能构建、安装、运行并维持交互会话 | 0 |
 | V2-H hub 接入线 | AuthContext、静态 remote 工具、合成 peer、公开 bridge、read 后 coding | 使用 ccnm 默认直接路径先离线后真机；V2-G12 及相关权限/恢复门禁通过，不依赖 exec-server 或工具面 A/B | 离线 0；Web 实际使用单独记账 |
 | V2-C Codex 原生路线 | 保留官方原生 exec-server 接入，独立锁定客户端/服务端组合和监督器 | 原生链的协议、权限、执行位置、guard和恢复门禁通过；不以 Claude 试验通过为前提 | 离线 0；真实回合需明确预算 |
-| V2-Q Claude 工具面快速验证 | Q1：实测 instructions 超过 2KB 时 Claude Code 是否截断（带标记行，1 次回合）；Q2：ccnm 7 个工具加 `_meta["anthropic/alwaysLoad"]`（纯加法，不删可空联合、不做 schema 去噪）后与现状做小样本对照 | 按第 10.2 节规则判定；只改工具元数据和 instructions 顺序，不碰执行路径、冻结工具语义与共享库；不采纳时撤回该字段 | 按第 10.1 节实验单记账 |
+| V2-Q Claude 工具面快速验证 | Q1：实测 instructions 超过 2048 个 UTF-16 码元时 Claude Code 是否截断（带标记行，1 次回合）；Q2：ccnm 7 个工具加 `_meta["anthropic/alwaysLoad"]`（纯加法，不删可空联合、不做 schema 去噪）后与现状做小样本对照 | 按第 10.2 节规则判定；只改工具元数据和 instructions 顺序，不碰执行路径、冻结工具语义与共享库；不采纳时撤回该字段 | 按第 10.1 节实验单记账 |
 | V2-P0 Claude 试验基线 | 固定当前 ccnm 与 adapter/backend 版本；同身份/目录/环境/命令/预算的对照；明确拟新增约束、成本阈值和取得二进制的方式 | 基线可重建，收益/成本判据在候选运行前冻结，不修改生产配置 | 0 |
 | **V2-P1 Claude 收益验证（保留）** | 中立 MCP 客户端与原生 RPC 客户端完成分块读/进程闭环；对照直接执行，分别记录沙箱增量和RPC/部署/维护成本 | 完成 V2-G01–G04 的能力/正确性记录和 V2-G13 的测量报告，回答第 3.2 节问题，输出继续/仅进程/否决结论。失败或无净收益可以判否决并结束，只有拟继续的能力必须通过相应门禁 | **0** |
 | V2-P2 候选深入门禁 | 仅对 P1 值得继续的能力完善监督、权限、取消、断连、输出与互斥 | V2-G05–G10 适用项通过；任何权限弱化或未知写权停止接入 | 0 |
@@ -261,7 +261,7 @@ ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计
 
 ### 第一批可执行任务
 
-0. V2-Q：instructions 2KB 截断实测，然后 alwaysLoad 小样本对照；同时修第 13 节标"立即修"的缺陷。
+0. V2-Q：instructions 2048 码元截断实测，然后 alwaysLoad 小样本对照；同时修第 13 节标"立即修"的缺陷。
 1. 共享库线保存旧 fixture，先提取两个产品真正共用的有界文本原语；hub 线先做类型/认证与合成 peer；Codex 线先按第 5.2 节候选方案验证 URL 能力认证（无模型）。
 2. Claude 实验线冻结直接执行对照和候选沙箱策略，写两个无模型协议客户端，验证分块读与进程生命周期。
 3. 用合成 canary 明确证明额外约束来自执行端，记录无沙箱/有沙箱的开销，以及二进制部署与版本升级成本。
@@ -346,10 +346,12 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | 阶段 | 状态 | 本轮证据 |
 | --- | --- | --- |
 | v2 方案文档 | 已按反馈收窄，并写入用户两项决定 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验；统一 rust-version、额度授权见第 11、10.1 节 |
-| V2-K / V2-H / V2-C / V2-Q | 未开始 | 共享库、hub、Codex 原生链、工具面快速验证无本轮新增实施记录 |
+| V2-K / V2-H / V2-C | 未开始 | 共享库、hub、Codex 原生链无本轮新增实施记录 |
+| V2-Q | Q1 客户端层已确认，模型侧确认受阻；Q2 未开始 | Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志）；唯一一次尝试因本机 CLI 未登录、未发出模型请求，累计模型运行 0/145。见 `evidence/v2-q1/README.md` |
+| 第 13 节"立即修" | 4 项已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
 | V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
 
-本轮只生成 Markdown、更新 README 入口并保留 v1 原文。不安装依赖、不构建 exec-server、不运行模型或 SSH、不修改 gld/ccnm 产品状态与执行路径。后续结果放入可追溯的 evidence 目录，记录命令、固定版本、输入/输出 hash、OS/身份、通过/失败/跳过与限制；真实秘密不进入证据。
+2026-09-15 第一批：修了第 13 节 4 项"立即修"（只改 gld git 工具超时这一处执行路径，另三项是文档/许可证），做了 V2-Q1。未安装依赖、未构建 exec-server、未跑 SSH、未改 ccnm 阶段状态。后续结果放入可追溯的 evidence 目录，记录命令、固定版本、输入/输出 hash、OS/身份、通过/失败/跳过与限制；真实秘密不进入证据。
 
 ## 12. 固定来源与延伸阅读
 
@@ -372,13 +374,13 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 
 | 仓库 | 缺陷 | 证据 | 时点 |
 | --- | --- | --- | --- |
-| gld | `run_git` 接收超时参数后 `let _ = limit` 丢弃，git 卡住时工具调用一直挂着 | `crates/core/src/tools/git.rs:476-503` | 立即修 |
-| gld | Cargo.toml 声明 Apache-2.0，仓库无 LICENSE 文件 | 仓库根目录 | 立即修 |
+| gld | `run_git` 接收超时参数后 `let _ = limit` 丢弃，git 卡住时工具调用一直挂着 | `crates/core/src/tools/git.rs:476-503` | 已修 `7aac894` |
+| gld | Cargo.toml 声明 Apache-2.0，仓库无 LICENSE 文件 | 仓库根目录 | 已修 `bfcdffb` |
 | gld | unified diff 解析丢弃 `@@` 位置，每个 hunk 从文件开头找第一处匹配，重复片段可能改错位置 | `crates/core/src/tools/patch.rs:198-204`、`:335-407` | V2-K 编辑/提交迁移前 |
 | gld | 超时与显式取消只对直接子进程发信号，不保证清理子孙进程 | `crates/core/src/tools/exec.rs:250-279`、`session.rs:223-231`、`:550-559` | V2-K 进程迁移前 |
 | gld | inline 正常结束立即移除 session，快速超预算输出返回的引用可能读不到（timeout 与 yield 路径不同） | `crates/core/src/tools/exec.rs:309-324`、`:347-374` | 先复现；V2-K 进程迁移前 |
 | gld | schema 声明的上限代码未收紧；search 默认值 schema 与代码不一致 | `crates/core/src/tools/registry.rs`、`file.rs:243` | V2-P5 lean@1 前 |
 | ccnm | 读取超长单行先整行 `read_until` 进内存，读完才检查 64MiB 扫描上限 | `crates/ccnm-core/src/mcp/read.rs:292-332` | V2-K 有界文本原语落地时 |
-| ccnm | 协议文档 exec 预览写"头尾各 16KiB"，代码是默认总 4KiB、上限总 16KiB；patch 写"单文件 1MiB"，代码是整次请求合计 | `docs/protocol/remote-workspace-mcp-v1.md:256-258` | 立即修 |
-| ccnm | AGENTS.md 仍称 Remote Workspace MCP "experimental、无真实 Host 验证"，协议实际已于 2026-09-11 冻结 | `AGENTS.md:22` | 立即修 |
-| ccnm | instructions 可能被 Claude Code 截到 2KB，路径清单与标记行在末尾会先被截 | `crates/ccnm-core/src/provider/claude/context.rs` | V2-Q1 实测后决定 |
+| ccnm | 协议文档 exec 预览写"头尾各 16KiB"，代码是默认总 4KiB、上限总 16KiB；patch 写"单文件 1MiB"，代码是整次请求合计 | `docs/protocol/remote-workspace-mcp-v1.md:256-258` | 已修 `dc30b69` |
+| ccnm | AGENTS.md 仍称 Remote Workspace MCP "experimental、无真实 Host 验证"，协议实际已于 2026-09-11 冻结 | `AGENTS.md:22` | 已修 `741f23c` |
+| ccnm | Claude Code 把 instructions 截到 2048 个 UTF-16 码元，ccnm 按 16 KiB 字节做预算，且清单与标记行在末尾，超长时先被截掉 | `crates/ccnm-core/src/provider/context.rs:151-167`；`evidence/v2-q1/README.md` | 客户端层已确认；ccnm 立阶段后改预算与顺序，不等模型侧确认 |
