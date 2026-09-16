@@ -346,7 +346,7 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | 阶段 | 状态 | 本轮证据 |
 | --- | --- | --- |
 | v2 方案文档 | 已按反馈收窄，并写入用户两项决定 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验；统一 rust-version、额度授权见第 11、10.1 节 |
-| V2-K | **第一刀已落地**：共享 crate `toexec-text` 建起来，两个产品都链接了 | 开工前的重复度盘点见 `evidence/v2-k/duplication-audit.md`：两边 `read_file` 契约不同**不统一**，真正共有的只有「读一行但不把整行读进内存」。`toexec-text` 提交 `fbf28bb`（9 个测试）；ccnm `e589d08`（719 passed，24 个 read 测试断言一条没改）；gld `b4c8a77`（467 passed，rust-version 1.85→1.89，行为变化是超长行只搜前 1 MiB）。依赖按 tag 固定在这个仓库的公开远端 `github.com/xwfe/toexec`，两边都在「旁边没有 toexec」的目录里构建通过 |
+| V2-K | **两刀都已落地**：`toexec-text`（有界行读取）和 `toexec-fs`（原子文件替换），两个产品都链接了 | 开工前的重复度盘点见 `evidence/v2-k/duplication-audit.md`：两边 `read_file` 契约不同**不统一**，真正共有的只有「读一行但不把整行读进内存」。`toexec-text` 提交 `fbf28bb`（9 个测试）；ccnm `e589d08`（719 passed，24 个 read 测试断言一条没改）；gld `b4c8a77`（467 passed，rust-version 1.85→1.89，行为变化是超长行只搜前 1 MiB）。依赖按 tag 固定在这个仓库的公开远端 `github.com/xwfe/toexec`，两边都在「旁边没有 toexec」的目录里构建通过 |
 | V2-H / V2-C | 未开始 | hub、Codex 原生链无本轮新增实施记录 |
 | V2-Q | Q1 客户端层已确认，模型侧确认仍受阻；**Q2 已完成，结论采纳 alwaysLoad** | Q1：Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志），模型侧那一次尝试因 CLI 未登录未发出请求，见 `evidence/v2-q1/README.md`。Q2：fodelf 上 2.1.272 + ccnm 0.7.0 跑 18 格（3 任务 × 2 组 × 3 次）全通过，A 组每格恰好一次 ToolSearch、多一个回合，四条判据全满足，见 `evidence/v2-q2/README.md`。**累计模型运行 20/145，$2.1454** |
 | 第 13 节缺陷队列 | 除新发现的 task_context 外全部已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
@@ -362,7 +362,11 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 
 按 tag 不跟 `main`：共享库改了不会在某次 `cargo update` 之后突然改变产品行为，升级是显式的一步。用 https 不用 ssh：公开仓库匿名可读，本地和 CI 都不必配凭据；`github.com-xwfe` 那种 SSH 别名只存在于本机 `~/.ssh/config`，写进 `Cargo.toml` 的话 runner 上永远解析不了。**验证方式就是 runner 的处境**：把 ccnm 和 gld 分别 clone 到旁边没有 toexec 的目录，`cargo check --workspace` 都通过。**GitHub Actions 上还没有真跑过一次。**
 
-盘点里认定收益最大的下一块是**原子写入与回滚**（gld 那份把整个原文件读进内存当备份、没有 fsync、不保留权限），它在写入路径上，等跨仓联动被证明可用之后再动。进程/输出不碰。
+**第二刀（原子写入）同日也做完了**，就是盘点里认定收益最大的那块：共享 crate `toexec-fs`，ccnm P17（`92830d6`，719 passed，既有断言一条没改）、gld（`342d15c`，470 passed）。gld 是真正的受益方——它原来暂存时既没有 fsync、也不带原文件权限，**打完补丁的脚本会从 0755 变成 644**，下一次 `./run.sh` 直接 Permission denied；新测试验过红灯基线。备份与回滚编排没有共享，两边差得远。
+
+这一刀留下一条适用于后面每一刀的经验：**错误的分类和措辞是产品的对外契约，不是可以顺手统一的实现细节。**`toexec-fs` 0.1.0 把四步失败合成一个 `io::Error`，接进 ccnm 时才发现那会把刷盘失败从 `internal` 悄悄变成 `invalid_args`（没有测试会失败，但 MCP 错误码的含义变了），于是 0.2.0 改成报出是哪一步失败、由调用方归类。
+
+还没做的：**父目录 fsync**——`rename` 这件事要在断电后仍然可见还得 fsync 父目录，两个产品原来都没做，这两刀也没做，补它要给每次替换再加一次 fsync，是个单独的决定。进程/输出仍然不碰。
 
 **同一天另一条线（gld 自己的缺陷，不属于 V2-K）**：盘点顺带查出 gld 的 `context_lines` 会把长行克隆很多份，当时估「1 GB 量级」。另一个会话接手实测并修掉了（gld `be98252`）：41 行 × 每行 1 MiB 配 `context_lines=20`，返回的 JSON 里字符串 1.19 GiB、进程峰值 RSS 2.50 GB；改成留存前按 `max_preview_bytes` 截一刀之后，峰值 RSS 降到 57 MB。匹配仍然拿整行去比，搜得到什么没有变。
 
