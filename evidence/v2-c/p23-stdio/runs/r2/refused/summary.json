@@ -1,0 +1,157 @@
+{
+  "scenario": "refused",
+  "session": "74b95170-113d-4fe7-99b5-62217da5b3e9",
+  "model_steps": 4,
+  "plan_done": true,
+  "approval_prompts": 2,
+  "trust_prompts": 0,
+  "listen_samples": [
+    {
+      "pids": 4,
+      "listening": []
+    },
+    {
+      "pids": 4,
+      "listening": []
+    }
+  ],
+  "pane_tail": "idence/v2-c/p23-stdio/runs/r2/refused/work\n\n╭──────────────────────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                               │\n│                                                          │\n│ model:     gpt-6-astra   /model to change                │\n│ directory: <home>/xdw/toexec/…/runs/r2/refused/work │\n╰──────────────────────────────────────────────────────────╯\n\n  Tip: New Build faster with the Desktop app. Run 'codex app' or visit https://chatgpt.com/codex?app-landing-page=true\n\n\n› run the probe\n\n\n✔ You approved codex to run echo escalated > <here>/runs/r2/refus... this time\n\n◦ Running echo escalated > <here>/runs/r2/refused/outside/esc.txt; echo rc=$?\n\n• Added ../outside/patched-outside.txt (+1 -0)\n    1 +outside\n\n✘ Failed to apply patch\n\n• Ran echo STILL_ALIVE > alive.txt; echo rc=$?\n  └ rc=0\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n• done\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r2/refused/work · probe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "agent_relay_spawns": 1,
+  "agent_relay_events": [
+    {
+      "dir": "c2s",
+      "event": "stdin-eof",
+      "t": 1789562544.395
+    },
+    {
+      "dir": "s2c",
+      "event": "socket-eof",
+      "t": 1789562544.634
+    },
+    {
+      "event": "relay-exit",
+      "t": 1789562544.634
+    }
+  ],
+  "methods": [
+    "environmentConfig/read",
+    "fs/getMetadata",
+    "fs/readFile",
+    "fs/writeFile",
+    "initialize",
+    "initialized",
+    "process/start",
+    "process/terminate"
+  ],
+  "replies_by_code": {
+    "-32004": 52,
+    "-32600": 7
+  },
+  "process_starts": [
+    {
+      "argv": [
+        "/bin/zsh",
+        "-lc",
+        "echo escalated > <here>/runs/r2/refused/outside/esc.txt; echo rc=$?"
+      ],
+      "cwd": "file://<here>/runs/r2/refused/work",
+      "sandbox_null": true
+    },
+    {
+      "argv": [
+        "/bin/zsh",
+        "-lc",
+        "echo STILL_ALIVE > alive.txt; echo rc=$?"
+      ],
+      "cwd": "file://<here>/runs/r2/refused/work",
+      "sandbox_null": false
+    }
+  ],
+  "refusals": [
+    {
+      "method": "process/start",
+      "code": -32600,
+      "message": "ccnm refused process/start: a sandbox is required",
+      "sandbox_null": true
+    },
+    {
+      "method": "fs/getMetadata",
+      "code": -32600,
+      "message": "ccnm refused fs/getMetadata: path is outside the workspace",
+      "sandbox_null": false
+    },
+    {
+      "method": "fs/readFile",
+      "code": -32600,
+      "message": "ccnm refused fs/readFile: path is outside the workspace",
+      "sandbox_null": false
+    },
+    {
+      "method": "fs/writeFile",
+      "code": -32600,
+      "message": "ccnm refused fs/writeFile: path is outside the workspace",
+      "sandbox_null": false
+    },
+    {
+      "method": "fs/getMetadata",
+      "code": -32600,
+      "message": "ccnm refused fs/getMetadata: path is outside the workspace",
+      "sandbox_null": true
+    },
+    {
+      "method": "fs/readFile",
+      "code": -32600,
+      "message": "ccnm refused fs/readFile: path is outside the workspace",
+      "sandbox_null": true
+    },
+    {
+      "method": "fs/writeFile",
+      "code": -32600,
+      "message": "ccnm refused fs/writeFile: path is outside the workspace",
+      "sandbox_null": true
+    }
+  ],
+  "connections": [
+    {
+      "side": "runtime-relay",
+      "event": "connection",
+      "n": 1,
+      "exec_serve_pid": 27667,
+      "t": 1789562530.66
+    },
+    {
+      "side": "runtime-relay",
+      "event": "exec-serve-exited",
+      "n": 1,
+      "rc": 0,
+      "t": 1789562544.633
+    }
+  ],
+  "work_files": [
+    "AGENTS.md",
+    "alive.txt"
+  ],
+  "outside_files": [],
+  "local_cwd_files": [],
+  "guard_markers_after": {
+    "824912a3459ce63f.lock": "released\n"
+  },
+  "exec_serve_stderr_refusals": 51,
+  "exec_serve_stderr_tail": "3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32600,\"message\":\"ccnm refused fs/getMetadata: path is outside the workspace\"},\"id\":61}\n\u001b[2m2026-09-16T12:42:14.924923Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32600,\"message\":\"ccnm refused fs/readFile: path is outside the workspace\"},\"id\":62}\n\u001b[2m2026-09-16T12:42:14.925903Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32600,\"message\":\"ccnm refused fs/writeFile: path is outside the workspace\"},\"id\":63}\n\u001b[2m2026-09-16T12:42:24.396293Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientClosed\n\u001b[2m2026-09-16T12:42:24.632270Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m74b95170-113d-4fe7-99b5-62217da5b3e9\n",
+  "model_outputs": [
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 0.9 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nexec_command failed: CreateProcess { message: \"Rejected(\\\\\"Failed to create unified exec process: exec-server rejected request (-32600): ccnm refused process/start: a sandbox is required\\\\\")\" }'}]",
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 3.0 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nExit code: 1\\nWall time: 0 seconds\\nOutput:\\nFailed to write file <here>/runs/r2/refused/outside/patched-outside.txt\\n'}]",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"ab6210\",\"wall_time_seconds\":0.00000275,\"exit_code\":0,\"original_token_count\":2,\"output\":\"rc=0\\\\n\"}'}]"
+  ],
+  "auth_symlink_intact": true,
+  "profile_files": [
+    "auth.json"
+  ],
+  "transport_spawns": null,
+  "transport_stderr": null,
+  "transport_stderr_names_alias": null
+}

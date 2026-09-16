@@ -1,0 +1,115 @@
+{
+  "scenario": "basic",
+  "session": "8f60dee3-e6a8-4853-a37d-f5861d748e71",
+  "model_steps": 4,
+  "plan_done": true,
+  "approval_prompts": 0,
+  "trust_prompts": 0,
+  "listen_samples": [
+    {
+      "pids": 4,
+      "listening": []
+    },
+    {
+      "pids": 4,
+      "listening": []
+    }
+  ],
+  "pane_tail": "──╯\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r3/basic/work\n\n╭─────────────────────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                              │\n│                                                         │\n│ model:     gpt-6-astra   /model to change               │\n│ directory: <home>/xdw/toexec/evidence/…/basic/work │\n╰─────────────────────────────────────────────────────────╯\n\n  Tip: New Build faster with the Desktop app. Run 'codex app' or visit https://chatgpt.com/codex?app-landing-page=true\n\n\n› run the probe\n\n\n• Ran sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls\n  └ <here>/runs/r3/basic/work\n    bing\n    REMOTE-AGENTS-MARKER\n    AGENTS.md\n    inside.txt\n\n• Added patched.txt (+1 -0)\n    1 +hello from apply_patch\n\n• Ran echo AFTER > after.txt; echo rc=$?\n  └ rc=0\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n• done\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r3/basic/work · probe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "agent_relay_spawns": 1,
+  "agent_relay_events": [
+    {
+      "dir": "c2s",
+      "event": "stdin-eof",
+      "t": 1789562575.035
+    },
+    {
+      "dir": "s2c",
+      "event": "socket-eof",
+      "t": 1789562575.24
+    },
+    {
+      "event": "relay-exit",
+      "t": 1789562575.24
+    }
+  ],
+  "methods": [
+    "environmentConfig/read",
+    "fs/getMetadata",
+    "fs/readFile",
+    "fs/writeFile",
+    "initialize",
+    "initialized",
+    "process/start",
+    "process/terminate"
+  ],
+  "replies_by_code": {
+    "-32004": 54
+  },
+  "process_starts": [
+    {
+      "argv": [
+        "/bin/zsh",
+        "-lc",
+        "sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls"
+      ],
+      "cwd": "file://<here>/runs/r3/basic/work",
+      "sandbox_null": false
+    },
+    {
+      "argv": [
+        "/bin/zsh",
+        "-lc",
+        "echo AFTER > after.txt; echo rc=$?"
+      ],
+      "cwd": "file://<here>/runs/r3/basic/work",
+      "sandbox_null": false
+    }
+  ],
+  "refusals": [],
+  "connections": [
+    {
+      "side": "runtime-relay",
+      "event": "connection",
+      "n": 1,
+      "exec_serve_pid": 29891,
+      "t": 1789562564.995
+    },
+    {
+      "side": "runtime-relay",
+      "event": "exec-serve-exited",
+      "n": 1,
+      "rc": 0,
+      "t": 1789562575.239
+    }
+  ],
+  "work_files": [
+    "AGENTS.md",
+    "after.txt",
+    "inside.txt",
+    "patched.txt"
+  ],
+  "outside_files": [],
+  "local_cwd_files": [],
+  "guard_markers_after": {
+    "824912a3459ce63f.lock": "released\n"
+  },
+  "exec_serve_stderr_refusals": 44,
+  "exec_serve_stderr_tail": "9046Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":54}\n\u001b[2m2026-09-16T12:42:45.269172Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":55}\n\u001b[2m2026-09-16T12:42:45.269214Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":56}\n\u001b[2m2026-09-16T12:42:55.035852Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientClosed\n\u001b[2m2026-09-16T12:42:55.238247Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m8f60dee3-e6a8-4853-a37d-f5861d748e71\n",
+  "model_outputs": [
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 1.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"daeabc\",\"wall_time_seconds\":0.944513833,\"exit_code\":0,\"original_token_count\":29,\"output\":\"<here>/runs/r3/basic/work\\\\nbing\\\\nREMOTE-AGENTS-MARKER\\\\nAGENTS.md\\\\ninside.txt\\\\n\"}'}]",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{}'}]",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"0bcbf8\",\"wall_time_seconds\":0.00000175,\"exit_code\":0,\"original_token_count\":2,\"output\":\"rc=0\\\\n\"}'}]"
+  ],
+  "auth_symlink_intact": true,
+  "profile_files": [
+    "auth.json"
+  ],
+  "transport_spawns": null,
+  "transport_stderr": null,
+  "transport_stderr_names_alias": null
+}

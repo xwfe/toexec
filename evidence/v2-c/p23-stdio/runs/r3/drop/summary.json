@@ -1,0 +1,91 @@
+{
+  "scenario": "drop",
+  "session": "8e0c69dc-669e-49a5-850e-d8d039b68765",
+  "model_steps": 3,
+  "plan_done": true,
+  "approval_prompts": 0,
+  "trust_prompts": 0,
+  "listen_samples": [
+    {
+      "pids": 3,
+      "listening": []
+    },
+    {
+      "pids": 3,
+      "listening": []
+    }
+  ],
+  "pane_tail": " directory: <home>/xdw/toexec/evidence/…/drop/work │\n╰────────────────────────────────────────────────────────╯\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r3/drop/work\n\n╭────────────────────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                             │\n│                                                        │\n│ model:     gpt-6-astra   /model to change              │\n│ directory: <home>/xdw/toexec/evidence/…/drop/work │\n╰────────────────────────────────────────────────────────╯\n\n  Tip: New Build faster with the Desktop app. Run 'codex app' or visit https://chatgpt.com/codex?app-landing-page=true\n\n\n› run the probe\n\n\n• Ran sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls\n  └ <here>/runs/r3/drop/work\n    bing\n    REMOTE-AGENTS-MARKER\n    AGENTS.md\n    inside.txt\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n• done\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r3/drop/work · probe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "agent_relay_spawns": 1,
+  "agent_relay_events": [
+    {
+      "event": "relay-dropping",
+      "t": 1789562594.044
+    }
+  ],
+  "methods": [
+    "environmentConfig/read",
+    "fs/getMetadata",
+    "fs/readFile",
+    "initialize",
+    "initialized",
+    "process/start"
+  ],
+  "replies_by_code": {
+    "-32004": 52
+  },
+  "process_starts": [
+    {
+      "argv": [
+        "/bin/zsh",
+        "-lc",
+        "sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls"
+      ],
+      "cwd": "file://<here>/runs/r3/drop/work",
+      "sandbox_null": false
+    }
+  ],
+  "refusals": [],
+  "connections": [
+    {
+      "side": "runtime-relay",
+      "event": "connection",
+      "n": 1,
+      "exec_serve_pid": 31583,
+      "t": 1789562592.587
+    },
+    {
+      "side": "runtime-relay",
+      "event": "exec-serve-exited",
+      "n": 1,
+      "rc": 0,
+      "t": 1789562594.287
+    }
+  ],
+  "work_files": [
+    "AGENTS.md",
+    "inside.txt"
+  ],
+  "outside_files": [],
+  "local_cwd_files": [],
+  "guard_markers_after": {
+    "824912a3459ce63f.lock": "released\n"
+  },
+  "exec_serve_stderr_refusals": 44,
+  "exec_serve_stderr_tail": "7351Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":54}\n\u001b[2m2026-09-16T12:43:12.857405Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":55}\n\u001b[2m2026-09-16T12:43:12.857608Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":56}\n\u001b[2m2026-09-16T12:43:14.046923Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientClosed\n\u001b[2m2026-09-16T12:43:14.286104Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m8e0c69dc-669e-49a5-850e-d8d039b68765\n",
+  "model_outputs": [
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 1.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"a203b9\",\"wall_time_seconds\":0.934739625,\"exit_code\":0,\"original_token_count\":28,\"output\":\"<here>/runs/r3/drop/work\\\\nbing\\\\nREMOTE-AGENTS-MARKER\\\\nAGENTS.md\\\\ninside.txt\\\\n\"}'}]",
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 0.0 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nexec_command failed: CreateProcess { message: \"Rejected(\\\\\"Failed to create unified exec process: exec-server transport disconnected\\\\\")\" }'}]"
+  ],
+  "auth_symlink_intact": true,
+  "profile_files": [
+    "auth.json"
+  ],
+  "transport_spawns": null,
+  "transport_stderr": null,
+  "transport_stderr_names_alias": null
+}

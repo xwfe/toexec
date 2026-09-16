@@ -1,0 +1,253 @@
+{
+  "basic": {
+    "rounds": 3,
+    "consistent": true,
+    "view": {
+      "model_steps": 4,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "trust_prompts": 0,
+      "runtime_connections": 1,
+      "exec_serve_exit_codes": [
+        0
+      ],
+      "agent_relay_spawns": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "work_files": [
+        "AGENTS.md",
+        "after.txt",
+        "inside.txt",
+        "patched.txt"
+      ],
+      "outside_files": [],
+      "local_cwd_files": [],
+      "auth_symlink_intact": true,
+      "profile_files": [
+        "auth.json"
+      ],
+      "replies_by_code": {
+        "-32004": "present"
+      },
+      "process_starts": [
+        [
+          "sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls",
+          false
+        ],
+        [
+          "echo AFTER > after.txt; echo rc=$?",
+          false
+        ]
+      ],
+      "refusals": [],
+      "listening_sockets": [
+        [],
+        []
+      ],
+      "guard_released": true,
+      "transport_disconnected_reported": false,
+      "rejected_reported": false,
+      "no_tools_reported": false,
+      "transport_spawned": null,
+      "ssh_complaint": null
+    },
+    "differences": {}
+  },
+  "refused": {
+    "rounds": 3,
+    "consistent": true,
+    "view": {
+      "model_steps": 4,
+      "plan_done": true,
+      "approval_prompts": 2,
+      "trust_prompts": 0,
+      "runtime_connections": 1,
+      "exec_serve_exit_codes": [
+        0
+      ],
+      "agent_relay_spawns": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "work_files": [
+        "AGENTS.md",
+        "alive.txt"
+      ],
+      "outside_files": [],
+      "local_cwd_files": [],
+      "auth_symlink_intact": true,
+      "profile_files": [
+        "auth.json"
+      ],
+      "replies_by_code": {
+        "-32004": "present",
+        "-32600": 7
+      },
+      "process_starts": [
+        [
+          "echo escalated > <here>/runs/<round>/refused/outside/esc.txt; echo rc=$?",
+          true
+        ],
+        [
+          "echo STILL_ALIVE > alive.txt; echo rc=$?",
+          false
+        ]
+      ],
+      "refusals": [
+        [
+          "process/start",
+          -32600,
+          true
+        ],
+        [
+          "fs/getMetadata",
+          -32600,
+          false
+        ],
+        [
+          "fs/readFile",
+          -32600,
+          false
+        ],
+        [
+          "fs/writeFile",
+          -32600,
+          false
+        ],
+        [
+          "fs/getMetadata",
+          -32600,
+          true
+        ],
+        [
+          "fs/readFile",
+          -32600,
+          true
+        ],
+        [
+          "fs/writeFile",
+          -32600,
+          true
+        ]
+      ],
+      "listening_sockets": [
+        [],
+        []
+      ],
+      "guard_released": true,
+      "transport_disconnected_reported": false,
+      "rejected_reported": true,
+      "no_tools_reported": false,
+      "transport_spawned": null,
+      "ssh_complaint": null
+    },
+    "differences": {}
+  },
+  "drop": {
+    "rounds": 3,
+    "consistent": true,
+    "view": {
+      "model_steps": 3,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "trust_prompts": 0,
+      "runtime_connections": 1,
+      "exec_serve_exit_codes": [
+        0
+      ],
+      "agent_relay_spawns": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "initialize",
+        "initialized",
+        "process/start"
+      ],
+      "work_files": [
+        "AGENTS.md",
+        "inside.txt"
+      ],
+      "outside_files": [],
+      "local_cwd_files": [],
+      "auth_symlink_intact": true,
+      "profile_files": [
+        "auth.json"
+      ],
+      "replies_by_code": {
+        "-32004": "present"
+      },
+      "process_starts": [
+        [
+          "sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls",
+          false
+        ]
+      ],
+      "refusals": [],
+      "listening_sockets": [
+        [],
+        []
+      ],
+      "guard_released": true,
+      "transport_disconnected_reported": true,
+      "rejected_reported": false,
+      "no_tools_reported": false,
+      "transport_spawned": null,
+      "ssh_complaint": null
+    },
+    "differences": {}
+  },
+  "unreachable": {
+    "rounds": 3,
+    "consistent": true,
+    "view": {
+      "model_steps": 4,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "trust_prompts": 0,
+      "runtime_connections": 0,
+      "exec_serve_exit_codes": [],
+      "agent_relay_spawns": 0,
+      "methods": [],
+      "work_files": [
+        "AGENTS.md"
+      ],
+      "outside_files": [],
+      "local_cwd_files": [],
+      "auth_symlink_intact": true,
+      "profile_files": [
+        "auth.json"
+      ],
+      "replies_by_code": {},
+      "process_starts": [],
+      "refusals": [],
+      "listening_sockets": [
+        [],
+        []
+      ],
+      "guard_released": true,
+      "transport_disconnected_reported": false,
+      "rejected_reported": false,
+      "no_tools_reported": true,
+      "transport_spawned": 1,
+      "ssh_complaint": true
+    },
+    "differences": {}
+  },
+  "all_consistent": true
+}

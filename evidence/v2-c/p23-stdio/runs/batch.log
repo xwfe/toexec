@@ -1,0 +1,13 @@
+r1 basic 0
+r1 refused 0
+r1 drop 0
+r1 unreachable 0
+r2 basic 0
+r2 refused 0
+r2 drop 0
+r2 unreachable 0
+r3 basic 0
+r3 refused 0
+r3 drop 0
+r3 unreachable 0
+DONE

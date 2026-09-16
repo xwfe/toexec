@@ -1,0 +1,48 @@
+{
+  "scenario": "unreachable",
+  "session": "e83f49b6-73a5-4d22-b1d9-2c04c332eef4",
+  "model_steps": 4,
+  "plan_done": true,
+  "approval_prompts": 0,
+  "trust_prompts": 0,
+  "listen_samples": [
+    {
+      "pids": 3,
+      "listening": []
+    },
+    {
+      "pids": 3,
+      "listening": []
+    }
+  ],
+  "pane_tail": "╭─────────────────────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                              │\n│                                                         │\n│ model:     loading   /model to change                   │\n│ directory: <home>/xdw/toexec/…/r2/unreachable/work │\n╰─────────────────────────────────────────────────────────╯\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r2/unreachable/work\n\n╭─────────────────────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                              │\n│                                                         │\n│ model:     gpt-6-astra   /model to change               │\n│ directory: <home>/xdw/toexec/…/r2/unreachable/work │\n╰─────────────────────────────────────────────────────────╯\n\n  Tip: Use /statusline to configure which items appear in the status line.\n\n\n› run the probe\n\n\n• done\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r2/unreachable/work · probe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+  "runtime_connections": 0,
+  "exec_serve_exit_codes": [],
+  "agent_relay_spawns": 0,
+  "agent_relay_events": [],
+  "methods": [],
+  "replies_by_code": {},
+  "process_starts": [],
+  "refusals": [],
+  "connections": [],
+  "work_files": [
+    "AGENTS.md"
+  ],
+  "outside_files": [],
+  "local_cwd_files": [],
+  "guard_markers_after": {},
+  "exec_serve_stderr_refusals": 0,
+  "exec_serve_stderr_tail": "",
+  "model_outputs": [
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 0.0 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nTypeError: tools.exec_command is not a function\\n    at exec_main.mjs:1:23'}]",
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 0.0 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nTypeError: tools.apply_patch is not a function\\n    at exec_main.mjs:1:23'}]",
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 0.0 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nTypeError: tools.exec_command is not a function\\n    at exec_main.mjs:1:23'}]"
+  ],
+  "auth_symlink_intact": true,
+  "profile_files": [
+    "auth.json"
+  ],
+  "transport_spawns": 1,
+  "transport_stderr": "ssh: Could not resolve hostname never-connect.invalid: nodename nor servname provided, or not known\n",
+  "transport_stderr_names_alias": true
+}

@@ -1,0 +1,91 @@
+{
+  "scenario": "drop",
+  "session": "4b35464f-dff3-462e-b172-60c0f679ae57",
+  "model_steps": 3,
+  "plan_done": true,
+  "approval_prompts": 0,
+  "trust_prompts": 0,
+  "listen_samples": [
+    {
+      "pids": 3,
+      "listening": []
+    },
+    {
+      "pids": 3,
+      "listening": []
+    }
+  ],
+  "pane_tail": "xec/evidence/…/drop/work │\n╰────────────────────────────────────────────────────────╯\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r1/drop/work\n\n╭────────────────────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                             │\n│                                                        │\n│ model:     gpt-6-astra   /model to change              │\n│ directory: <home>/xdw/toexec/evidence/…/drop/work │\n╰────────────────────────────────────────────────────────╯\n\n  Tip: New Build faster with the Desktop app. Run 'codex app' or visit https://chatgpt.com/codex?app-landing-page=true\n\n\n› run the probe\n\n\n• Ran sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls\n  └ <here>/runs/r1/drop/work\n    bing\n    … +3 lines (ctrl + t to view transcript)\n\n    exec-server transport disconnected\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n• done\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <here>/runs/r1/drop/work · probe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "agent_relay_spawns": 1,
+  "agent_relay_events": [
+    {
+      "event": "relay-dropping",
+      "t": 1789562503.201
+    }
+  ],
+  "methods": [
+    "environmentConfig/read",
+    "fs/getMetadata",
+    "fs/readFile",
+    "initialize",
+    "initialized",
+    "process/start"
+  ],
+  "replies_by_code": {
+    "-32004": 52
+  },
+  "process_starts": [
+    {
+      "argv": [
+        "/bin/zsh",
+        "-lc",
+        "sleep 1; pwd; id -un; echo hi > inside.txt; cat AGENTS.md; ls"
+      ],
+      "cwd": "file://<here>/runs/r1/drop/work",
+      "sandbox_null": false
+    }
+  ],
+  "refusals": [],
+  "connections": [
+    {
+      "side": "runtime-relay",
+      "event": "connection",
+      "n": 1,
+      "exec_serve_pid": 25543,
+      "t": 1789562501.759
+    },
+    {
+      "side": "runtime-relay",
+      "event": "exec-serve-exited",
+      "n": 1,
+      "rc": 0,
+      "t": 1789562503.397
+    }
+  ],
+  "work_files": [
+    "AGENTS.md",
+    "inside.txt"
+  ],
+  "outside_files": [],
+  "local_cwd_files": [],
+  "guard_markers_after": {
+    "824912a3459ce63f.lock": "released\n"
+  },
+  "exec_serve_stderr_refusals": 44,
+  "exec_serve_stderr_tail": "9689Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":54}\n\u001b[2m2026-09-16T12:41:42.039976Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":55}\n\u001b[2m2026-09-16T12:41:42.040176Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":56}\n\u001b[2m2026-09-16T12:41:43.203871Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientClosed\n\u001b[2m2026-09-16T12:41:43.394781Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m4b35464f-dff3-462e-b172-60c0f679ae57\n",
+  "model_outputs": [
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 1.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nexec_command failed: ProcessFailed { message: \"exec-server transport disconnected\" }'}]",
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 0.0 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nexec_command failed: CreateProcess { message: \"Rejected(\\\\\"Failed to create unified exec process: exec-server transport disconnected\\\\\")\" }'}]"
+  ],
+  "auth_symlink_intact": true,
+  "profile_files": [
+    "auth.json"
+  ],
+  "transport_spawns": null,
+  "transport_stderr": null,
+  "transport_stderr_names_alias": null
+}
