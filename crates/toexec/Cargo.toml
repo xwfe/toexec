@@ -1,6 +1,6 @@
 [package]
-name = "wk-text"
-description = "gld 与 ccnm 共用的文本读取原语"
+name = "toexec"
+description = "gld 与 ccnm 共用的执行原语"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true

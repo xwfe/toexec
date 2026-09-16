@@ -104,9 +104,13 @@ ccnm 的 `search_text` 调外部 `ripgrep`；gld 自己实现 `Matcher`。匹配
 文件，克隆总量能到 1 GB 量级。这是 gld 自己的缺陷，跟共享库无关，**不在这一刀里
 夹带修**——要修就单独立项。
 
-## 三个仓库的工程现状
+## 三个仓库的工程现状（盘点当时）
 
-| | gld | ccnm | workspace-kernel |
+下面这张表是**开工前**的状态，留着是为了说明后面那两个决定是怎么来的。同一天这两行
+都变了：这个仓库推成了公开远端 `github.com/xwfe/toexec`，gld 的 `rust-version` 提到了
+1.89。当时它还叫 `workspace-kernel`，crate 还叫 `wk-text`。
+
+| | gld | ccnm | 本仓库 |
 | --- | --- | --- | --- |
 | Rust 工程 | 有（3 个 crate） | 有（2 个 crate） | **没有，只有文档和 evidence** |
 | `rust-version` | 1.85 | 1.89 | — |
@@ -119,9 +123,10 @@ ccnm 的 `search_text` 调外部 `ripgrep`；gld 自己实现 `Matcher`。匹配
 
 - 统一 `rust-version` 的时点到了（用户 2026-09-15 定的下限 1.89）：gld 要从 1.85 提到
   1.89。edition 不必统一，共享 crate 自己声明就行。
-- **`path` 依赖在 CI 上直接死**：GitHub runner 只 checkout 当前仓库，`../workspace-kernel`
-  不存在。要让两边 CI 继续绿，共享 crate 必须能从网络取到——也就是 workspace-kernel
-  得有 remote。这是本轮第一个需要用户决定的事。
+- **`path` 依赖在 CI 上直接死**：GitHub runner 只 checkout 当前仓库，旁边那个共享库
+  目录不存在。要让两边 CI 继续绿，共享 crate 必须能从网络取到——也就是这个仓库
+  得有 remote。这是本轮第一个需要用户决定的事，后来的结论是推成公开仓库、按 tag
+  引用。
 
 ## 建议的切法
 
