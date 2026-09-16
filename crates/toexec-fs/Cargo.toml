@@ -1,0 +1,12 @@
+[package]
+name = "toexec-fs"
+description = "gld 与 ccnm 共用的原子文件替换"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# 跟 toexec-text 一样，故意没有依赖：只碰 std::fs 和 std::io。临时文件叫
+# 什么名字由产品自己决定（两边的命名规则不同，而且各自的清理逻辑依赖它），
+# 所以这里不需要 uuid。
+[dependencies]
