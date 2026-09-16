@@ -346,7 +346,7 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | 阶段 | 状态 | 本轮证据 |
 | --- | --- | --- |
 | v2 方案文档 | 已按反馈收窄，并写入用户两项决定 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验；统一 rust-version、额度授权见第 11、10.1 节 |
-| V2-K | **第一刀已落地**：共享 crate `wk-text` 建起来，两个产品都链接了 | 开工前的重复度盘点见 `evidence/v2-k/duplication-audit.md`：两边 `read_file` 契约不同**不统一**，真正共有的只有「读一行但不把整行读进内存」。`wk-text` 提交 `fbf28bb`（9 个测试）；ccnm `e589d08`（719 passed，24 个 read 测试断言一条没改）；gld `b4c8a77`（467 passed，rust-version 1.85→1.89，行为变化是超长行只搜前 1 MiB）。**两边 CI 都会红**——本地 path 依赖，见下面的日期段落 |
+| V2-K | **第一刀已落地**：共享 crate `wk-text` 建起来，两个产品都链接了 | 开工前的重复度盘点见 `evidence/v2-k/duplication-audit.md`：两边 `read_file` 契约不同**不统一**，真正共有的只有「读一行但不把整行读进内存」。`wk-text` 提交 `fbf28bb`（9 个测试）；ccnm `e589d08`（719 passed，24 个 read 测试断言一条没改）；gld `b4c8a77`（467 passed，rust-version 1.85→1.89，行为变化是超长行只搜前 1 MiB）。依赖按 tag 固定在这个仓库的公开远端 `github.com/xwfe/toexec`，两边都在「旁边没有 workspace-kernel」的目录里构建通过 |
 | V2-H / V2-C | 未开始 | hub、Codex 原生链无本轮新增实施记录 |
 | V2-Q | Q1 客户端层已确认，模型侧确认仍受阻；**Q2 已完成，结论采纳 alwaysLoad** | Q1：Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志），模型侧那一次尝试因 CLI 未登录未发出请求，见 `evidence/v2-q1/README.md`。Q2：fodelf 上 2.1.272 + ccnm 0.7.0 跑 18 格（3 任务 × 2 组 × 3 次）全通过，A 组每格恰好一次 ToolSearch、多一个回合，四条判据全满足，见 `evidence/v2-q2/README.md`。**累计模型运行 20/145，$2.1454** |
 | 第 13 节缺陷队列 | 除新发现的 task_context 外全部已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
@@ -358,9 +358,13 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 
 2026-09-16 第三批：V2-K 开工。先做重复度盘点（`evidence/v2-k/duplication-audit.md`），结论是**计划里"先提取有界文本读取"按字面做是错的**——两个产品的 `read_file` 是两套对外契约，不能也不该统一；真正共有的只有一个原语。于是第一刀只切那一个：共享 crate `wk-text` 的 `next_line`，ccnm 和 gld 都改成调用它，行为各自逐字节不变（ccnm 719 passed，gld 467 passed，两边的既有断言都没改）。同时按用户 2026-09-15 的决定统一了 `rust-version`（gld 1.85→1.89），时点就是这一刻。
 
-**这一批留下一个必须先解决的问题：两个产品的 CI 都会红。**用户 2026-09-16 选择共享 crate 走本地 `path` 依赖、暂不把 workspace-kernel 推成远端仓库；GitHub runner 只 checkout 一个仓库，cargo 在解析 manifest 阶段就失败。绕不过去——optional 依赖也要求 path 存在，vendor 进去等于又抄一份。二选一：把 workspace-kernel 推成远端仓库、两边改 `{ git = ..., tag = ... }`；或者 revert 这两次链接。**在此之前两个产品都不能发版**，release 流程也在 Actions 上。
+**依赖方式中途改过一次。**先用的是本地 `path` 依赖（当时这个仓库还没有 remote），结果两个产品的 CI 都构建不了——GitHub runner 只 checkout 一个仓库，cargo 在解析 manifest 阶段就失败，而且绕不过去（optional 依赖也要求 path 存在，vendor 进去等于又抄一份）。同日用户决定把这个仓库推成远端：`github.com/xwfe/toexec`，**公开**（用户说的是私有，推之前发现它其实是公开的，确认后按公开推——ccnm 和 gld 本来也都是公开仓库），两边改成 `{ git = "https://github.com/xwfe/toexec.git", tag = "wk-text-v0.1.0" }`。
 
-盘点里认定收益最大的下一块是**原子写入与回滚**（gld 那份把整个原文件读进内存当备份、没有 fsync、不保留权限），它在写入路径上，等跨仓联动被证明可用之后再动。进程/输出不碰。另外查出 gld 的 `context_lines` 会把长行克隆几十份、能把 64 MiB 的文件放大到 1 GB 量级——那是 gld 自己的缺陷，没有夹带修。
+按 tag 不跟 `main`：共享库改了不会在某次 `cargo update` 之后突然改变产品行为，升级是显式的一步。用 https 不用 ssh：公开仓库匿名可读，本地和 CI 都不必配凭据；`github.com-xwfe` 那种 SSH 别名只存在于本机 `~/.ssh/config`，写进 `Cargo.toml` 的话 runner 上永远解析不了。**验证方式就是 runner 的处境**：把 ccnm 和 gld 分别 clone 到旁边没有 workspace-kernel 的目录，`cargo check --workspace` 都通过。**GitHub Actions 上还没有真跑过一次。**
+
+盘点里认定收益最大的下一块是**原子写入与回滚**（gld 那份把整个原文件读进内存当备份、没有 fsync、不保留权限），它在写入路径上，等跨仓联动被证明可用之后再动。进程/输出不碰。
+
+**同一天另一条线（gld 自己的缺陷，不属于 V2-K）**：盘点顺带查出 gld 的 `context_lines` 会把长行克隆很多份，当时估「1 GB 量级」。另一个会话接手实测并修掉了（gld `be98252`）：41 行 × 每行 1 MiB 配 `context_lines=20`，返回的 JSON 里字符串 1.19 GiB、进程峰值 RSS 2.50 GB；改成留存前按 `max_preview_bytes` 截一刀之后，峰值 RSS 降到 57 MB。匹配仍然拿整行去比，搜得到什么没有变。
 
 2026-09-16 第二批：跑完 V2-Q2（唯一一次动用模型额度，20 次 $2.1454），并把它的结论落到 ccnm（P15，纯文档，没再花额度）。同一天在 ccnm 那边做的四件事都在 ccnm 仓库记账，这里只留指针：P13（instructions 预算与顺序）、P14（read_file 按行有界读取）、0.7.0 发版并把两台机器都换成该版本、P15（外部入口配置示例启用 alwaysLoad）。**V2-Q 这条线到此收尾**——Q1 的模型侧确认仍缺，但它不挡任何东西。共享库、hub、exec-server 仍未开工。
 
