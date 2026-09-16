@@ -1,0 +1,279 @@
+{
+  "codex_version": "codex-cli 0.154.0",
+  "request_before_initialize": {
+    "id": 1,
+    "error": {
+      "code": -32600,
+      "message": "client must call initialize before using environment info methods"
+    }
+  },
+  "initialize_after_that": {
+    "id": 2,
+    "result_keys": [
+      "environmentInfo",
+      "sessionId"
+    ]
+  },
+  "initialize_with_unknown_fields": {
+    "id": 1,
+    "result_keys": [
+      "environmentInfo",
+      "sessionId"
+    ]
+  },
+  "initialize_result": {
+    "sessionId_present": true,
+    "environmentInfo_keys": [
+      "capabilities",
+      "cwd",
+      "executorVersion",
+      "platformOs",
+      "providerId",
+      "shell",
+      "tempDir",
+      "temporaryDirectories",
+      "userHomeDir"
+    ],
+    "executorVersion": "0.154.0"
+  },
+  "request_before_initialized_notification": {
+    "id": 2,
+    "error": {
+      "code": -32600,
+      "message": "client must send initialized before using environment info methods"
+    }
+  },
+  "second_initialize": {
+    "id": 3,
+    "error": {
+      "code": -32600,
+      "message": "initialize may only be sent once per connection"
+    }
+  },
+  "exit_code_on_stdin_close": 0,
+  "unknown_notification": {
+    "seen": [],
+    "follow_up_environment_info": "closed"
+  },
+  "unknown_method": {
+    "seen": {
+      "id": 2,
+      "error": {
+        "code": -32601,
+        "message": "exec-server stub does not implement `bogus/method` yet"
+      }
+    },
+    "follow_up_environment_info": {
+      "id": 3,
+      "result_keys": [
+        "capabilities",
+        "cwd",
+        "executorVersion",
+        "platformOs",
+        "providerId",
+        "shell",
+        "tempDir",
+        "temporaryDirectories",
+        "userHomeDir"
+      ]
+    }
+  },
+  "malformed_json_line": {
+    "seen": [
+      {
+        "id": -1,
+        "error": {
+          "code": -32600,
+          "message": "failed to parse JSON-RPC message from exec-server stdio: key must be a string at line 1 column 2"
+        }
+      }
+    ],
+    "follow_up_environment_info": {
+      "id": 2,
+      "result_keys": [
+        "capabilities",
+        "cwd",
+        "executorVersion",
+        "platformOs",
+        "providerId",
+        "shell",
+        "tempDir",
+        "temporaryDirectories",
+        "userHomeDir"
+      ]
+    }
+  },
+  "missing_jsonrpc_field": {
+    "seen": [
+      {
+        "id": 77,
+        "result_keys": [
+          "capabilities",
+          "cwd",
+          "executorVersion",
+          "platformOs",
+          "providerId",
+          "shell",
+          "tempDir",
+          "temporaryDirectories",
+          "userHomeDir"
+        ]
+      }
+    ],
+    "follow_up_environment_info": {
+      "id": 2,
+      "result_keys": [
+        "capabilities",
+        "cwd",
+        "executorVersion",
+        "platformOs",
+        "providerId",
+        "shell",
+        "tempDir",
+        "temporaryDirectories",
+        "userHomeDir"
+      ]
+    }
+  },
+  "string_id": {
+    "seen": [
+      {
+        "id": "s-1",
+        "result_keys": [
+          "capabilities",
+          "cwd",
+          "executorVersion",
+          "platformOs",
+          "providerId",
+          "shell",
+          "tempDir",
+          "temporaryDirectories",
+          "userHomeDir"
+        ]
+      }
+    ],
+    "follow_up_environment_info": {
+      "id": 2,
+      "result_keys": [
+        "capabilities",
+        "cwd",
+        "executorVersion",
+        "platformOs",
+        "providerId",
+        "shell",
+        "tempDir",
+        "temporaryDirectories",
+        "userHomeDir"
+      ]
+    }
+  },
+  "null_id": {
+    "seen": [
+      {
+        "id": -1,
+        "error": {
+          "code": -32600,
+          "message": "failed to parse JSON-RPC message from exec-server stdio: data did not match any variant of untagged enum RequestId"
+        }
+      }
+    ],
+    "follow_up_environment_info": {
+      "id": 2,
+      "result_keys": [
+        "capabilities",
+        "cwd",
+        "executorVersion",
+        "platformOs",
+        "providerId",
+        "shell",
+        "tempDir",
+        "temporaryDirectories",
+        "userHomeDir"
+      ]
+    }
+  },
+  "unknown_field_in_params": {
+    "seen": {
+      "id": 2,
+      "error": {
+        "code": -32600,
+        "message": "unknown process id nope"
+      }
+    },
+    "follow_up_environment_info": {
+      "id": 3,
+      "result_keys": [
+        "capabilities",
+        "cwd",
+        "executorVersion",
+        "platformOs",
+        "providerId",
+        "shell",
+        "tempDir",
+        "temporaryDirectories",
+        "userHomeDir"
+      ]
+    }
+  },
+  "method_table_with_empty_params": {
+    "http/request": -32602,
+    "process/start": -32602,
+    "environment/info": "result",
+    "environmentConfig/read": -32602,
+    "environment/status": "result",
+    "capabilityRoots/discoverV1": -32602,
+    "process/read": -32602,
+    "process/write": -32602,
+    "process/signal": -32602,
+    "process/terminate": -32602,
+    "fs/readFile": -32602,
+    "fs/open": -32602,
+    "fs/readBlock": -32602,
+    "fs/close": -32602,
+    "fs/writeFile": -32602,
+    "fs/createDirectory": -32602,
+    "fs/getMetadata": -32602,
+    "fs/canonicalize": -32602,
+    "fs/readDirectory": -32602,
+    "fs/walk": -32602,
+    "fs/remove": -32602,
+    "fs/copy": -32602,
+    "process/output": -32601,
+    "process/exited": -32601,
+    "network/policyRequest": -32601,
+    "shutdown": -32601,
+    "exec": -32601
+  },
+  "frame_63MiB": {
+    "response": {
+      "id": 900,
+      "error": {
+        "code": -32600,
+        "message": "unknown process id nope"
+      }
+    },
+    "seconds": 0.37
+  },
+  "frame_over_64MiB": {
+    "write_completed": true,
+    "after": [
+      "closed"
+    ],
+    "seconds": 0.24,
+    "server_exit_code": 0
+  },
+  "stdin_eof_with_running_process": {
+    "process_start": {
+      "id": 2,
+      "result_keys": [
+        "processId",
+        "sandboxType"
+      ]
+    },
+    "running_before": 1,
+    "server_exit_code": 0,
+    "still_running_2s_after": 0
+  },
+  "ws_upgrade_without_origin": "HTTP/1.1 101 Switching Protocols",
+  "ws_upgrade_with_origin": "HTTP/1.1 403 Forbidden"
+}
