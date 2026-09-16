@@ -1,0 +1,26 @@
+{
+  "scenario": "drop",
+  "expected_uid": 501,
+  "my_uid": 501,
+  "codex_rc": 0,
+  "codex_seconds": 26.11,
+  "url_has_no_secret": true,
+  "bridge_accepted": 1,
+  "refused_during_run": {
+    "second-connection": 195
+  },
+  "lookup_ms_p50": 17.78,
+  "lookup_ms_max": 39.09,
+  "model_requests": 3,
+  "shell_tool_offered": [
+    true,
+    true,
+    true
+  ],
+  "probe_via_exec_server": true,
+  "after_drop_executed": false,
+  "last_tool_output": "exec_command failed: CreateProcess { message: \"Rejected(\\\"Failed to create unified exec process: exec-server transport disconnected: failed to read websocket JSON-RPC message from exec-server websocket ws://127.0.0.1:62657: WebSocket protocol error: Connection reset without closing handshake; failed to resume exec-server session: recovery timed out after 25s\\\")\" }",
+  "post_checks": {
+    "after_run_same_user": "HTTP/1.1 403 Forbidden"
+  }
+}

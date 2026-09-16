@@ -1,0 +1,24 @@
+{
+  "scenario": "drop-resume",
+  "expected_uid": 501,
+  "my_uid": 501,
+  "codex_rc": 0,
+  "codex_seconds": 1.9,
+  "url_has_no_secret": true,
+  "bridge_accepted": 3,
+  "refused_during_run": {},
+  "lookup_ms_p50": 13.53,
+  "lookup_ms_max": 13.91,
+  "model_requests": 3,
+  "shell_tool_offered": [
+    true,
+    true,
+    true
+  ],
+  "probe_via_exec_server": true,
+  "after_drop_executed": true,
+  "last_tool_output": "Chunk ID: 62245d\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 3\nOutput:\nAFTER_DROP\n",
+  "post_checks": {
+    "after_run_same_user": "HTTP/1.1 101 Switching Protocols"
+  }
+}

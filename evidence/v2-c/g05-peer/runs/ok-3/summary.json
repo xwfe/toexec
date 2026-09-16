@@ -1,0 +1,23 @@
+{
+  "scenario": "ok",
+  "expected_uid": 501,
+  "my_uid": 501,
+  "codex_rc": 0,
+  "codex_seconds": 1.02,
+  "url_has_no_secret": true,
+  "bridge_accepted": 1,
+  "refused_during_run": {},
+  "lookup_ms_p50": 6.16,
+  "lookup_ms_max": 6.44,
+  "model_requests": 2,
+  "shell_tool_offered": [
+    true,
+    true
+  ],
+  "probe_via_exec_server": true,
+  "after_drop_executed": false,
+  "last_tool_output": "Chunk ID: abd16a\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 33\nOutput:\nG05_PROBE_OK\n/private/tmp/claude-501/-Users-bing-xdw-ccnm/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/scratchpad/g05-peer/runs/ok-3/work\n",
+  "post_checks": {
+    "after_run_same_user": "HTTP/1.1 403 Forbidden"
+  }
+}

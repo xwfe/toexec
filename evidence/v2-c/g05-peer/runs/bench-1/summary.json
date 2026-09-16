@@ -1,0 +1,10 @@
+{
+  "scenario": "bench",
+  "platform": "darwin",
+  "connections": 200,
+  "accepted": 200,
+  "refused": 0,
+  "lookup_ms_p50": 5.17,
+  "lookup_ms_p99": 7.0,
+  "lookup_ms_max": 8.38
+}

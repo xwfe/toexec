@@ -1,0 +1,118 @@
+{
+  "scenario": "linux-users",
+  "kernel": "7.0.14-orbstack-00380-ga7e0a2dc9535",
+  "arch": "aarch64",
+  "bridge_runs_as": {
+    "user": "alice",
+    "uid": 1000
+  },
+  "clients": {
+    "alice": {
+      "uid": 1000,
+      "answers": [
+        "HTTP/1.1 200 UPSTREAM",
+        "HTTP/1.1 200 UPSTREAM",
+        "HTTP/1.1 200 UPSTREAM",
+        "HTTP/1.1 200 UPSTREAM",
+        "HTTP/1.1 200 UPSTREAM"
+      ]
+    },
+    "bob": {
+      "uid": 1001,
+      "answers": [
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden"
+      ]
+    },
+    "root": {
+      "uid": 0,
+      "answers": [
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden",
+        "HTTP/1.1 403 Forbidden"
+      ]
+    }
+  },
+  "bridge_decisions": [
+    {
+      "event": "accepted",
+      "reason": null,
+      "peer_uid": 1000
+    },
+    {
+      "event": "accepted",
+      "reason": null,
+      "peer_uid": 1000
+    },
+    {
+      "event": "accepted",
+      "reason": null,
+      "peer_uid": 1000
+    },
+    {
+      "event": "accepted",
+      "reason": null,
+      "peer_uid": 1000
+    },
+    {
+      "event": "accepted",
+      "reason": null,
+      "peer_uid": 1000
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 1001
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 1001
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 1001
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 1001
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 1001
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 0
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 0
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 0
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 0
+    },
+    {
+      "event": "refused",
+      "reason": "uid-mismatch",
+      "peer_uid": 0
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "scenario": "lookup-broken",
+  "expected_uid": 501,
+  "my_uid": 501,
+  "codex_rc": 0,
+  "codex_seconds": 0.96,
+  "url_has_no_secret": true,
+  "bridge_accepted": 0,
+  "refused_during_run": {
+    "lookup-failed": 3
+  },
+  "lookup_ms_p50": 6.41,
+  "lookup_ms_max": 7.77,
+  "model_requests": 1,
+  "shell_tool_offered": [
+    false
+  ],
+  "probe_via_exec_server": false,
+  "after_drop_executed": false,
+  "last_tool_output": null,
+  "post_checks": {
+    "after_run_same_user": "HTTP/1.1 403 Forbidden"
+  }
+}
