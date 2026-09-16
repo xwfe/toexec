@@ -86,9 +86,23 @@ v2 第 6.2 节要求两边各自保留，所以编辑算法本来就不在共享
 要共享就得先统一执行模型，那是把 ccnm 拖进 async，或者把 gld 的会话机制拆开。
 代价远大于当前能省的重复。
 
-### 搜索：不重复
+### 搜索：匹配逻辑不重复，读行重复
 
-ccnm 的 `search_text` 调外部 `ripgrep`；gld 自己实现 `Matcher`。没有可共享的东西。
+ccnm 的 `search_text` 调外部 `ripgrep`；gld 自己实现 `Matcher`。匹配这一层没有可
+共享的东西。
+
+但 gld 的 `search_file_streaming` 用 `BufRead::lines()` 逐行读，**一行有多长就往
+内存里放多长**——和 ccnm P14 修掉的是同一类问题。严重程度差很多，别混为一谈：
+
+- ccnm 的 `read_file` 当时**没有文件大小上限**，一个 2 GB 的单行文件能先分配
+  2 GB，Runtime 可能先被 OOM 杀掉。
+- gld 的 `search_text` **有** `max_file_bytes`（默认 2 MiB，最大 64 MiB），超过就
+  整个文件跳过。所以最坏是 64 MiB 进内存，不是 2 GB。
+
+**真正的放大器在别处**：`context_lines`（最大 20）会把行克隆进 `recent` 队列，
+每个待定匹配又各持有一份 before 和 after 的克隆。一个 64 MiB、每行约 1.6 MiB 的
+文件，克隆总量能到 1 GB 量级。这是 gld 自己的缺陷，跟共享库无关，**不在这一刀里
+夹带修**——要修就单独立项。
 
 ## 三个仓库的工程现状
 
