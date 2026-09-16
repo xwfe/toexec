@@ -1,0 +1,115 @@
+{
+  "transport": {
+    "kind": "transport",
+    "marker": "finished-p24-transport",
+    "session": "983ca32f-fb47-4496-be51-68df94537df1",
+    "started": true,
+    "command_running_on_hpsrv": "3296908 /home/ccrun/.local/state/ccnm/exec-server/983ca32f-fb47-4496-be51-68df94537df1-f0b52d86-8d21-4e0d-a543-ca06c53085b9/tmp/arg0/codex-arg0EFEnEU/codex-linux-sandbox --sandbox-policy-cwd /home/ccrun/p24-demo --command-cwd /home/ccrun/p24-demo --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} -- /bin/bash -lc sleep 45; echo finished-p24-transport .\n3296913 bwrap --as-pid-1 --new-session --die-with-parent --ro-bind / / --dev /dev --bind /tmp /tmp --perms 555 --tmpfs /tmp/.git --remount-ro /tmp/.git --perms 555 --tmpfs /tmp/.agents --remount-ro /tmp/.agents --perms 555 --tmpfs /tmp/.codex --remount-ro /tmp/.codex --ro-bind /tmp/codex-bwrap-synthetic-mount-targets-1002 /tmp/codex-bwrap-synthetic-mount-targets-1002 --bind /home/ccrun/p24-demo /home/ccrun/p24-demo --ro-bind /home/ccrun/p24-demo/.git /home/ccrun/p24-demo/.git --perms 555 --tmpfs /home/ccrun/p24-demo/.agents --remount-ro /home/ccrun/p24-demo/.agents --perms 555 --tmpfs /home/ccrun/p24-demo/.codex --remount-ro /home/ccrun/p24-demo/.codex --unshare-user --unshare-pid --unshare-ipc --unshare-net --proc /proc --cap-drop ALL --argv0 codex-linux-sandbox -- /home/ccrun/.local/opt/codex-0.154.0/codex --sandbox-policy-cwd /home/ccrun/p24-demo --command-cwd /home/ccrun/p24-demo --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} --apply-seccomp-then-exec -- /bin/bash -lc sleep 45; echo finished-p24-transport .\n3296914 codex-linux-sandbox --sandbox-policy-cwd /home/ccrun/p24-demo --command-cwd /home/ccrun/p24-demo --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} --apply-seccomp-then-exec -- /bin/bash -lc sleep 45; echo finished-p24-transport .\n3296915 /bin/bash -lc sleep 45; echo finished-p24-transport .\n3296918 sleep 45",
+    "transports_before": [
+      65703
+    ],
+    "guard_before": "held 983ca32f-fb47-4496-be51-68df94537df1 p24",
+    "guard_after": "released",
+    "seconds_to_release": 0.3,
+    "sleep_left_on_hpsrv": "",
+    "transports_after_fault": [],
+    "dialogs": [
+      "kept current model"
+    ],
+    "pane_tail": [
+      "one sentence.",
+      "╭───────────────────────────────────────────╮",
+      "│ >_ OpenAI Codex (v0.154.0)                │",
+      "│                                           │",
+      "│ model:     gpt-6-astra   /model to change │",
+      "│ directory: /home/ccrun/p24-demo           │",
+      "╰───────────────────────────────────────────╯",
+      "  Tip: This is GPT-6, a new generation of intelligence. Astra is state-of-the-",
+      "  art in coding, computer use, science, and professional work. Give it a hard",
+      "  problem, a half-formed idea, or anything you've been meaning to build. See",
+      "  where it takes you.",
+      "› Run exactly this shell command once and nothing else: sleep 45; echo",
+      "  finished-p24-transport . Then report its output in one sentence.",
+      "• You have 2 usage limit resets available. Run /usage to use one.",
+      "⚠ Heads up, you have less than 5% of your weekly limit left. Run /status for a",
+      "  breakdown.",
+      "• I’ll run the command exactly once and report its output.",
+      "• Ran sleep 45; echo finished-p24-transport .",
+      "  └ exec-server transport disconnected",
+      "────────────────────────────────────────────────────────────────────────────────",
+      "• No output was captured because the execution transport disconnected before the",
+      "  command’s result was received.",
+      "────────────────────────────────────────────────────────────────────────────────",
+      "› Ask Codex to do anything",
+      "  gpt-6-astra default · /home/ccrun/p24-demo · Run p24-transport sleep command"
+    ],
+    "exit": {
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_ms": 36951,
+      "error": null
+    },
+    "exec_tool_calls": 2,
+    "marker_in_any_tool_output": false,
+    "guard_final": "released",
+    "marked_left": [],
+    "ok": true
+  },
+  "executor": {
+    "kind": "executor",
+    "marker": "finished-p24-executor",
+    "session": "cef269ab-55f3-4b28-84ec-752d29d018b6",
+    "started": true,
+    "command_running_on_hpsrv": "3297735 /home/ccrun/.local/state/ccnm/exec-server/cef269ab-55f3-4b28-84ec-752d29d018b6-b23e131e-f823-4a02-be17-c4ddda73f7f0/tmp/arg0/codex-arg0QT0uTj/codex-linux-sandbox --sandbox-policy-cwd /home/ccrun/p24-demo --command-cwd /home/ccrun/p24-demo --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} -- /bin/bash -lc sleep 45; echo finished-p24-executor .\n3297740 bwrap --as-pid-1 --new-session --die-with-parent --ro-bind / / --dev /dev --bind /tmp /tmp --perms 555 --tmpfs /tmp/.git --remount-ro /tmp/.git --perms 555 --tmpfs /tmp/.agents --remount-ro /tmp/.agents --perms 555 --tmpfs /tmp/.codex --remount-ro /tmp/.codex --ro-bind /tmp/codex-bwrap-synthetic-mount-targets-1002 /tmp/codex-bwrap-synthetic-mount-targets-1002 --bind /home/ccrun/p24-demo /home/ccrun/p24-demo --ro-bind /home/ccrun/p24-demo/.git /home/ccrun/p24-demo/.git --perms 555 --tmpfs /home/ccrun/p24-demo/.agents --remount-ro /home/ccrun/p24-demo/.agents --perms 555 --tmpfs /home/ccrun/p24-demo/.codex --remount-ro /home/ccrun/p24-demo/.codex --unshare-user --unshare-pid --unshare-ipc --unshare-net --proc /proc --cap-drop ALL --argv0 codex-linux-sandbox -- /home/ccrun/.local/opt/codex-0.154.0/codex --sandbox-policy-cwd /home/ccrun/p24-demo --command-cwd /home/ccrun/p24-demo --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} --apply-seccomp-then-exec -- /bin/bash -lc sleep 45; echo finished-p24-executor .\n3297741 codex-linux-sandbox --sandbox-policy-cwd /home/ccrun/p24-demo --command-cwd /home/ccrun/p24-demo --permission-profile {\"type\":\"managed\",\"file_system\":{\"type\":\"restricted\",\"entries\":[{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"root\"}},\"access\":\"read\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo\"},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"slash_tmp\"}},\"access\":\"write\"},{\"path\":{\"type\":\"special\",\"value\":{\"kind\":\"tmpdir\"}},\"access\":\"write\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.git\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.agents\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"},{\"path\":{\"type\":\"path\",\"path\":\"/home/ccrun/p24-demo/.codex\"},\"access\":\"read\",\"missing_path_behavior\":\"skip\"}]},\"network\":\"restricted\"} --apply-seccomp-then-exec -- /bin/bash -lc sleep 45; echo finished-p24-executor .\n3297742 /bin/bash -lc sleep 45; echo finished-p24-executor .\n3297745 sleep 45",
+    "transports_before": [
+      67219
+    ],
+    "guard_before": "held cef269ab-55f3-4b28-84ec-752d29d018b6 p24",
+    "executor_pid": "3297630",
+    "guard_after": "released",
+    "seconds_to_release": 0.4,
+    "sleep_left_on_hpsrv": "",
+    "transports_after_fault": [],
+    "dialogs": [
+      "kept current model"
+    ],
+    "pane_tail": [
+      "ne sentence.",
+      "╭───────────────────────────────────────────╮",
+      "│ >_ OpenAI Codex (v0.154.0)                │",
+      "│                                           │",
+      "│ model:     gpt-6-astra   /model to change │",
+      "│ directory: /home/ccrun/p24-demo           │",
+      "╰───────────────────────────────────────────╯",
+      "  Tip: This is GPT-6, a new generation of intelligence. Astra is state-of-the-",
+      "  art in coding, computer use, science, and professional work. Give it a hard",
+      "  problem, a half-formed idea, or anything you've been meaning to build. See",
+      "  where it takes you.",
+      "› Run exactly this shell command once and nothing else: sleep 45; echo",
+      "  finished-p24-executor . Then report its output in one sentence.",
+      "• You have 2 usage limit resets available. Run /usage to use one.",
+      "⚠ Heads up, you have less than 5% of your weekly limit left. Run /status for a",
+      "  breakdown.",
+      "• I’ll run the command exactly once.",
+      "• Ran sleep 45; echo finished-p24-executor .",
+      "  └ exec-server transport disconnected",
+      "────────────────────────────────────────────────────────────────────────────────",
+      "• No output was captured because the executor disconnected before the command’s",
+      "  result was returned.",
+      "────────────────────────────────────────────────────────────────────────────────",
+      "› Ask Codex to do anything",
+      "  gpt-6-astra default · /home/ccrun/p24-demo · Run command and report output"
+    ],
+    "exit": {
+      "exit_code": 0,
+      "timed_out": false,
+      "duration_ms": 37260,
+      "error": null
+    },
+    "exec_tool_calls": 2,
+    "marker_in_any_tool_output": false,
+    "guard_final": "released",
+    "marked_left": [],
+    "ok": true
+  }
+}

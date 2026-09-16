@@ -1,6 +1,6 @@
 # toexec 实施方案 v2：共享库为主，收窄 exec-server 复用范围
 
-日期：2026-09-15。状态：**实施中**——V2-K、V2-H、V2-Q 已完成，V2-C 的离线部分已完成（ccnm P21–P23），真机验收 P24 待授权，Claude 实验线 V2-P0–P5 未开始；逐项进度见第 11 节的状态表。
+日期：2026-09-15。状态：**实施中**——V2-K、V2-H、V2-Q、V2-C 四条主线已完成（V2-C 于 2026-09-16 经 ccnm P24 真机验收），Claude 实验线 V2-P0–P5 未开始；逐项进度见第 11 节的状态表，**计划原文与实际执行的偏移和处理见第 11 节"对齐检查"**。
 
 本次修订：gld 本地不接 exec-server；Claude 复用 exec-server 从默认架构降为独立、无模型的收益验证。Codex 原生 exec-server 路线保留。
 
@@ -30,7 +30,7 @@
 | 先统一三个仓库 Rust 1.89，再开展全部工作 | 仍统一三个仓库的 `rust-version`，但不提前动：第一个共享 crate 被 gld 或 ccnm 链接时一次性统一（第 11 节） |
 | 预先建设完整 Root、编辑、执行会话、MCP 与工具集 crate | 共享库先提取真实重复的小模块；Claude 的 Read + Process 试验独立进行，不先建全套空框架 |
 | 拿 guard 后直接 `exec` 官方服务 | 包装进程持有 guard，监督子进程；确认写进程结束后释放，不丢弃锁与收尾责任 |
-| WebSocket 只接受首连接 | 验证连接身份或不可伪造的连接能力；首连接限制不是认证 |
+| WebSocket 只接受首连接 | 验证连接身份或不可伪造的连接能力；首连接限制不是认证（**2026-09-16 修正**：产品链路最终不用 WebSocket，Codex 按 `environments.toml` 自己 spawn stdio 传输，见第 5.2 节） |
 | 默认工具迁入模糊编辑、原文批次与新路径规则 | 旧模式保留各自语义；新语义进新工具集，已确认缺陷独立修复 |
 | 以三组模型请求 hash 归因缓存变化 | 只记录官方输出实际可见的字段与自己控制的 MCP 输入；不可见字段标记 unavailable |
 | 先安排约 145 次模型运行 | 前期验证零模型；硬门禁通过后按明确预算安排少量真实闭环与 A/B |
@@ -56,14 +56,14 @@
 
 | 能力 | 固定版本源码事实 | 适配含义 |
 | --- | --- | --- |
-| 协议 | stdio/WebSocket；Codex JSON-RPC 方言，非 MCP | 必须适配握手、工具 schema、事件和错误，不能只转发 MCP JSON |
+| 协议 | stdio/WebSocket；Codex JSON-RPC 方言，非 MCP | 必须适配握手、工具 schema、事件和错误，不能只转发 MCP JSON。**客户端一侧**（2026-09-16 核对）：除 `CODEX_EXEC_SERVER_URL` 的 WebSocket 外，`CODEX_HOME/environments.toml` 的 `program`/`args` 声明一个 stdio 子进程传输，ccnm 用的是这个 |
 | 分块读 | `fs/open`、`fs/readBlock`、`fs/close` | 可构造有界行读取；句柄不是不可变快照，仍需处理文件原地变化 |
 | 整文件读 | `fs/readFile` 返回整份 base64，实现上限 512 MiB | 不能包装成“只读几行”的有界实现；大文件首选分块接口 |
 | 文件写 | 有 `fs/writeFile`，无 expectedVersion/CAS 参数 | 直接覆盖不等于受控 Edit，也不等于 ccnm 提交/journal |
 | 编辑与搜索 | 无直接 patch、文本搜索、rename 或多文件事务 RPC | 必须保留/补足相应语义；`copy + remove` 不冒充原子 rename |
 | 进程 | start/read/write/signal/terminate、输出与退出事件 | 需要 session 绑定、预算、超时与完成判定；实际 `process/write` 要求 `writeId` |
 | 交互缺口 | 当前路由没有独立 closeStdin、PTY resize RPC | gld 本地明确不接入；Claude 试验也不能宣称完整交互会话等价 |
-| 断线 | WebSocket 有约 30 秒 detached/resume 窗口；stdio 结束走 shutdown | 不得静默改变 ccnm v1 的无 resume 语义 |
+| 断线 | WebSocket 有约 30 秒 detached/resume 窗口；stdio 结束走 shutdown | 不得静默改变 ccnm v1 的无 resume 语义。客户端对 stdio 子进程传输**没有重连策略**，P23 离线、P24 真机都测到断线后不重启传输、不重放命令 |
 | 沙箱 | 文件与 process 请求可带 sandbox；部分无策略路径直接执行 | 服务名称不构成隔离保证；两种前端都必须受相同权限上限约束 |
 
 主来源见第 12 节。上述是源码能力，不表示凭据、事务、断网、Windows 或真实 Agent 已经验证。
@@ -180,7 +180,7 @@ gld 目前也不能假设已有覆盖 MCP/Actions/hub 与后台进程的一把�
 
 分别验证 file read/write/remove、process、open-handle read、environment/config 与 HTTP RPC。没有 sandbox 参数的执行路径不能默认为安全。由受控配置生成权限上限，不能转发模型指定的任意 sandbox/env。
 
-Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明确环境白名单、受控 HOME/CODEX_HOME、FD/socket 继承策略和现有账号审计；变量名包含 TOKEN/KEY/SECRET 的检查只作辅助。
+Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明确环境白名单、受控 HOME/CODEX_HOME、FD/socket 继承策略和现有账号审计；变量名包含 TOKEN/KEY/SECRET 的检查只作辅助。（**2026-09-16 修正**：ccnm P22 实现时没有用白名单，而是让 exec-server 的环境和 MCP `exec_command` 的子进程走同一套清理，理由是两个入口里命令看到的环境要一致；带认证类变量的 Runtime 环境在审计阶段就整会话拒绝。受控 `CODEX_HOME` 由 ccnm 生成、不含凭据，P24 在执行端沙箱里实测过。）
 
 首轮只允许必需 RPC。`http/request`、远端注册/relay、环境配置读取等未证明必要的入口默认不纳入准入范围；如果官方 Codex 实际依赖某入口，先证明最小用途与权限，再决定开放。文件沙箱不自动覆盖独立网络请求，未验证 egress 就不作保证。
 
@@ -189,7 +189,7 @@ Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明
 ### 5.4 取消、恢复、重试
 
 - `terminate` 返回已发送终止或仍 running，不等于确认退出；保留最终退出/关闭证据。
-- 官方 WebSocket 的 detached/resume 行为不能直接套到 ccnm v1。首轮不新增对外 resume：连接失效则句柄失效，对账或 unknown，禁止偷偷恢复后重放。
+- 官方 WebSocket 的 detached/resume 行为不能直接套到 ccnm v1。首轮不新增对外 resume：连接失效则句柄失效，对账或 unknown，禁止偷偷恢复后重放。（ccnm 最终走 stdio 传输，客户端本身不重连；Runtime 侧另外拒绝带 `resumeSessionId` 的握手。）
 - 写入和进程启动默认不自动重试。同键去重仅在后端契约已验证时使用；`writeId` 的 stdin 去重不等于整个命令、事务或模型任务的 exactly-once。
 - 不能把未知结果记成失败再换旧后端执行。同一任务中后端不热切；读句柄、进程 ID、输出引用都绑定连接代次。
 - 实验允许“读取仍走共享库、只有进程走 exec-server”，但各能力的路由在会话开始前固定；不能在某次调用失败后临时换执行方式重做。
@@ -206,7 +206,7 @@ Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明
 | edit / commit | 旧编辑模式适配、条件提交、journal与恢复原语 | 把多次 write RPC 包装成虚假的原子事务 |
 | process / output | 复用进程生命周期机制、交互/输出预算与保留机制 | 模型、业务任务状态、权限授予 |
 | tool-adapter | 旧工具参数/结果与共享原语的转换 | 复制两份持续演进的同类算法 |
-| exec-client（独立可选） | 固定 codec、事件、分块读取/进程句柄，仅供原生接入或 Claude 试验 | 成为 gld 本地/基础库默认依赖；参与普通本地打包 |
+| exec-client（独立可选） | 固定 codec、事件、分块读取/进程句柄，仅供原生接入或 Claude 试验 | 成为 gld 本地/基础库默认依赖；参与普通本地打包。（**2026-09-16**：Codex 原生接入**不需要它**——客户端就是官方 Codex，ccnm 只按行转发并逐条过滤，没有自己的 codec。它只在 Claude 试验 V2-P1 开工时才有消费者，至今未建。） |
 | conformance | 中立协议客户端、已知失败反例、故障注入与资源检查 | 只比较格式，不检查真实落盘与进程状态 |
 
 主线产物是 gld 与 ccnm 直接路径可复用的 Rust 机制，而不是先自建所有底层算法。A 若获准，仅替代明确范围；仍须如实保留其他共享库职责，不能把减少某段进程代码宣传成完整工具内核替换。
@@ -247,7 +247,7 @@ Runtime 不保存模型凭据或 ccnm 主动控制链的私钥/agent。采用明
 
 | 阶段 | 交付 | 通过/停止条件 | 模型调用 |
 | --- | --- | --- | --- |
-| V2-K 共享库主线 | 先提取有界文本读取，再分批共享编辑/提交、进程/输出机制；gld 与 ccnm 直接适配 | 各自兼容与安全回归通过；gld 本地在未安装 Codex 的环境也能构建、安装、运行并维持交互会话 | 0 |
+| V2-K 共享库主线 | 先提取有界文本读取，再分批共享编辑/提交、进程/输出机制；gld 与 ccnm 直接适配（**2026-09-16 按盘点收窄**：只共享"读一行不整行进内存"和"原子文件替换"两个纯机制；两边的 `read_file` 契约、编辑/回滚编排不统一；进程/输出不共享——gld 是 tokio async 且要支持 Windows，ccnm 是同步且只跑 Unix。依据 `evidence/v2-k/duplication-audit.md`） | 各自兼容与安全回归通过；gld 本地在未安装 Codex 的环境也能构建、安装、运行并维持交互会话 | 0 |
 | V2-H hub 接入线 | AuthContext、静态 remote 工具、合成 peer、公开 bridge、read 后 coding | 使用 ccnm 默认直接路径先离线后真机；V2-G12 及相关权限/恢复门禁通过，不依赖 exec-server 或工具面 A/B | 离线 0；Web 实际使用单独记账 |
 | V2-C Codex 原生路线 | 保留官方原生 exec-server 接入，独立锁定客户端/服务端组合和监督器 | 原生链的协议、权限、执行位置、guard和恢复门禁通过；不以 Claude 试验通过为前提 | 离线 0；真实回合需明确预算 |
 | V2-Q Claude 工具面快速验证 | Q1：实测 instructions 超过 2048 个 UTF-16 码元时 Claude Code 是否截断（带标记行，1 次回合）；Q2：ccnm 7 个工具加 `_meta["anthropic/alwaysLoad"]`（纯加法，不删可空联合、不做 schema 去噪）后与现状做小样本对照 | 按第 10.2 节规则判定；只改工具元数据和 instructions 顺序，不碰执行路径、冻结工具语义与共享库；不采纳时撤回该字段 | 按第 10.1 节实验单记账 |
@@ -265,7 +265,7 @@ ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计
 ### 第一批可执行任务
 
 0. V2-Q：instructions 2048 码元截断实测，然后 alwaysLoad 小样本对照；同时修第 13 节标"立即修"的缺陷。
-1. 共享库线保存旧 fixture，先提取两个产品真正共用的有界文本原语；hub 线先做类型/认证与合成 peer；Codex 线先按第 5.2 节候选方案验证 URL 能力认证（无模型）。
+1. 共享库线保存旧 fixture，先提取两个产品真正共用的有界文本原语；hub 线先做类型/认证与合成 peer；Codex 线先按第 5.2 节候选方案验证 URL 能力认证（无模型）。（已做完：URL 令牌否决 → 对端 uid 放行通过 → 最终改走 stdio 传输，两个网桥方案都没进产品。）
 2. Claude 实验线冻结直接执行对照和候选沙箱策略，写两个无模型协议客户端，验证分块读与进程生命周期。
 3. 用合成 canary 明确证明额外约束来自执行端，记录无沙箱/有沙箱的开销，以及二进制部署与版本升级成本。
 4. 对照成熟库可实现的同等约束，形成继续/仅进程/否决结论；任何结果都不把 gld 本地接到 exec-server。
@@ -288,6 +288,8 @@ ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计
 | V2-G12 产品链 | hub 本地成员零回归；远端无本地 Planning/Harness 副作用；真实 Web/CLI 的执行位置、返回结果、关闭和回退有证据；官方 Agent 回合与无模型测试分开记 |
 | V2-G13 Claude 收益 | 同 Runtime 身份与既有权限下，对照额外执行端约束；分别计量 RPC/base64/CPU/RSS/延迟和部署/版本/维护成本。测量并给出可追溯的否决结果也算完成实验；只有达到冻结收益/成本判据和安全门禁才算候选准入，不以连接成功代替收益 |
 
+V2-C（Codex 原生链）对每一项门禁实际覆盖到哪、哪些不适用、哪些没测，见第 11 节"对齐检查"；门禁定义本身不改。
+
 ### 实验前冻结，不事后调整判据
 
 各主线与实验在运行前按“平台 × 前端 × 操作”明确必测/不适用、拒绝策略和预算。Claude 试验的 V2-P0 另冻结收益/成本判据；V2-G02/G13 只要求于相关 exec-server 实验，不作为共享库与 hub 的依赖。权限、执行位置、结果真实性不能列为不适用；未暴露的能力才可排除。下列为首轮拟定上限，不是已测试保证，实施前可有依据地调整并记录：
@@ -308,6 +310,8 @@ ccnm 实际改代码前按其规则立新阶段、更新唯一状态源。本计
 各自无模型门禁通过后，Codex 原生链可独立做最小真实回合。Claude 只有在 V2-P1/P3 收益与准入得到支持后才测试委派回合；未采纳时继续直接执行/共享库路径，不为凑齐双入口评测而消耗额度。只有已有授权覆盖的回合才能运行；新额度、系统部署或权限变化按既有规则确认。
 
 每个实验单列 `max_runs`、重试是否计入、deadline、停止条件和授权引用。预算用“提供方 × 任务 × 组数 × 重复次数 + 冒烟/重试”明确计算；历史对照复用必须证明版本/模型/配置/夹具一致，不同时声称与本轮随机交替运行。
+
+**累计（2026-09-16）：23/145 次。**V2-Q2 用 20 次（Claude，$2.1454），ccnm P24 用 3 次（Codex/ChatGPT 订阅，Codex 不报费用；实验单上限 5）。以后记账只改这一行。
 
 **额度授权**：用户已于 2026-09-15 同意为本计划的模型验证消耗 Claude/ChatGPT 订阅额度。授权引用写 `user-consent-2026-09-15`；全部实验累计上限 145 次模型运行（沿用 v1 估算），每个实验单的 `max_runs` 计入累计并记入 evidence。以下情况先告知用户再运行：累计将超过上限、新增不在本计划中的实验类型、需要系统部署或权限变化。
 
@@ -351,12 +355,37 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | v2 方案文档 | 已按反馈收窄，并写入用户两项决定 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验；统一 rust-version、额度授权见第 11、10.1 节 |
 | V2-K | **两刀都已落地**：`toexec-text`（有界行读取）和 `toexec-fs`（原子文件替换），两个产品都链接了 | 开工前的重复度盘点见 `evidence/v2-k/duplication-audit.md`：两边 `read_file` 契约不同**不统一**，真正共有的只有「读一行但不把整行读进内存」。`toexec-text` 提交 `fbf28bb`（9 个测试）；ccnm `e589d08`（719 passed，24 个 read 测试断言一条没改）；gld `b4c8a77`（467 passed，rust-version 1.85→1.89，行为变化是超长行只搜前 1 MiB）。依赖按 tag 固定在这个仓库的公开远端 `github.com/xwfe/toexec`，两边都在「旁边没有 toexec」的目录里构建通过 |
 | V2-H | **H01–H08 全部完成**（gld） | gld `5333763`…`201af28`：成员分本地/远端、鉴权主体、`gld hub remote`、只读链、远端 coding（写租约）、会话内有界等待、真机闭环。跨两台真机的现场记录在 gld `docs/rfc/evidence/v2-h-read-chain.md`，逐项对照在 gld RFC-0002 第 9 节。**未做**：单独归档的脱敏 transcript、公网入口链路 |
-| V2-C | **连接身份、协议、权限三道门禁已实测，读边界已定；ccnm P21–P23 已完成（Runtime 侧 + Agent 侧，离线闭环），P24 真机验收待授权** | URL 一次性令牌方案否决（`evidence/v2-c/g05/`：断线后令牌进入发给模型的文本）。方向 2（`evidence/v2-c/g05-peer/`）：Linux 容器里 bob、root 连进来都被拒；macOS 上 Codex 端到端可用；查询失败即拒；200 次查询 p50 5.2 ms（含起进程）；网桥必须每会话只放行一条连接，否则 Codex 会自己 resume。全程零模型请求。V2-G05 的会话绑定各项要接进 ccnm 后才能测。**V2-G01 协议实测**（`evidence/v2-c/g01/`，stdio，3 遍一致）：没有版本协商，只能核对 `executorVersion`/`providerId`；`http/request` 和写类 fs 方法都开着，网桥必须按方法做白名单；未知通知和超过 64 MiB 的帧都会直接断开连接、不回错误；关 stdin 时服务端会清掉自己起的进程。**V2-G06 权限实测**（`evidence/v2-c/g06/`，3 遍一致）：exec-server 完全信客户端的 sandbox——`null` 就不受限，客户端放宽 `workspaceRoots` 也照做；Codex 自己的 34 次 `fs/getMetadata` 都是 `sandbox: null`；`http/request` 没有限制参数；`environmentConfig/read` 会返回服务端配置里的凭据，而 Codex 每次启动都调它。权限上限只能靠运行身份 + 网桥按方法校验。**用户随后决定原生文件读和 MCP 读同一契约**（第 5.3 节）。**ccnm 已立 P21–P24 实施这条链**（ccnm `e9847e4`）。**P21 已完成**（`evidence/v2-c/native-surface/`，17 个实验各 3 遍一致，零额度）：交互模式 `-C <Runtime 根>` 可用、`codex exec` 要求 Agent 本机有同路径，所以原生链首版只开交互模式；人在 Codex 里批准提权后，命令带 `sandbox: null`、越界 patch 带多出来的路径写条目，都能写到工作区外，规则表因此逐条核对 sandbox；Linux 需要 bubblewrap 和 user namespace；Linux 发行包握手的 `executorVersion` 是 `0.0.0`。冻结的规则表在 ccnm `docs/research/p21-codex-native-surface-2026-09-16.md`。**P22 已完成**（ccnm `3a79225`、`5d656bf`、`3cce11a`）：Runtime 侧 `ccnm internal exec-serve` 按规则表过滤后转给 exec-server，和 MCP 入口同一套审计、同一把写锁；会话结束前按环境变量标记扫进程表，证明 exec-server 起过的进程都没了才放锁（实测 `setsid` 脱离的进程 exec-server 自己不清）。集成测试两组故障注入各 20 次，本机接真 Codex 0.154.0 exec-server 跑通，CI 的 macOS 与 ubuntu-24.04 都通过。**P23 已完成**（ccnm `968d55c`、`96b53d0` 及后续，记录在 ccnm `docs/research/p23-stdio-transport-2026-09-16.md`，脚本与三轮结果在 `evidence/v2-c/p23-stdio/`）：开工前核对源码发现 Codex 会按 `CODEX_HOME/environments.toml` 自己 spawn 一个 stdio 传输子进程，于是 Agent 侧不是 WebSocket 网桥而是 `ccnm internal exec-transport`（exec 成到 Runtime 的 ssh）+ 每会话 CODEX_HOME（auth.json symlink 到 profile，实测读写穿透）；零额度端到端：真实 Codex + 真实 `exec-serve` + 真实 exec-server，读改跑通过、提权请求被拒不落盘、断线不重连、Runtime 连不上时 Codex 没有工具、Codex 进程树无监听端口。ssh 那一跳用本机 TCP 管道代替。下一步 ccnm P24：真机（装 Codex、换二进制、模型回合逐项授权），V2-G07/G08 的真机部分在那里 |
-| V2-Q | Q1 客户端层已确认，模型侧确认仍受阻；**Q2 已完成，结论采纳 alwaysLoad** | Q1：Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志），模型侧那一次尝试因 CLI 未登录未发出请求，见 `evidence/v2-q1/README.md`。Q2：fodelf 上 2.1.272 + ccnm 0.7.0 跑 18 格（3 任务 × 2 组 × 3 次）全通过，A 组每格恰好一次 ToolSearch、多一个回合，四条判据全满足，见 `evidence/v2-q2/README.md`。**累计模型运行 20/145，$2.1454** |
+| V2-C | **已完成：ccnm P21–P24，2026-09-16 真机验收通过**（macOS Agent + Debian 13 x86_64 Runtime） | URL 一次性令牌方案否决（`evidence/v2-c/g05/`：断线后令牌进入发给模型的文本）。方向 2（`evidence/v2-c/g05-peer/`）：Linux 容器里 bob、root 连进来都被拒；macOS 上 Codex 端到端可用；查询失败即拒；200 次查询 p50 5.2 ms（含起进程）；网桥必须每会话只放行一条连接，否则 Codex 会自己 resume。全程零模型请求。V2-G05 的会话绑定各项要接进 ccnm 后才能测。**V2-G01 协议实测**（`evidence/v2-c/g01/`，stdio，3 遍一致）：没有版本协商，只能核对 `executorVersion`/`providerId`；`http/request` 和写类 fs 方法都开着，网桥必须按方法做白名单；未知通知和超过 64 MiB 的帧都会直接断开连接、不回错误；关 stdin 时服务端会清掉自己起的进程。**V2-G06 权限实测**（`evidence/v2-c/g06/`，3 遍一致）：exec-server 完全信客户端的 sandbox——`null` 就不受限，客户端放宽 `workspaceRoots` 也照做；Codex 自己的 34 次 `fs/getMetadata` 都是 `sandbox: null`；`http/request` 没有限制参数；`environmentConfig/read` 会返回服务端配置里的凭据，而 Codex 每次启动都调它。权限上限只能靠运行身份 + 网桥按方法校验。**用户随后决定原生文件读和 MCP 读同一契约**（第 5.3 节）。**ccnm 已立 P21–P24 实施这条链**（ccnm `e9847e4`）。**P21 已完成**（`evidence/v2-c/native-surface/`，17 个实验各 3 遍一致，零额度）：交互模式 `-C <Runtime 根>` 可用、`codex exec` 要求 Agent 本机有同路径，所以原生链首版只开交互模式；人在 Codex 里批准提权后，命令带 `sandbox: null`、越界 patch 带多出来的路径写条目，都能写到工作区外，规则表因此逐条核对 sandbox；Linux 需要 bubblewrap 和 user namespace；Linux 发行包握手的 `executorVersion` 是 `0.0.0`。冻结的规则表在 ccnm `docs/research/p21-codex-native-surface-2026-09-16.md`。**P22 已完成**（ccnm `3a79225`、`5d656bf`、`3cce11a`）：Runtime 侧 `ccnm internal exec-serve` 按规则表过滤后转给 exec-server，和 MCP 入口同一套审计、同一把写锁；会话结束前按环境变量标记扫进程表，证明 exec-server 起过的进程都没了才放锁（实测 `setsid` 脱离的进程 exec-server 自己不清）。集成测试两组故障注入各 20 次，本机接真 Codex 0.154.0 exec-server 跑通，CI 的 macOS 与 ubuntu-24.04 都通过。**P23 已完成**（ccnm `968d55c`、`96b53d0` 及后续，记录在 ccnm `docs/research/p23-stdio-transport-2026-09-16.md`，脚本与三轮结果在 `evidence/v2-c/p23-stdio/`）：开工前核对源码发现 Codex 会按 `CODEX_HOME/environments.toml` 自己 spawn 一个 stdio 传输子进程，于是 Agent 侧不是 WebSocket 网桥而是 `ccnm internal exec-transport`（exec 成到 Runtime 的 ssh）+ 每会话 CODEX_HOME（auth.json symlink 到 profile，实测读写穿透）；零额度端到端：真实 Codex + 真实 `exec-serve` + 真实 exec-server，读改跑通过、提权请求被拒不落盘、断线不重连、Runtime 连不上时 Codex 没有工具、Codex 进程树无监听端口。ssh 那一跳用本机 TCP 管道代替。**P24 已完成**（ccnm `5139008`、`01cdf16`，记录在 ccnm `docs/research/p24-native-real-machine-2026-09-16.md`，脚本与原始结果在 `evidence/v2-c/p24-real/`）：本机当 Agent（临时 Controller），hpsrv 的专用执行身份 ccrun 当 Runtime（无豁免开关），两边 ccnm 同一构建、Codex 0.154.0，Linux 沙箱是 bubblewrap。零额度门槛 39/39（真实 ssh + 真实 exec-serve + 真实 Linux exec-server，副作用看磁盘）；真实 Codex 读改跑测试通过、改动属主 ccrun；三个入口抢同一把锁 74/74；Agent 侧 ssh、Runtime 侧 sshd、exec-server、监督进程被杀与 setsid 子进程各 20 次，冻住与网络黑洞各 5 次，零越权零重放零残留、未确认退出不放锁；真实 Codex 在命令运行中断传输或丢执行端，只报失败、不重连不重放。模型 3 次。**暴露的限制**：Agent 静默离网时 Runtime 察觉不到，锁一直占着（黑洞 5/5，要人工结束孤儿连接）。两台机器已清理，hpsrv 保留 bubblewrap 与 ccrun 名下的二进制 |
+| V2-Q | Q1 客户端层已确认，模型侧确认仍受阻；**Q2 已完成，结论采纳 alwaysLoad** | Q1：Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志），模型侧那一次尝试因 CLI 未登录未发出请求，见 `evidence/v2-q1/README.md`。Q2：fodelf 上 2.1.272 + ccnm 0.7.0 跑 18 格（3 任务 × 2 组 × 3 次）全通过，A 组每格恰好一次 ToolSearch、多一个回合，四条判据全满足，见 `evidence/v2-q2/README.md`。这一项用了 20 次模型运行（$2.1454），累计数见第 10.1 节 |
 | 第 13 节缺陷队列 | 全部已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）、`67159d3` / `6cdffe5`（task_context 与任务回包里的逐文件清单）、`a3618ea`（变更摘要比错基线）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
 | ccnm instructions 预算与顺序 | 已修（ccnm P13） | `60ad480` 代码、`557837d` 阶段验收；记录在 ccnm `docs/research/p13-instructions-host-cap-2026-09-16.md` |
 | Q2 结论的落地 | 已落地（ccnm P15，只改文档） | ccnm `db53098`：外部入口的 `mcpServers` 示例加 `"alwaysLoad": true`，协议文档写清依据与代价；选服务器配置而非工具 `_meta`。本机零额度复现 `coding` 21→14、`read` 18→14，记录在 ccnm `docs/research/p15-alwaysload-2026-09-16.md`。Managed 路径不需要改 |
 | V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
+
+### 对齐检查（2026-09-16，ccnm P24 之后）
+
+用户问：计划执行到哪了，有没有偏移，偏移修正了没有。逐条对照正文和实际执行，结论如下。
+
+**执行到哪**：四条主线 V2-K、V2-H、V2-Q、V2-C 都已完成，第 13 节缺陷队列清空；Claude 实验线 V2-P0–P5 一项没开始。计划本身不要求 Claude 线先于主线，所以这不是滞后，而是**下一步要不要开 V2-P0 需要用户决定**。主线剩下的只有下表里标"未做"的几项。
+
+**偏移与处理**：
+
+| # | 计划原文 | 实际 | 处理 |
+| --- | --- | --- | --- |
+| 1 | Codex 原生链要一个本机 WebSocket 桥，并证明连接身份（第 1、2.2、5.2、5.4 节，第 8 节第一批任务） | 两个网桥方案（URL 令牌、对端 uid）实测后都没进产品；Codex 按 `CODEX_HOME/environments.toml` 自己 spawn stdio 传输，没有监听端口、客户端不重连（ccnm P23） | **已修正**：各处正文就地加注 |
+| 2 | Runtime 环境"采用明确环境白名单"（第 5.3 节） | 与 MCP `exec_command` 的子进程走同一套清理，带认证类变量整会话拒绝（ccnm P22） | **已修正**：第 5.3 节加注理由 |
+| 3 | exec-client 模块（第 6.1 节） | Codex 原生链不需要它，至今没建；只有 Claude 试验开工才有消费者 | **已修正**：表格加注 |
+| 4 | V2-K "再分批共享编辑/提交、进程/输出机制"（第 8 节） | 按重复度盘点只共享两个纯机制；读取契约、编辑回滚编排、进程/输出都不共享 | **已修正**：阶段表加注；**父目录 fsync** 仍是没做的待定决定 |
+| 5 | 三个仓库统一 `rust-version`，**并各加一个 MSRV CI 任务**（第 11 节） | 三仓都是 1.89；**MSRV CI 任务没有加**，ccnm 和 gld 的 CI 只跑 stable，toexec 没有 CI | **未修正，待办**：要改两个产品的 CI、给 toexec 加 CI |
+| 6 | V2-G05：未授权连接、抢首连接、跨主体/工作区/配置代次句柄、合成凭据不可访问 | stdio 传输没有监听端口，前两项对原生链不适用；每个会话一个 exec-server 进程，句柄跨不了会话；执行端沙箱里读不到凭据（P24 实测）；配置代次没有单独绑定——按代码，会话打开时按当时的 Runtime 配置解析一次，之后改配置不影响已开会话（没实测） | 记录适用性，门禁定义不改 |
+| 7 | V2-G07：只读不取写锁、可与 coding 共存；同会话并发修改串行 | 原生链按设计只开 coding，只读仍走 MCP（ccnm P11 已验）；跨入口抢锁真机 74/74；**同一原生会话内并发修改没测** | 并发那一项**未测** |
+| 8 | V2-G08：前端断开、SSH 黑洞、监督器/服务/子进程崩溃、在途超时 | 前五项真机做了（P24.3）；**在途超时没测**；产品只有 stdio，没有 ws 生命周期可记 | 在途超时**未测** |
+| 9 | V2-G09 资源上限（200 MiB 连续输出、磁盘写失败等） | 对原生链没做；只有 ccnm 自己的 32 MiB 单帧上限（P22） | **未做** |
+| 10 | 第 2.1 节首轮源码基线里的 gld `521386a`、ccnm `8205bc2` | 两边早已前进 | 不改：那是起草时的基线，本来就是历史值 |
+
+**P24 暴露的、计划里原本没有的事**（记在 ccnm `docs/plan/status.json` 的 observed_gaps，这里只列题目）：Agent 静默离网时 Runtime 一直占锁，缩短它要用户在"Runtime sshd 开 `ClientAliveInterval` / ccnm 加空闲超时 / 维持限制"里选；从 Agent 起会话遇到锁被占时报错码是 `CCNM_E_RUNTIME_UNREACHABLE`；`ccnm doctor` 不探原生链；Codex 把 Agent 本机个人 skill 的名字列进提示；Codex 的 Linux 沙箱在 `/tmp` 留空目录；装在各机器上的 ccnm 0.7.0 不含原生链，要发版和替换才能真正用上。
+
+2026-09-16 第五批：ccnm P23（Agent 侧接线，开工前核对源码推翻了 WebSocket 网桥的前提）和 P24（真机验收）做完，V2-C 收尾。P24 按用户逐项同意的授权清单执行，root 步骤由会话执行，完成后两台机器按计划清理。
 
 2026-09-16 第四批：V2-H 在 gld 那边做完（见上表）。接的过程中在 ccnm 撞出两个缺陷，按 ccnm 的规则各自立阶段修，这里只留指针，账在 ccnm `docs/plan/status.json`：
 

@@ -1,0 +1,484 @@
+{
+  "environment": {
+    "platformOs": "linux",
+    "executorVersion": "0.0.0",
+    "providerId": "sha256:660356df4051804878bf319d72f108d52fe882cd33541fe89f95b16625f090dc",
+    "shell": {
+      "name": "bash",
+      "path": "/bin/bash"
+    }
+  },
+  "session": "p24-c12e7f00a18f",
+  "passed": 39,
+  "failed": 0,
+  "checks": [
+    {
+      "check": "account: runs as ccrun",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: only its own group",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: no sudo",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: docker socket not writable",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: no private key candidates in ~/.ssh",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: no SSH agent",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: another account's home unreadable",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: no credential-shaped environment names",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "unset",
+        "marker": ""
+      }
+    },
+    {
+      "check": "account: raw identity output",
+      "ok": true,
+      "detail": "user=ccrun\ngroups=ccrun\nsudo=no\ndocker=not-writable\nssh_other=none\nssh_auth_sock=unset\nother_home=unreadable\ncred_env=\ncodex_home=unset\nmarker=\n"
+    },
+    {
+      "check": "handshake through exec-serve",
+      "ok": true,
+      "detail": {
+        "id": 0,
+        "result": {
+          "sessionId": "531e1f0f-d79a-4713-82c1-261eee39943f",
+          "environmentInfo": {
+            "shell": {
+              "name": "bash",
+              "path": "/bin/bash"
+            },
+            "executorVersion": "0.0.0",
+            "providerId": "sha256:660356df4051804878bf319d72f108d52fe882cd33541fe89f95b16625f090dc",
+            "cwd": "file:///home/ccrun/p24-demo",
+            "userHomeDir": "file:///home/ccrun",
+            "platformOs": "linux",
+            "temporaryDirectories": [],
+            "tempDir": "file:///tmp",
+            "capabilities": {
+              "networkProxyLaunch": true,
+              "capabilityDiscoverySandbox": true,
+              "environmentConfigRead": true,
+              "httpHeaderEnvVars": true,
+              "sandboxedFileStreaming": true,
+              "shellSnapshotV2": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "check": "guard held by this session while it is open",
+      "ok": true,
+      "detail": "held p24-c12e7f00a18f p24"
+    },
+    {
+      "check": "supervisor and executor run as ccrun",
+      "ok": true,
+      "detail": "3191641 /home/ccrun/.local/bin/ccnm internal exec-serve --payload eyJwcm90b2NvbCI6Niwid29ya3NwYWNlIjoicDI0IiwiYWdlbnQiOnsibm9kZSI6Im1icCIsImluc3RhbmNlIjoiY29kZXgtbWFpbiIsInByb3ZpZGVyIjoiY29kZXgiLCJwcm9maWxlX3JlZiI6ImRlZmF1bHQifSwic2Vzc2lvbiI6InAyNC1jMTJlN2YwMGExOGYifQ\n3191677 /home/ccrun/.local/opt/codex-0.154.0/codex exec-server --listen stdio\n"
+    },
+    {
+      "check": "sandboxed command runs as ccrun in the workspace",
+      "ok": true,
+      "detail": {
+        "exit": 0,
+        "output": "ccrun\n/home/ccrun/p24-demo\n.\n..\n.agents\nAGENTS.md\ncalc\n.codex\ngate-inside.txt\n.git\n.gitignore\ntests\n"
+      }
+    },
+    {
+      "check": "its write landed in the workspace",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "bubblewrap keeps the sandboxed command out of other directories",
+      "ok": true,
+      "detail": {
+        "exit": 0,
+        "output": "rc=2\n/bin/sh: 1: cannot create /home/ccrun/p24-outside/sandbox-escape.txt: Read-only file system\n"
+      }
+    },
+    {
+      "check": "escalated command (sandbox null) refused -32600",
+      "ok": true,
+      "detail": {
+        "error": {
+          "code": -32600,
+          "message": "ccnm refused process/start: a sandbox is required"
+        },
+        "id": 3
+      }
+    },
+    {
+      "check": "and it did not run",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "sandboxed fs/writeFile inside the workspace",
+      "ok": true,
+      "detail": {
+        "id": 4,
+        "result": {}
+      }
+    },
+    {
+      "check": "with the bytes on disk",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "approved out-of-workspace write refused -32600",
+      "ok": true,
+      "detail": {
+        "error": {
+          "code": -32600,
+          "message": "ccnm refused fs/writeFile: path is outside the workspace"
+        },
+        "id": 5
+      }
+    },
+    {
+      "check": "and nothing written",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "http/request refused -32600",
+      "ok": true,
+      "detail": {
+        "error": {
+          "code": -32600,
+          "message": "ccnm refused http/request: network requests are not part of this chain"
+        },
+        "id": 6
+      }
+    },
+    {
+      "check": "ancestor .git answered as not found -32004",
+      "ok": true,
+      "detail": {
+        "error": {
+          "code": -32004,
+          "message": "No such file or directory (os error 2)"
+        },
+        "id": 7
+      }
+    },
+    {
+      "check": "read outside the workspace refused -32600",
+      "ok": true,
+      "detail": {
+        "error": {
+          "code": -32600,
+          "message": "ccnm refused fs/readFile: path is outside the workspace"
+        },
+        "id": 8
+      }
+    },
+    {
+      "check": "inside the executor: runs as ccrun",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: only its own group",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: no sudo",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: docker socket not writable",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: no private key candidates in ~/.ssh",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: no SSH agent",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: another account's home unreadable",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: no credential-shaped environment names",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: raw identity output",
+      "ok": true,
+      "detail": "user=ccrun\ngroups=ccrun\nsudo=no\ndocker=not-writable\nssh_other=none\nssh_auth_sock=unset\nother_home=unreadable\ncred_env=\ncodex_home=/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024\ncodex_home_entries=tmp \nmarker=present\n"
+    },
+    {
+      "check": "inside the executor: CODEX_HOME holds no credential file",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "inside the executor: session marker inherited",
+      "ok": true,
+      "detail": {
+        "user": "ccrun",
+        "groups": "ccrun",
+        "sudo": "no",
+        "docker": "not-writable",
+        "ssh_other": "none",
+        "ssh_auth_sock": "unset",
+        "other_home": "unreadable",
+        "cred_env": "",
+        "codex_home": "/home/ccrun/.local/state/ccnm/exec-server/p24-c12e7f00a18f-fcbb0b81-5e3a-4f3f-969d-e0720765e024",
+        "codex_home_entries": "tmp ",
+        "marker": "present"
+      }
+    },
+    {
+      "check": "session closes cleanly (exit 0)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "guard released after close",
+      "ok": true,
+      "detail": "released"
+    },
+    {
+      "check": "no process with a session marker left",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "the session's generated CODEX_HOME removed",
+      "ok": true,
+      "detail": "0"
+    }
+  ]
+}

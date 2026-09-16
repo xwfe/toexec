@@ -1,0 +1,715 @@
+{
+  "rounds": 3,
+  "passed": 74,
+  "failed": 0,
+  "checks": [
+    {
+      "check": "round 1: native takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "id": 0,
+          "result": {
+            "sessionId": "bacf05a1-ba34-4170-bee0-2d5c659e4e58",
+            "environmentInfo": {
+              "shell": {
+                "name": "bash",
+                "path": "/bin/bash"
+              },
+              "executorVersion": "0.0.0",
+              "providerId": "sha256:660356df4051804878bf319d72f108d52fe882cd33541fe89f95b16625f090dc",
+              "cwd": "file:///home/ccrun/p24-demo",
+              "userHomeDir": "file:///home/ccrun",
+              "platformOs": "linux",
+              "temporaryDirectories": [],
+              "tempDir": "file:///tmp",
+              "capabilities": {
+                "networkProxyLaunch": true,
+                "capabilityDiscoverySandbox": true,
+                "environmentConfigRead": true,
+                "httpHeaderEnvVars": true,
+                "sandboxedFileStreaming": true,
+                "shellSnapshotV2": true
+              }
+            }
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 1: guard reads held while native is open",
+      "ok": true,
+      "detail": "held p24-c14bcb044a1b p24"
+    },
+    {
+      "check": "round 1: native refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: managed refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: external refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: native still holds after the refusals",
+      "ok": true,
+      "detail": "held p24-c14bcb044a1b p24"
+    },
+    {
+      "check": "round 1: released after native closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 1: managed takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "jsonrpc": "2.0",
+          "id": 0,
+          "result": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {
+              "tools": {}
+            },
+            "serverInfo": {
+              "name": "ccnm",
+              "version": "0.7.0"
+            },
+            "instructions": "CCNM remote workspace \"p24\". The project lives on another machine and is reachable only through the ccnm tools; there is no local copy. Whatever your own environment says about the current directory, its git status or its files describes the machine you run on, not the project: for the project, workspace_info is the truth. Every path you pass or receive is relative to the workspace root.\n[project instructions: AGENTS.md, 186 bytes]\n\n--- AGENTS.md from the workspace root. These are the project's own instructions, written for this project; they are not about the machine you run on. Follow them. ---\n# p24-demo\n\nA tiny Python package used to test a remote coding session.\n\n- Run the tests with `python3 -m unittest -v` from the repository root.\n- Do not change anything under `tests/`.\n--- end of AGENTS.md ---"
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 1: guard reads held while managed is open",
+      "ok": true,
+      "detail": "held p24-cb3adfafe135 p24"
+    },
+    {
+      "check": "round 1: native refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: managed refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: external refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: managed still holds after the refusals",
+      "ok": true,
+      "detail": "held p24-cb3adfafe135 p24"
+    },
+    {
+      "check": "round 1: released after managed closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 1: external takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "jsonrpc": "2.0",
+          "id": 0,
+          "result": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {
+              "tools": {}
+            },
+            "serverInfo": {
+              "name": "ccnm",
+              "version": "0.7.0"
+            },
+            "instructions": "CCNM remote workspace \"p24\". The project lives on another machine and is reachable only through the ccnm tools; there is no local copy. Whatever your own environment says about the current directory, its git status or its files describes the machine you run on, not the project: for the project, workspace_info is the truth. Every path you pass or receive is relative to the workspace root.\n\nThis session may change the project. It holds that workspace's single write lock for as long as it lasts, so nothing else can be editing the same working tree at the same time."
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 1: guard reads held while external is open",
+      "ok": true,
+      "detail": "held bridge-575fd22f-1821-42fe-94d8-d441c71a5586 p24"
+    },
+    {
+      "check": "round 1: native refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: managed refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: external refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 1: external still holds after the refusals",
+      "ok": true,
+      "detail": "held bridge-575fd22f-1821-42fe-94d8-d441c71a5586 p24"
+    },
+    {
+      "check": "round 1: released after external closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 2: native takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "id": 0,
+          "result": {
+            "sessionId": "a3eb9897-14b1-4c05-ad3f-bd5cde3a3cf1",
+            "environmentInfo": {
+              "shell": {
+                "name": "bash",
+                "path": "/bin/bash"
+              },
+              "executorVersion": "0.0.0",
+              "providerId": "sha256:660356df4051804878bf319d72f108d52fe882cd33541fe89f95b16625f090dc",
+              "cwd": "file:///home/ccrun/p24-demo",
+              "userHomeDir": "file:///home/ccrun",
+              "platformOs": "linux",
+              "temporaryDirectories": [],
+              "tempDir": "file:///tmp",
+              "capabilities": {
+                "networkProxyLaunch": true,
+                "capabilityDiscoverySandbox": true,
+                "environmentConfigRead": true,
+                "httpHeaderEnvVars": true,
+                "sandboxedFileStreaming": true,
+                "shellSnapshotV2": true
+              }
+            }
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 2: guard reads held while native is open",
+      "ok": true,
+      "detail": "held p24-8331893362e1 p24"
+    },
+    {
+      "check": "round 2: native refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: managed refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: external refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: native still holds after the refusals",
+      "ok": true,
+      "detail": "held p24-8331893362e1 p24"
+    },
+    {
+      "check": "round 2: released after native closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 2: managed takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "jsonrpc": "2.0",
+          "id": 0,
+          "result": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {
+              "tools": {}
+            },
+            "serverInfo": {
+              "name": "ccnm",
+              "version": "0.7.0"
+            },
+            "instructions": "CCNM remote workspace \"p24\". The project lives on another machine and is reachable only through the ccnm tools; there is no local copy. Whatever your own environment says about the current directory, its git status or its files describes the machine you run on, not the project: for the project, workspace_info is the truth. Every path you pass or receive is relative to the workspace root.\n[project instructions: AGENTS.md, 186 bytes]\n\n--- AGENTS.md from the workspace root. These are the project's own instructions, written for this project; they are not about the machine you run on. Follow them. ---\n# p24-demo\n\nA tiny Python package used to test a remote coding session.\n\n- Run the tests with `python3 -m unittest -v` from the repository root.\n- Do not change anything under `tests/`.\n--- end of AGENTS.md ---"
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 2: guard reads held while managed is open",
+      "ok": true,
+      "detail": "held p24-83ead9fe7e53 p24"
+    },
+    {
+      "check": "round 2: native refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: managed refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: external refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: managed still holds after the refusals",
+      "ok": true,
+      "detail": "held p24-83ead9fe7e53 p24"
+    },
+    {
+      "check": "round 2: released after managed closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 2: external takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "jsonrpc": "2.0",
+          "id": 0,
+          "result": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {
+              "tools": {}
+            },
+            "serverInfo": {
+              "name": "ccnm",
+              "version": "0.7.0"
+            },
+            "instructions": "CCNM remote workspace \"p24\". The project lives on another machine and is reachable only through the ccnm tools; there is no local copy. Whatever your own environment says about the current directory, its git status or its files describes the machine you run on, not the project: for the project, workspace_info is the truth. Every path you pass or receive is relative to the workspace root.\n\nThis session may change the project. It holds that workspace's single write lock for as long as it lasts, so nothing else can be editing the same working tree at the same time."
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 2: guard reads held while external is open",
+      "ok": true,
+      "detail": "held bridge-27ed58b4-1b5f-462e-bf84-8377fe45fb44 p24"
+    },
+    {
+      "check": "round 2: native refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: managed refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: external refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 2: external still holds after the refusals",
+      "ok": true,
+      "detail": "held bridge-27ed58b4-1b5f-462e-bf84-8377fe45fb44 p24"
+    },
+    {
+      "check": "round 2: released after external closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 3: native takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "id": 0,
+          "result": {
+            "sessionId": "57889c82-a164-400b-bc50-ea9c9b2e0b78",
+            "environmentInfo": {
+              "shell": {
+                "name": "bash",
+                "path": "/bin/bash"
+              },
+              "executorVersion": "0.0.0",
+              "providerId": "sha256:660356df4051804878bf319d72f108d52fe882cd33541fe89f95b16625f090dc",
+              "cwd": "file:///home/ccrun/p24-demo",
+              "userHomeDir": "file:///home/ccrun",
+              "platformOs": "linux",
+              "temporaryDirectories": [],
+              "tempDir": "file:///tmp",
+              "capabilities": {
+                "networkProxyLaunch": true,
+                "capabilityDiscoverySandbox": true,
+                "environmentConfigRead": true,
+                "httpHeaderEnvVars": true,
+                "sandboxedFileStreaming": true,
+                "shellSnapshotV2": true
+              }
+            }
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 3: guard reads held while native is open",
+      "ok": true,
+      "detail": "held p24-ccfb89dd29df p24"
+    },
+    {
+      "check": "round 3: native refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: managed refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: external refused busy while native holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: native still holds after the refusals",
+      "ok": true,
+      "detail": "held p24-ccfb89dd29df p24"
+    },
+    {
+      "check": "round 3: released after native closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 3: managed takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "jsonrpc": "2.0",
+          "id": 0,
+          "result": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {
+              "tools": {}
+            },
+            "serverInfo": {
+              "name": "ccnm",
+              "version": "0.7.0"
+            },
+            "instructions": "CCNM remote workspace \"p24\". The project lives on another machine and is reachable only through the ccnm tools; there is no local copy. Whatever your own environment says about the current directory, its git status or its files describes the machine you run on, not the project: for the project, workspace_info is the truth. Every path you pass or receive is relative to the workspace root.\n[project instructions: AGENTS.md, 186 bytes]\n\n--- AGENTS.md from the workspace root. These are the project's own instructions, written for this project; they are not about the machine you run on. Follow them. ---\n# p24-demo\n\nA tiny Python package used to test a remote coding session.\n\n- Run the tests with `python3 -m unittest -v` from the repository root.\n- Do not change anything under `tests/`.\n--- end of AGENTS.md ---"
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 3: guard reads held while managed is open",
+      "ok": true,
+      "detail": "held p24-cf7b33f64830 p24"
+    },
+    {
+      "check": "round 3: native refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: managed refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: external refused busy while managed holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: managed still holds after the refusals",
+      "ok": true,
+      "detail": "held p24-cf7b33f64830 p24"
+    },
+    {
+      "check": "round 3: released after managed closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "round 3: external takes the guard",
+      "ok": true,
+      "detail": [
+        {
+          "jsonrpc": "2.0",
+          "id": 0,
+          "result": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {
+              "tools": {}
+            },
+            "serverInfo": {
+              "name": "ccnm",
+              "version": "0.7.0"
+            },
+            "instructions": "CCNM remote workspace \"p24\". The project lives on another machine and is reachable only through the ccnm tools; there is no local copy. Whatever your own environment says about the current directory, its git status or its files describes the machine you run on, not the project: for the project, workspace_info is the truth. Every path you pass or receive is relative to the workspace root.\n\nThis session may change the project. It holds that workspace's single write lock for as long as it lasts, so nothing else can be editing the same working tree at the same time."
+          }
+        },
+        ""
+      ]
+    },
+    {
+      "check": "round 3: guard reads held while external is open",
+      "ok": true,
+      "detail": "held bridge-75d7efaa-53a8-492b-b3ff-8388985e6023 p24"
+    },
+    {
+      "check": "round 3: native refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: managed refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: external refused busy while external holds",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "round 3: external still holds after the refusals",
+      "ok": true,
+      "detail": "held bridge-75d7efaa-53a8-492b-b3ff-8388985e6023 p24"
+    },
+    {
+      "check": "round 3: released after external closes",
+      "ok": true,
+      "detail": [
+        0,
+        "released"
+      ]
+    },
+    {
+      "check": "codex: idle session starts",
+      "ok": true,
+      "detail": [
+        0,
+        "session   ccnm-p24 (started, tmux server pid 50747)\nid        13c9ca94-6611-4a2d-b708-b35aa6a98c55\nstarted   by ccnm 0.7.0 as bing, pid 42387, Aqua\ncodex in Background, keychain reachable\n\nattach when you want it: ccnm attach p24\n"
+      ]
+    },
+    {
+      "check": "codex: its exec-server connection holds the guard before any prompt",
+      "ok": true,
+      "detail": "held 13c9ca94-6611-4a2d-b708-b35aa6a98c55 p24"
+    },
+    {
+      "check": "codex holds: native refused busy",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "codex holds: managed refused busy",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "codex holds: external refused busy",
+      "ok": true,
+      "detail": [
+        "CCNM_E_POLICY:",
+        "workspace write guard is busy; another session still owns this working tree"
+      ]
+    },
+    {
+      "check": "codex: /exit releases the guard",
+      "ok": true,
+      "detail": "released"
+    },
+    {
+      "check": "codex contender: neutral exec-serve holds",
+      "ok": true,
+      "detail": {
+        "id": 0,
+        "result": {
+          "sessionId": "21170adf-c393-45f9-8155-60256752defc",
+          "environmentInfo": {
+            "shell": {
+              "name": "bash",
+              "path": "/bin/bash"
+            },
+            "executorVersion": "0.0.0",
+            "providerId": "sha256:660356df4051804878bf319d72f108d52fe882cd33541fe89f95b16625f090dc",
+            "cwd": "file:///home/ccrun/p24-demo",
+            "userHomeDir": "file:///home/ccrun",
+            "platformOs": "linux",
+            "temporaryDirectories": [],
+            "tempDir": "file:///tmp",
+            "capabilities": {
+              "networkProxyLaunch": true,
+              "capabilityDiscoverySandbox": true,
+              "environmentConfigRead": true,
+              "httpHeaderEnvVars": true,
+              "sandboxedFileStreaming": true,
+              "shellSnapshotV2": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "check": "codex contender: ccnm run refused with the busy guard",
+      "ok": true,
+      "detail": [
+        21,
+        "CCNM_E_RUNTIME_UNREACHABLE:\nMCP initialize failed over `/usr/bin/ssh -o SendEnv=-* -o SetEnv=CCNM_TRANSPORT=1 -o ForwardAgent=no -o ClearAllForwardings=yes -o BatchMode=yes -o ConnectTimeout=10 -o ClearAllForwardings=yes -o ControlMaster=no -o ControlPath=none -o ServerAliveInterval=15 -o ServerAliveCountMax=20 -o SendEnv=-ANTHROPIC_* -o SendEnv=-CLAUDE_* -T ccnm-p24-hpsrv /home/ccrun/.local/bin/c"
+      ]
+    },
+    {
+      "check": "codex contender: no session record and no tmux session created",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "check": "codex contender: released after the neutral holder closes",
+      "ok": true,
+      "detail": "released"
+    },
+    {
+      "check": "no process with a session marker left",
+      "ok": true,
+      "detail": []
+    }
+  ]
+}

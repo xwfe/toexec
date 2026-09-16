@@ -1,0 +1,2463 @@
+{
+  "agent-ssh": {
+    "kind": "agent-ssh",
+    "iterations": 20,
+    "passed": 20,
+    "failed": 0,
+    "results": [
+      {
+        "kind": "agent-ssh",
+        "iteration": 1,
+        "session": "p24-db47d76a6b72",
+        "guard_before": "held p24-db47d76a6b72 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3200427,
+          "sshd_session": 3200426,
+          "executor": 3200463
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 2,
+        "session": "p24-b99bc18e3cdd",
+        "guard_before": "held p24-b99bc18e3cdd p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3201293,
+          "sshd_session": 3201292,
+          "executor": 3201329
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 3,
+        "session": "p24-41ff86be35fb",
+        "guard_before": "held p24-41ff86be35fb p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3202140,
+          "sshd_session": 3202139,
+          "executor": 3202176
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 4,
+        "session": "p24-83e5d4322c09",
+        "guard_before": "held p24-83e5d4322c09 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3203007,
+          "sshd_session": 3203006,
+          "executor": 3203043
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 5,
+        "session": "p24-bf328e3b259b",
+        "guard_before": "held p24-bf328e3b259b p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3203856,
+          "sshd_session": 3203855,
+          "executor": 3203892
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 6,
+        "session": "p24-7e7fccfa5989",
+        "guard_before": "held p24-7e7fccfa5989 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3204704,
+          "sshd_session": 3204703,
+          "executor": 3204740
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 7,
+        "session": "p24-beb8e2a278f1",
+        "guard_before": "held p24-beb8e2a278f1 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3205552,
+          "sshd_session": 3205551,
+          "executor": 3205588
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 8,
+        "session": "p24-54fbd64f9c47",
+        "guard_before": "held p24-54fbd64f9c47 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3206417,
+          "sshd_session": 3206416,
+          "executor": 3206453
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 9,
+        "session": "p24-13746d588528",
+        "guard_before": "held p24-13746d588528 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3207264,
+          "sshd_session": 3207263,
+          "executor": 3207300
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 10,
+        "session": "p24-4ce1bdbc1bcd",
+        "guard_before": "held p24-4ce1bdbc1bcd p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3208107,
+          "sshd_session": 3208106,
+          "executor": 3208143
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 11,
+        "session": "p24-ddfe08715bb4",
+        "guard_before": "held p24-ddfe08715bb4 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3208960,
+          "sshd_session": 3208951,
+          "executor": 3209005
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 12,
+        "session": "p24-0a9fbcde5bac",
+        "guard_before": "held p24-0a9fbcde5bac p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3209814,
+          "sshd_session": 3209813,
+          "executor": 3209850
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 13,
+        "session": "p24-d0cb725ca9e6",
+        "guard_before": "held p24-d0cb725ca9e6 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3210675,
+          "sshd_session": 3210669,
+          "executor": 3210711
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 14,
+        "session": "p24-95c224a25dcb",
+        "guard_before": "held p24-95c224a25dcb p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3211520,
+          "sshd_session": 3211519,
+          "executor": 3211556
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 15,
+        "session": "p24-aed488c285c0",
+        "guard_before": "held p24-aed488c285c0 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3212363,
+          "sshd_session": 3212362,
+          "executor": 3212399
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 16,
+        "session": "p24-d980937a388c",
+        "guard_before": "held p24-d980937a388c p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3213209,
+          "sshd_session": 3213208,
+          "executor": 3213245
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 17,
+        "session": "p24-7c2295d98e24",
+        "guard_before": "held p24-7c2295d98e24 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3214071,
+          "sshd_session": 3214070,
+          "executor": 3214107
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 18,
+        "session": "p24-2159a0c26d26",
+        "guard_before": "held p24-2159a0c26d26 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3214932,
+          "sshd_session": 3214931,
+          "executor": 3214968
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 19,
+        "session": "p24-713154f4a049",
+        "guard_before": "held p24-713154f4a049 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3215776,
+          "sshd_session": 3215775,
+          "executor": 3215812
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "agent-ssh",
+        "iteration": 20,
+        "session": "p24-afeb3e8bf7f6",
+        "guard_before": "held p24-afeb3e8bf7f6 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3216636,
+          "sshd_session": 3216635,
+          "executor": 3216672
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      }
+    ]
+  },
+  "runtime-sshd": {
+    "kind": "runtime-sshd",
+    "iterations": 20,
+    "passed": 20,
+    "failed": 0,
+    "results": [
+      {
+        "kind": "runtime-sshd",
+        "iteration": 1,
+        "session": "p24-9f93e05207e6",
+        "guard_before": "held p24-9f93e05207e6 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3217481,
+          "sshd_session": 3217480,
+          "executor": 3217517
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 2,
+        "session": "p24-a8ecdcc71b2e",
+        "guard_before": "held p24-a8ecdcc71b2e p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3218337,
+          "sshd_session": 3218336,
+          "executor": 3218373
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 3,
+        "session": "p24-e2275ca39b41",
+        "guard_before": "held p24-e2275ca39b41 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3219209,
+          "sshd_session": 3219208,
+          "executor": 3219245
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 4,
+        "session": "p24-1a94e2f3ddcc",
+        "guard_before": "held p24-1a94e2f3ddcc p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3220065,
+          "sshd_session": 3220064,
+          "executor": 3220101
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 5,
+        "session": "p24-47cc267dffa5",
+        "guard_before": "held p24-47cc267dffa5 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3220921,
+          "sshd_session": 3220920,
+          "executor": 3220957
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 6,
+        "session": "p24-ec5b7dad78b9",
+        "guard_before": "held p24-ec5b7dad78b9 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3221795,
+          "sshd_session": 3221794,
+          "executor": 3221831
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 7,
+        "session": "p24-0a89f328cb84",
+        "guard_before": "held p24-0a89f328cb84 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3222651,
+          "sshd_session": 3222650,
+          "executor": 3222687
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 8,
+        "session": "p24-e637e3460c74",
+        "guard_before": "held p24-e637e3460c74 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3223507,
+          "sshd_session": 3223506,
+          "executor": 3223543
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 9,
+        "session": "p24-5cc5c9730073",
+        "guard_before": "held p24-5cc5c9730073 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3224362,
+          "sshd_session": 3224361,
+          "executor": 3224398
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 10,
+        "session": "p24-e31ae5b459a8",
+        "guard_before": "held p24-e31ae5b459a8 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3225234,
+          "sshd_session": 3225233,
+          "executor": 3225270
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 11,
+        "session": "p24-5580bcaefc4b",
+        "guard_before": "held p24-5580bcaefc4b p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3226090,
+          "sshd_session": 3226089,
+          "executor": 3226126
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 12,
+        "session": "p24-94d34cb81e5d",
+        "guard_before": "held p24-94d34cb81e5d p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3226962,
+          "sshd_session": 3226961,
+          "executor": 3226998
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 13,
+        "session": "p24-6c983b2b461e",
+        "guard_before": "held p24-6c983b2b461e p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3227817,
+          "sshd_session": 3227816,
+          "executor": 3227853
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 14,
+        "session": "p24-1193ca2c2795",
+        "guard_before": "held p24-1193ca2c2795 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3228672,
+          "sshd_session": 3228671,
+          "executor": 3228708
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 15,
+        "session": "p24-7da534c5972c",
+        "guard_before": "held p24-7da534c5972c p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3229544,
+          "sshd_session": 3229543,
+          "executor": 3229580
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 16,
+        "session": "p24-4ac3d3ed27d4",
+        "guard_before": "held p24-4ac3d3ed27d4 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3230399,
+          "sshd_session": 3230398,
+          "executor": 3230435
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 17,
+        "session": "p24-b55b6e67ed6e",
+        "guard_before": "held p24-b55b6e67ed6e p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3231254,
+          "sshd_session": 3231253,
+          "executor": 3231290
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 18,
+        "session": "p24-6fd3b328a4b3",
+        "guard_before": "held p24-6fd3b328a4b3 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3232108,
+          "sshd_session": 3232107,
+          "executor": 3232144
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 19,
+        "session": "p24-1fa454c15c92",
+        "guard_before": "held p24-1fa454c15c92 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3232979,
+          "sshd_session": 3232978,
+          "executor": 3233015
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      },
+      {
+        "kind": "runtime-sshd",
+        "iteration": 20,
+        "session": "p24-083e9bec21b4",
+        "guard_before": "held p24-083e9bec21b4 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3233830,
+          "sshd_session": 3233829,
+          "executor": 3233866
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": [
+          "Connection to hpsrv closed by remote host."
+        ]
+      }
+    ]
+  },
+  "executor": {
+    "kind": "executor",
+    "iterations": 20,
+    "passed": 20,
+    "failed": 0,
+    "results": [
+      {
+        "kind": "executor",
+        "iteration": 1,
+        "session": "p24-2f2fa3e2beeb",
+        "guard_before": "held p24-2f2fa3e2beeb p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3234681,
+          "sshd_session": 3234680,
+          "executor": 3234717
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 2,
+        "session": "p24-8e624cba0bd8",
+        "guard_before": "held p24-8e624cba0bd8 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3235549,
+          "sshd_session": 3235548,
+          "executor": 3235585
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 3,
+        "session": "p24-bc2cb222f825",
+        "guard_before": "held p24-bc2cb222f825 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3236396,
+          "sshd_session": 3236395,
+          "executor": 3236432
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 4,
+        "session": "p24-766d7ff17db6",
+        "guard_before": "held p24-766d7ff17db6 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3237242,
+          "sshd_session": 3237241,
+          "executor": 3237278
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 5,
+        "session": "p24-a97359b62c33",
+        "guard_before": "held p24-a97359b62c33 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3238108,
+          "sshd_session": 3238107,
+          "executor": 3238144
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 6,
+        "session": "p24-119ae495df57",
+        "guard_before": "held p24-119ae495df57 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3238957,
+          "sshd_session": 3238956,
+          "executor": 3238993
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 7,
+        "session": "p24-51a9fc5e32c8",
+        "guard_before": "held p24-51a9fc5e32c8 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3239804,
+          "sshd_session": 3239803,
+          "executor": 3239840
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 8,
+        "session": "p24-75265328eb77",
+        "guard_before": "held p24-75265328eb77 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3240650,
+          "sshd_session": 3240649,
+          "executor": 3240686
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 9,
+        "session": "p24-697a6770923a",
+        "guard_before": "held p24-697a6770923a p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3241514,
+          "sshd_session": 3241513,
+          "executor": 3241550
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 10,
+        "session": "p24-669e2e3455bb",
+        "guard_before": "held p24-669e2e3455bb p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3242360,
+          "sshd_session": 3242359,
+          "executor": 3242396
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 11,
+        "session": "p24-27b66816e841",
+        "guard_before": "held p24-27b66816e841 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3243205,
+          "sshd_session": 3243204,
+          "executor": 3243241
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 12,
+        "session": "p24-631292971488",
+        "guard_before": "held p24-631292971488 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3244070,
+          "sshd_session": 3244069,
+          "executor": 3244106
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 13,
+        "session": "p24-22a569d5a914",
+        "guard_before": "held p24-22a569d5a914 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3244939,
+          "sshd_session": 3244938,
+          "executor": 3244975
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 14,
+        "session": "p24-b85a4a23568e",
+        "guard_before": "held p24-b85a4a23568e p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3245792,
+          "sshd_session": 3245791,
+          "executor": 3245828
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 15,
+        "session": "p24-3ff48d00c85f",
+        "guard_before": "held p24-3ff48d00c85f p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3246640,
+          "sshd_session": 3246639,
+          "executor": 3246676
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 16,
+        "session": "p24-cd37dafa9b87",
+        "guard_before": "held p24-cd37dafa9b87 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3247487,
+          "sshd_session": 3247486,
+          "executor": 3247523
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 17,
+        "session": "p24-949b97832b81",
+        "guard_before": "held p24-949b97832b81 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3248352,
+          "sshd_session": 3248351,
+          "executor": 3248388
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 18,
+        "session": "p24-714dd0eb49d3",
+        "guard_before": "held p24-714dd0eb49d3 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3249200,
+          "sshd_session": 3249199,
+          "executor": 3249236
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 19,
+        "session": "p24-aaab3c850af0",
+        "guard_before": "held p24-aaab3c850af0 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3250064,
+          "sshd_session": 3250063,
+          "executor": 3250100
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "executor",
+        "iteration": 20,
+        "session": "p24-3d9ee1e5b1dc",
+        "guard_before": "held p24-3d9ee1e5b1dc p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3250911,
+          "sshd_session": 3250910,
+          "executor": 3250947
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      }
+    ]
+  },
+  "setsid": {
+    "kind": "setsid",
+    "iterations": 20,
+    "passed": 20,
+    "failed": 0,
+    "results": [
+      {
+        "kind": "setsid",
+        "iteration": 1,
+        "session": "p24-0696d746c32d",
+        "guard_before": "held p24-0696d746c32d p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3251773,
+          "sshd_session": 3251772,
+          "executor": 3251809
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 2,
+        "session": "p24-605cf305062a",
+        "guard_before": "held p24-605cf305062a p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3252593,
+          "sshd_session": 3252583,
+          "executor": 3252636
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 3,
+        "session": "p24-0bec587b5264",
+        "guard_before": "held p24-0bec587b5264 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3253412,
+          "sshd_session": 3253411,
+          "executor": 3253448
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 4,
+        "session": "p24-7f87be0c4670",
+        "guard_before": "held p24-7f87be0c4670 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3254222,
+          "sshd_session": 3254221,
+          "executor": 3254258
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 5,
+        "session": "p24-dc990cb379dc",
+        "guard_before": "held p24-dc990cb379dc p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3255034,
+          "sshd_session": 3255033,
+          "executor": 3255070
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 6,
+        "session": "p24-c516889ffed4",
+        "guard_before": "held p24-c516889ffed4 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3255863,
+          "sshd_session": 3255862,
+          "executor": 3255899
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 7,
+        "session": "p24-24057e4caa78",
+        "guard_before": "held p24-24057e4caa78 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3256676,
+          "sshd_session": 3256675,
+          "executor": 3256712
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 8,
+        "session": "p24-5d63d11247df",
+        "guard_before": "held p24-5d63d11247df p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3257487,
+          "sshd_session": 3257486,
+          "executor": 3257523
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 9,
+        "session": "p24-2973ed7e7e29",
+        "guard_before": "held p24-2973ed7e7e29 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3258299,
+          "sshd_session": 3258298,
+          "executor": 3258335
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 10,
+        "session": "p24-b4c7e0b7b685",
+        "guard_before": "held p24-b4c7e0b7b685 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3259128,
+          "sshd_session": 3259127,
+          "executor": 3259164
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 11,
+        "session": "p24-3fdb7d764295",
+        "guard_before": "held p24-3fdb7d764295 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3259941,
+          "sshd_session": 3259940,
+          "executor": 3259977
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 12,
+        "session": "p24-a76c70b94e81",
+        "guard_before": "held p24-a76c70b94e81 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3260753,
+          "sshd_session": 3260752,
+          "executor": 3260789
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 13,
+        "session": "p24-3424aa40be8f",
+        "guard_before": "held p24-3424aa40be8f p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3261582,
+          "sshd_session": 3261581,
+          "executor": 3261618
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 14,
+        "session": "p24-5503b0150c20",
+        "guard_before": "held p24-5503b0150c20 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3262393,
+          "sshd_session": 3262392,
+          "executor": 3262429
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 15,
+        "session": "p24-87a30c38700c",
+        "guard_before": "held p24-87a30c38700c p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3263204,
+          "sshd_session": 3263203,
+          "executor": 3263240
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 16,
+        "session": "p24-24a4e25b9d91",
+        "guard_before": "held p24-24a4e25b9d91 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3264031,
+          "sshd_session": 3264030,
+          "executor": 3264067
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 17,
+        "session": "p24-67c84b178a4b",
+        "guard_before": "held p24-67c84b178a4b p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3264837,
+          "sshd_session": 3264836,
+          "executor": 3264873
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 18,
+        "session": "p24-a9cf3d742934",
+        "guard_before": "held p24-a9cf3d742934 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3265644,
+          "sshd_session": 3265643,
+          "executor": 3265680
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 19,
+        "session": "p24-5e3cb857ce26",
+        "guard_before": "held p24-5e3cb857ce26 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3266469,
+          "sshd_session": 3266468,
+          "executor": 3266505
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "setsid",
+        "iteration": 20,
+        "session": "p24-feae582776c6",
+        "guard_before": "held p24-feae582776c6 p24",
+        "marked_before": 1,
+        "pids": {
+          "exec_serve": 3267277,
+          "sshd_session": 3267276,
+          "executor": 3267313
+        },
+        "setsid_child_seen": false,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      }
+    ]
+  },
+  "supervisor": {
+    "kind": "supervisor",
+    "iterations": 20,
+    "passed": 20,
+    "failed": 0,
+    "results": [
+      {
+        "kind": "supervisor",
+        "iteration": 1,
+        "session": "p24-421ab867d4b4",
+        "guard_before": "held p24-421ab867d4b4 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3269514,
+          "sshd_session": 3269513,
+          "executor": 3269550
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-421ab867d4b4 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.2,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 2,
+        "session": "p24-c9aace4a02af",
+        "guard_before": "held p24-c9aace4a02af p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3270856,
+          "sshd_session": 3270855,
+          "executor": 3270892
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-c9aace4a02af p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 3,
+        "session": "p24-c96819181457",
+        "guard_before": "held p24-c96819181457 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3272212,
+          "sshd_session": 3272211,
+          "executor": 3272248
+        },
+        "seconds_until_executor_processes_gone": 1.1,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-c96819181457 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 4,
+        "session": "p24-93eafa5db21f",
+        "guard_before": "held p24-93eafa5db21f p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3273550,
+          "sshd_session": 3273549,
+          "executor": 3273586
+        },
+        "seconds_until_executor_processes_gone": 0.8,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-93eafa5db21f p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 5,
+        "session": "p24-801512df218d",
+        "guard_before": "held p24-801512df218d p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3274889,
+          "sshd_session": 3274888,
+          "executor": 3274925
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-801512df218d p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 6,
+        "session": "p24-7ddf236ec8e8",
+        "guard_before": "held p24-7ddf236ec8e8 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3276246,
+          "sshd_session": 3276245,
+          "executor": 3276282
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-7ddf236ec8e8 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 7,
+        "session": "p24-90e2349485c0",
+        "guard_before": "held p24-90e2349485c0 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3277602,
+          "sshd_session": 3277601,
+          "executor": 3277638
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-90e2349485c0 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.2,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 8,
+        "session": "p24-9225abcba1b2",
+        "guard_before": "held p24-9225abcba1b2 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3278942,
+          "sshd_session": 3278941,
+          "executor": 3278978
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-9225abcba1b2 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 9,
+        "session": "p24-6a93b3c16204",
+        "guard_before": "held p24-6a93b3c16204 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3280298,
+          "sshd_session": 3280297,
+          "executor": 3280334
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-6a93b3c16204 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 10,
+        "session": "p24-f3ad4fd30d3e",
+        "guard_before": "held p24-f3ad4fd30d3e p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3281637,
+          "sshd_session": 3281636,
+          "executor": 3281673
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-f3ad4fd30d3e p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 11,
+        "session": "p24-aa55e1d6fce3",
+        "guard_before": "held p24-aa55e1d6fce3 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3282994,
+          "sshd_session": 3282993,
+          "executor": 3283030
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-aa55e1d6fce3 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 12,
+        "session": "p24-8df326ae436b",
+        "guard_before": "held p24-8df326ae436b p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3284351,
+          "sshd_session": 3284350,
+          "executor": 3284387
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-8df326ae436b p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 13,
+        "session": "p24-a8e827ec1eef",
+        "guard_before": "held p24-a8e827ec1eef p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3285693,
+          "sshd_session": 3285692,
+          "executor": 3285729
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-a8e827ec1eef p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 14,
+        "session": "p24-d40252642fd3",
+        "guard_before": "held p24-d40252642fd3 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3287050,
+          "sshd_session": 3287049,
+          "executor": 3287086
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-d40252642fd3 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 15,
+        "session": "p24-c4ea639b73a1",
+        "guard_before": "held p24-c4ea639b73a1 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3288408,
+          "sshd_session": 3288407,
+          "executor": 3288444
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-c4ea639b73a1 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 16,
+        "session": "p24-b2c774e2d444",
+        "guard_before": "held p24-b2c774e2d444 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3289762,
+          "sshd_session": 3289761,
+          "executor": 3289798
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-b2c774e2d444 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 17,
+        "session": "p24-0cde01feb3b9",
+        "guard_before": "held p24-0cde01feb3b9 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3291116,
+          "sshd_session": 3291115,
+          "executor": 3291152
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-0cde01feb3b9 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 18,
+        "session": "p24-b9ba49bfa0f8",
+        "guard_before": "held p24-b9ba49bfa0f8 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3292457,
+          "sshd_session": 3292456,
+          "executor": 3292493
+        },
+        "seconds_until_executor_processes_gone": 1.1,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-b9ba49bfa0f8 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 19,
+        "session": "p24-5387cda71650",
+        "guard_before": "held p24-5387cda71650 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3293811,
+          "sshd_session": 3293810,
+          "executor": 3293847
+        },
+        "seconds_until_executor_processes_gone": 0.9,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-5387cda71650 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "supervisor",
+        "iteration": 20,
+        "session": "p24-662ff0d41126",
+        "guard_before": "held p24-662ff0d41126 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3295167,
+          "sshd_session": 3295166,
+          "executor": 3295203
+        },
+        "seconds_until_executor_processes_gone": 1.0,
+        "marked_after_supervisor_kill": [],
+        "guard_after_kill": "held p24-662ff0d41126 p24",
+        "next_open": [
+          "CCNM_E_POLICY:",
+          "workspace write guard was left held by an interrupted process; old children may still exist, so authority is not transferred automatically"
+        ],
+        "next_open_refused_as_interrupted": true,
+        "open_after_recovery": true,
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      }
+    ]
+  },
+  "freeze": {
+    "kind": "freeze",
+    "iterations": 5,
+    "passed": 5,
+    "failed": 0,
+    "results": [
+      {
+        "kind": "freeze",
+        "iteration": 1,
+        "session": "p24-63f8326140d2",
+        "guard_before": "held p24-63f8326140d2 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3298512,
+          "sshd_session": 3298511,
+          "executor": 3298548
+        },
+        "guard_during_freeze": "held p24-63f8326140d2 p24",
+        "marked_during_freeze": 6,
+        "after_freeze": {
+          "exit": 0,
+          "output": "alive-after-freeze"
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "freeze",
+        "iteration": 2,
+        "session": "p24-9764b950021a",
+        "guard_before": "held p24-9764b950021a p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3299857,
+          "sshd_session": 3299856,
+          "executor": 3299893
+        },
+        "guard_during_freeze": "held p24-9764b950021a p24",
+        "marked_during_freeze": 6,
+        "after_freeze": {
+          "exit": 0,
+          "output": "alive-after-freeze"
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "freeze",
+        "iteration": 3,
+        "session": "p24-95b72649dbc6",
+        "guard_before": "held p24-95b72649dbc6 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3301165,
+          "sshd_session": 3301164,
+          "executor": 3301201
+        },
+        "guard_during_freeze": "held p24-95b72649dbc6 p24",
+        "marked_during_freeze": 6,
+        "after_freeze": {
+          "exit": 0,
+          "output": "alive-after-freeze"
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "freeze",
+        "iteration": 4,
+        "session": "p24-9b036a5637e1",
+        "guard_before": "held p24-9b036a5637e1 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3302491,
+          "sshd_session": 3302490,
+          "executor": 3302527
+        },
+        "guard_during_freeze": "held p24-9b036a5637e1 p24",
+        "marked_during_freeze": 6,
+        "after_freeze": {
+          "exit": 0,
+          "output": "alive-after-freeze"
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "freeze",
+        "iteration": 5,
+        "session": "p24-b6c81a2202df",
+        "guard_before": "held p24-b6c81a2202df p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3303829,
+          "sshd_session": 3303828,
+          "executor": 3303865
+        },
+        "guard_during_freeze": "held p24-b6c81a2202df p24",
+        "marked_during_freeze": 6,
+        "after_freeze": {
+          "exit": 0,
+          "output": "alive-after-freeze"
+        },
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      }
+    ]
+  },
+  "blackhole": {
+    "kind": "blackhole",
+    "iterations": 5,
+    "passed": 5,
+    "failed": 0,
+    "results": [
+      {
+        "kind": "blackhole",
+        "iteration": 1,
+        "session": "p24-9b812d9e576c",
+        "guard_before": "held p24-9b812d9e576c p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3305149,
+          "sshd_session": 3305148,
+          "executor": 3305185
+        },
+        "blackhole": {
+          "peer_port": 65126,
+          "inserted": true,
+          "at": 1789568461.42538
+        },
+        "rule_removed_by_timer": true,
+        "held_after_blackhole_s": 223.1,
+        "released_on_its_own_within_watch": false,
+        "recovery": "killed the orphaned sshd-session on hpsrv",
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.4,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "blackhole",
+        "iteration": 2,
+        "session": "p24-e7b73db9272a",
+        "guard_before": "held p24-e7b73db9272a p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3306837,
+          "sshd_session": 3306836,
+          "executor": 3306873
+        },
+        "blackhole": {
+          "peer_port": 65498,
+          "inserted": true,
+          "at": 1789568710.512618
+        },
+        "rule_removed_by_timer": true,
+        "held_after_blackhole_s": 223.4,
+        "released_on_its_own_within_watch": false,
+        "recovery": "killed the orphaned sshd-session on hpsrv",
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "blackhole",
+        "iteration": 3,
+        "session": "p24-755af04aac6f",
+        "guard_before": "held p24-755af04aac6f p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3308528,
+          "sshd_session": 3308527,
+          "executor": 3308564
+        },
+        "blackhole": {
+          "peer_port": 49418,
+          "inserted": true,
+          "at": 1789568960.054026
+        },
+        "rule_removed_by_timer": true,
+        "held_after_blackhole_s": 222.9,
+        "released_on_its_own_within_watch": false,
+        "recovery": "killed the orphaned sshd-session on hpsrv",
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "blackhole",
+        "iteration": 4,
+        "session": "p24-9cfb805264e2",
+        "guard_before": "held p24-9cfb805264e2 p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3310310,
+          "sshd_session": 3310309,
+          "executor": 3310346
+        },
+        "blackhole": {
+          "peer_port": 49739,
+          "inserted": true,
+          "at": 1789569208.916357
+        },
+        "rule_removed_by_timer": true,
+        "held_after_blackhole_s": 223.0,
+        "released_on_its_own_within_watch": false,
+        "recovery": "killed the orphaned sshd-session on hpsrv",
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      },
+      {
+        "kind": "blackhole",
+        "iteration": 5,
+        "session": "p24-1e5c27bce5dc",
+        "guard_before": "held p24-1e5c27bce5dc p24",
+        "marked_before": 6,
+        "pids": {
+          "exec_serve": 3312027,
+          "sshd_session": 3312026,
+          "executor": 3312063
+        },
+        "blackhole": {
+          "peer_port": 50057,
+          "inserted": true,
+          "at": 1789569458.003028
+        },
+        "rule_removed_by_timer": true,
+        "held_after_blackhole_s": 223.3,
+        "released_on_its_own_within_watch": false,
+        "recovery": "killed the orphaned sshd-session on hpsrv",
+        "ok": true,
+        "guard_after": "released",
+        "seconds_to_release": 0.3,
+        "marked_left": [],
+        "client_ended": true,
+        "supervisor_swept": false,
+        "stderr_tail": []
+      }
+    ]
+  }
+}
