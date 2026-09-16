@@ -1,0 +1,32 @@
+[
+  {
+    "method": "initialize",
+    "sandbox_null": false,
+    "count": 1
+  },
+  {
+    "method": "initialized",
+    "sandbox_null": false,
+    "count": 1
+  },
+  {
+    "method": "fs/getMetadata",
+    "sandbox_null": true,
+    "count": 34
+  },
+  {
+    "method": "environmentConfig/read",
+    "sandbox_null": false,
+    "count": 1
+  },
+  {
+    "method": "process/start",
+    "sandbox_null": false,
+    "count": 1
+  },
+  {
+    "method": "process/terminate",
+    "sandbox_null": false,
+    "count": 1
+  }
+]

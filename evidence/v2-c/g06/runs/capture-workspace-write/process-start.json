@@ -1,0 +1,138 @@
+{
+  "id": 37,
+  "method": "process/start",
+  "params": {
+    "processId": "2100-22d88689-9963-4520-bf81-7673e13fedbc",
+    "metadata": {
+      "threadId": "01a0a991-a4ac-70a0-9148-956083040bb3",
+      "toolCallId": "call_0"
+    },
+    "argv": [
+      "/bin/zsh",
+      "-lc",
+      "echo inside > inside.txt; echo outside > /Users/bing/.cache/g06-probe-85684/written-by-codex.txt; echo rc=$?"
+    ],
+    "cwd": "file:///private/tmp/claude-501/-Users-bing-xdw-ccnm/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/scratchpad/g06/cap-workspace-write/work",
+    "envPolicy": {
+      "inherit": "all",
+      "ignoreDefaultExcludes": true,
+      "exclude": [
+        "CODEX_PERMISSION_PROFILE",
+        "CODEX_VERSION",
+        "CODEX_APPLY_PATCH_PRESERVE_LINE_ENDINGS",
+        "CODEX_PLUGIN_METRICS_OUTPUT"
+      ],
+      "set": {},
+      "includeOnly": []
+    },
+    "env": {
+      "GIT_PAGER": "cat",
+      "CODEX_VERSION": "0.154.0",
+      "LC_CTYPE": "C.UTF-8",
+      "TERM": "dumb",
+      "CODEX_SESSION_ID": "01a0a991-a4ac-70a0-9148-956083040bb3",
+      "LC_ALL": "C.UTF-8",
+      "CODEX_THREAD_ID": "01a0a991-a4ac-70a0-9148-956083040bb3",
+      "COLORTERM": "",
+      "PAGER": "cat",
+      "GH_PAGER": "cat",
+      "CODEX_CI": "1",
+      "LANG": "C.UTF-8",
+      "NO_COLOR": "1",
+      "CODEX_SANDBOX_NETWORK_DISABLED": "1"
+    },
+    "tty": false,
+    "pipeStdin": false,
+    "arg0": null,
+    "sandbox": {
+      "permissions": {
+        "type": "managed",
+        "file_system": {
+          "type": "restricted",
+          "entries": [
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "root"
+                }
+              },
+              "access": "read"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "project_roots"
+                }
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "slash_tmp"
+                }
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "tmpdir"
+                }
+              },
+              "access": "write"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "project_roots",
+                  "subpath": ".git"
+                }
+              },
+              "access": "read",
+              "missing_path_behavior": "skip"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "project_roots",
+                  "subpath": ".agents"
+                }
+              },
+              "access": "read",
+              "missing_path_behavior": "skip"
+            },
+            {
+              "path": {
+                "type": "special",
+                "value": {
+                  "kind": "project_roots",
+                  "subpath": ".codex"
+                }
+              },
+              "access": "read",
+              "missing_path_behavior": "skip"
+            }
+          ]
+        },
+        "network": "restricted"
+      },
+      "cwd": "file:///private/tmp/claude-501/-Users-bing-xdw-ccnm/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/scratchpad/g06/cap-workspace-write/work",
+      "workspaceRoots": [
+        "file:///private/tmp/claude-501/-Users-bing-xdw-ccnm/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/scratchpad/g06/cap-workspace-write/work"
+      ],
+      "windowsSandboxLevel": "disabled",
+      "windowsSandboxPrivateDesktop": true,
+      "windowsSandboxProxySettingsMode": "reconcile",
+      "useLegacyLandlock": false
+    },
+    "enforceManagedNetwork": false,
+    "managedNetwork": null
+  }
+}

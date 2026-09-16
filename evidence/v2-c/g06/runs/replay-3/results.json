@@ -1,0 +1,76 @@
+{
+  "process_sandbox_as_codex_sends": {
+    "exit_code": 0,
+    "output": "/bin/sh: /Users/bing/.cache/g06-replay-87044/a.txt: Operation not permitted\n",
+    "file_written": false
+  },
+  "process_sandbox_null": {
+    "exit_code": 0,
+    "output": "rc=0\n",
+    "file_written": true
+  },
+  "process_sandbox_roots_widened_by_client": {
+    "exit_code": 0,
+    "output": "rc=0\n",
+    "file_written": true
+  },
+  "fs_write_sandbox_as_codex_sends": {
+    "response": {
+      "id": 11,
+      "error": {
+        "code": -32600,
+        "message": "Operation not permitted (os error 1)"
+      }
+    },
+    "file_written": false
+  },
+  "fs_write_sandbox_null": {
+    "response": {
+      "id": 12,
+      "result_keys": []
+    },
+    "file_written": true
+  },
+  "fs_read_outside_sandbox_as_codex_sends": {
+    "response": {
+      "id": 13,
+      "result_keys": [
+        "dataBase64"
+      ]
+    },
+    "content_returned": true
+  },
+  "fs_read_outside_sandbox_null": {
+    "response": {
+      "id": 14,
+      "result_keys": [
+        "dataBase64"
+      ]
+    },
+    "content_returned": true
+  },
+  "http_request_to_local_server": {
+    "response": {
+      "id": 15,
+      "result_keys": [
+        "bodyBase64",
+        "headers",
+        "status"
+      ]
+    },
+    "server_saw_request": true,
+    "result_excerpt": "{\"status\": 200, \"headers\": [{\"name\": \"connection\", \"value\": \"close\"}, {\"name\": \"content-length\", \"value\": \"12\"}, {\"name\": \"date\", \"value\": \"Wed, 16 Sep 2026 09:36:02 GMT\"}, {\"name\": \"server\", \"value\": \"BaseHTTP/0.6 Python/3.12.12\"}], \"bodyBase64\": \"ZzA2LWxvY2FsLW9r\"}"
+  },
+  "environment_config_read": {
+    "result_keys": [
+      "codexHomeDir",
+      "config",
+      "hostname",
+      "requirements",
+      "userHomeDir"
+    ],
+    "synthetic_token_returned": true,
+    "hostname_returned": true
+  },
+  "outside_dir_removed": true
+}
