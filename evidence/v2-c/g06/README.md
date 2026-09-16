@@ -15,16 +15,18 @@
 **好的一面：Codex 给进程发的 sandbox 是有效的。**workspace-write 模式下工作区内能写、工作区外不能写；read-only 模式下两处都不能写。前提是 sandbox 参数原样到达服务端。
 
 另外两件事：
-- workspace-write 的策略里文件系统根目录是可读的（`root: read`）。带着 Codex 的 sandbox 读工作区外的文件照样成功。ccnm 现有 MCP 契约只允许读工作区内、拒绝 `..`，这里比它宽。计划要求"原生和 MCP 同样约束"，这个差距要在网桥上补，或者由用户明确接受。
+- workspace-write 的策略里文件系统根目录是可读的（`root: read`）。带着 Codex 的 sandbox 读工作区外的文件照样成功。ccnm 现有 MCP 契约只允许读工作区内、拒绝 `..`，这里比它宽。**用户 2026-09-16 决定在 ccnm 上补齐这个差距**：原生文件读和 MCP 读同一契约，规则写在 ccnm `docs/plan/runtime-surfaces.md` 第 12.2 节。
 - Codex 发给进程的环境策略是 `inherit: all`：进程继承 **exec-server 自己**的全部环境变量。exec-server 的环境必须按计划第 5.3 节做白名单，不能从登录 shell 继承。
 
 ## 对 ccnm 网桥意味着什么（设计依据，未实现）
+
+下表的"网桥"是逻辑上的过滤层。ccnm 的设计把它放在 Runtime 侧的受管入口里，Agent 侧网桥只管连接身份（ccnm `docs/plan/runtime-surfaces.md` 第 12.1 节）。
 
 | 方法 | 网桥规则 |
 | --- | --- |
 | `process/start` | sandbox 必须存在；`cwd`、`workspaceRoots` 必须等于 ccnm workspace 的根，不能多也不能在外面；文件系统条目不得宽于会话模式（只读会话不允许 write）；否则拒绝 |
 | `fs/writeFile`、`fs/remove`、`fs/copy`、`fs/createDirectory` | 只读会话一律拒；coding 会话要求 sandbox 存在且根同上 |
-| `fs/getMetadata`、`fs/readFile`、`fs/open`/`readBlock`、`fs/readDirectory`、`fs/walk` | Codex 会以 `sandbox: null` 调用。要么按 ccnm 读契约校验路径（只许工作区内，加上 Codex 往上找 `.git`/`AGENTS.md` 那几级的元数据查询），要么由用户决定接受"可读范围 = 执行账号可读范围" |
+| `fs/getMetadata`、`fs/readFile`、`fs/open`/`readBlock`、`fs/readDirectory`、`fs/walk` | Codex 会以 `sandbox: null` 调用。**已定（用户 2026-09-16）**：不看 sandbox，按 ccnm 读契约校验路径；工作区根以上的 `.git` 查询不转发，由 ccnm 按不存在回答 |
 | `http/request` | 默认拒绝（计划 5.3） |
 | `environmentConfig/read` | 放行（Codex 启动要用），但 Runtime 上 exec-server 的 `CODEX_HOME` 必须由 ccnm 生成、不含任何凭据；主机名等字段是否要在网桥上抹掉待定 |
 | 所有方法 | 握手后核对 `executorVersion`/`providerId`；不转发未知通知（见 [G01](../g01/README.md)） |
@@ -65,4 +67,4 @@
 - 只在 macOS 上测，沙箱是 Seatbelt。Linux 的 Landlock/bubblewrap 路径没测。
 - 没测网络限制：sandbox 里 `network: restricted` 对进程是否生效、`enforceManagedNetwork` 怎么用。`http/request` 只打了本机，没验证外网。
 - 没测 symlink、`..`、原始父路径这些路径边界（G06 的另一半）。
-- 网桥的规则表只是设计依据，没有实现，也没接进 ccnm。
+- 网桥的规则表只是设计依据，没有实现。ccnm 已立 P21–P24 实施，最终规则表在 P21 冻结，以那张为准。
