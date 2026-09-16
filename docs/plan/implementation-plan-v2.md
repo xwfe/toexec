@@ -347,12 +347,20 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | --- | --- | --- |
 | v2 方案文档 | 已按反馈收窄，并写入用户两项决定 | 本文件；gld 本地走共享库，Claude exec-server 为独立实验；统一 rust-version、额度授权见第 11、10.1 节 |
 | V2-K | **两刀都已落地**：`toexec-text`（有界行读取）和 `toexec-fs`（原子文件替换），两个产品都链接了 | 开工前的重复度盘点见 `evidence/v2-k/duplication-audit.md`：两边 `read_file` 契约不同**不统一**，真正共有的只有「读一行但不把整行读进内存」。`toexec-text` 提交 `fbf28bb`（9 个测试）；ccnm `e589d08`（719 passed，24 个 read 测试断言一条没改）；gld `b4c8a77`（467 passed，rust-version 1.85→1.89，行为变化是超长行只搜前 1 MiB）。依赖按 tag 固定在这个仓库的公开远端 `github.com/xwfe/toexec`，两边都在「旁边没有 toexec」的目录里构建通过 |
-| V2-H / V2-C | 未开始 | hub、Codex 原生链无本轮新增实施记录 |
+| V2-H | **H01–H08 全部完成**（gld） | gld `5333763`…`201af28`：成员分本地/远端、鉴权主体、`gld hub remote`、只读链、远端 coding（写租约）、会话内有界等待、真机闭环。跨两台真机的现场记录在 gld `docs/rfc/evidence/v2-h-read-chain.md`，逐项对照在 gld RFC-0002 第 9 节。**未做**：单独归档的脱敏 transcript、公网入口链路 |
+| V2-C | 未开始 | Codex 原生链无实施记录 |
 | V2-Q | Q1 客户端层已确认，模型侧确认仍受阻；**Q2 已完成，结论采纳 alwaysLoad** | Q1：Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志），模型侧那一次尝试因 CLI 未登录未发出请求，见 `evidence/v2-q1/README.md`。Q2：fodelf 上 2.1.272 + ccnm 0.7.0 跑 18 格（3 任务 × 2 组 × 3 次）全通过，A 组每格恰好一次 ToolSearch、多一个回合，四条判据全满足，见 `evidence/v2-q2/README.md`。**累计模型运行 20/145，$2.1454** |
 | 第 13 节缺陷队列 | 除新发现的 task_context 外全部已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
 | ccnm instructions 预算与顺序 | 已修（ccnm P13） | `60ad480` 代码、`557837d` 阶段验收；记录在 ccnm `docs/research/p13-instructions-host-cap-2026-09-16.md` |
 | Q2 结论的落地 | 已落地（ccnm P15，只改文档） | ccnm `db53098`：外部入口的 `mcpServers` 示例加 `"alwaysLoad": true`，协议文档写清依据与代价；选服务器配置而非工具 `_meta`。本机零额度复现 `coding` 21→14、`read` 18→14，记录在 ccnm `docs/research/p15-alwaysload-2026-09-16.md`。Managed 路径不需要改 |
 | V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
+
+2026-09-16 第四批：V2-H 在 gld 那边做完（见上表）。接的过程中在 ccnm 撞出两个缺陷，按 ccnm 的规则各自立阶段修，这里只留指针，账在 ccnm `docs/plan/status.json`：
+
+- **冻结协议的工具表 fixture 与实现对不上**（ccnm P18 `861617d`、P19 `ef567bd`）：`tools-list-coding.json` 把 `apply_patch` 的参数写成 `changes`，实现收的是 `files`，另漏 7 个参数。现在 `external_mcp` 起真实 server 逐工具比参数名、`required` 和 `description`。gld 的远端白名单当时已改成以 ccnm 的 `*Args` 结构体为准，不受影响。
+- **只读外部会话被拒时消息指错地方**（ccnm P20 `c720154`、`721b1fb`，开发时叫 P18，合并撞号后顺延）：闸不动，消息不再说 `exec_command`、不再推荐开不了这道门的 `allow_unconfined_exec`。**只读链只需要 `allow_unisolated_credentials`**，真机验过。真机还查出这条链上**退出码不可用**：fodelf 的 22 端口由 Tailscale SSH 应答，它不透传远端退出码，`mcp-serve` 退 33 而 bridge 退 0；ccnm 无代码可改，已写进其协议 11.2。
+
+两台机器上装着的 ccnm 仍是 0.7.0，不含 P18–P20；ccnm 这几个提交截至本段写下时还没推远端。
 
 2026-09-15 第一批：修了第 13 节 4 项"立即修"（只改 gld git 工具超时这一处执行路径，另三项是文档/许可证），做了 V2-Q1。未安装依赖、未构建 exec-server、未跑 SSH、未改 ccnm 阶段状态。后续结果放入可追溯的 evidence 目录，记录命令、固定版本、输入/输出 hash、OS/身份、通过/失败/跳过与限制；真实秘密不进入证据。
 
