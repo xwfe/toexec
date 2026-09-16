@@ -1,0 +1,413 @@
+{
+  "pins": {
+    "date": "2026-09-17T02:02:06+0900",
+    "platform": {
+      "system": "Darwin",
+      "release": "25.6.0",
+      "machine": "arm64",
+      "macos": "26.6.2",
+      "user": "bing"
+    },
+    "ccnm": {
+      "path": "/Users/bing/xdw/ccnm/target/release/ccnm",
+      "sha256": "97a93d0b9fe4cb50fa9505259c7bf002c2ea47c95abc5053385190bea8e76440",
+      "repo_head": "c5c40dfb39a7c03ef6a67c30b7a27c2f7b6d1413",
+      "repo_dirty": false,
+      "version": "ccnm 0.7.0"
+    },
+    "codex_backend": {
+      "path": "/opt/homebrew/Caskroom/codex/0.154.0/bin/codex",
+      "sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc",
+      "version": "codex-cli 0.154.0",
+      "note": "not used by the control; pinned here so P1 runs against the same file"
+    },
+    "python": "3.12.12",
+    "cpus": 10,
+    "load_at_start": [
+      109.2,
+      77.8,
+      56.6
+    ],
+    "tools": {
+      "git": "/opt/homebrew/bin/git",
+      "nc": "/usr/bin/nc",
+      "python3": "/Users/bing/.local/share/mise/installs/python/3.12/bin/python3",
+      "rg": "/opt/homebrew/bin/rg"
+    }
+  },
+  "server_info": {
+    "name": "ccnm",
+    "version": "0.7.0"
+  },
+  "paths": {
+    "workspace": "/Users/bing/xdw/toexec/evidence/v2-p/p0/runs/macos-d-release/workspace",
+    "outside": "/Users/bing/xdw/toexec/evidence/v2-p/p0/runs/macos-d-release/outside",
+    "home": "/Users/bing/xdw/toexec/evidence/v2-p/p0/runs/macos-d-release/runtime/home",
+    "tmp": "/private/tmp/v2-p0-hth54khf",
+    "listener_port": 64902
+  },
+  "probe_matrix": [
+    {
+      "probe": "W1-workspace-write",
+      "kind": "legit",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "W2-outside-write",
+      "kind": "constraint",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "W3-home-write",
+      "kind": "constraint",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "W4-tmp-write",
+      "kind": "constraint",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "W5-dotgit-write",
+      "kind": "constraint",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "R1-outside-read",
+      "kind": "constraint",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "R2-home-read",
+      "kind": "constraint",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "N1-loopback-connect",
+      "kind": "constraint",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "L1-run-project-code",
+      "kind": "legit",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "L2-git-commit",
+      "kind": "legit",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    },
+    {
+      "probe": "L3-workspace-read",
+      "kind": "legit",
+      "effect_rounds": 5,
+      "rounds": 5,
+      "exit_lines": [
+        "ok"
+      ]
+    }
+  ],
+  "m1_true_x50": {
+    "rounds": [
+      {
+        "p50_ms": 4.24,
+        "p95_ms": 5.85,
+        "load_before": 100.5,
+        "load_after": 100.4
+      },
+      {
+        "p50_ms": 5.35,
+        "p95_ms": 6.39,
+        "load_before": 100.4,
+        "load_after": 100.4
+      },
+      {
+        "p50_ms": 5.75,
+        "p95_ms": 6.49,
+        "load_before": 100.4,
+        "load_after": 100.4
+      },
+      {
+        "p50_ms": 7.01,
+        "p95_ms": 12.79,
+        "load_before": 100.4,
+        "load_after": 100.4
+      },
+      {
+        "p50_ms": 11.76,
+        "p95_ms": 15.38,
+        "load_before": 100.4,
+        "load_after": 100.4
+      }
+    ],
+    "median_p50_ms": 5.75,
+    "median_p95_ms": 6.49
+  },
+  "m2_stdout_64m": [
+    {
+      "preview": {
+        "wall_s": 13.7042,
+        "load_before": 100.4,
+        "load_after": 101.6,
+        "client_to_server_bytes": 181,
+        "server_to_client_bytes": 4559,
+        "peak_rss_kib": 12512,
+        "exit": "ok in 13574 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "full_drain": {
+        "wall_s": 2.8319,
+        "load_before": 101.6,
+        "load_after": 101.6,
+        "client_to_server_bytes": 367603,
+        "server_to_client_bytes": 67422862,
+        "peak_rss_kib": 73824,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      }
+    },
+    {
+      "preview": {
+        "wall_s": 13.7167,
+        "load_before": 101.6,
+        "load_after": 105.0,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4640,
+        "peak_rss_kib": 13152,
+        "exit": "ok in 13459 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "full_drain": {
+        "wall_s": 2.5458,
+        "load_before": 105.0,
+        "load_after": 105.0,
+        "client_to_server_bytes": 368295,
+        "server_to_client_bytes": 67423554,
+        "peak_rss_kib": 73936,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      }
+    },
+    {
+      "preview": {
+        "wall_s": 8.0142,
+        "load_before": 105.0,
+        "load_after": 105.2,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4559,
+        "peak_rss_kib": 13232,
+        "exit": "ok in 7974 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "full_drain": {
+        "wall_s": 0.3706,
+        "load_before": 105.2,
+        "load_after": 105.2,
+        "client_to_server_bytes": 368295,
+        "server_to_client_bytes": 67423554,
+        "peak_rss_kib": 73968,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      }
+    },
+    {
+      "preview": {
+        "wall_s": 3.3954,
+        "load_before": 105.2,
+        "load_after": 104.1,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4559,
+        "peak_rss_kib": 78768,
+        "exit": "ok in 3349 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "full_drain": {
+        "wall_s": 0.4062,
+        "load_before": 104.1,
+        "load_after": 104.1,
+        "client_to_server_bytes": 368295,
+        "server_to_client_bytes": 67423554,
+        "peak_rss_kib": 74016,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      }
+    },
+    {
+      "preview": {
+        "wall_s": 10.4292,
+        "load_before": 104.1,
+        "load_after": 97.2,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4665,
+        "peak_rss_kib": 78768,
+        "exit": "ok in 10301 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "full_drain": {
+        "wall_s": 2.5109,
+        "load_before": 97.2,
+        "load_after": 97.2,
+        "client_to_server_bytes": 368847,
+        "server_to_client_bytes": 67424106,
+        "peak_rss_kib": 74096,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      }
+    }
+  ],
+  "m3_read_pages": {
+    "data/lines-8m.txt": [
+      {
+        "wall_s": 2.0505,
+        "load_before": 97.2,
+        "load_after": 95.3,
+        "client_to_server_bytes": 22341,
+        "server_to_client_bytes": 9350799,
+        "peak_rss_kib": 9040,
+        "calls": 127,
+        "last_hint": "[end of file, 104858 lines; version 8388640-18d5dbd2e0798195]"
+      },
+      {
+        "wall_s": 1.6925,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 22341,
+        "server_to_client_bytes": 9350799,
+        "peak_rss_kib": 9376,
+        "calls": 127,
+        "last_hint": "[end of file, 104858 lines; version 8388640-18d5dbd2e0798195]"
+      },
+      {
+        "wall_s": 2.058,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 22341,
+        "server_to_client_bytes": 9350799,
+        "peak_rss_kib": 9424,
+        "calls": 127,
+        "last_hint": "[end of file, 104858 lines; version 8388640-18d5dbd2e0798195]"
+      },
+      {
+        "wall_s": 1.7347,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 22341,
+        "server_to_client_bytes": 9350799,
+        "peak_rss_kib": 9472,
+        "calls": 127,
+        "last_hint": "[end of file, 104858 lines; version 8388640-18d5dbd2e0798195]"
+      },
+      {
+        "wall_s": 1.9928,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 22341,
+        "server_to_client_bytes": 9350799,
+        "peak_rss_kib": 9520,
+        "calls": 127,
+        "last_hint": "[end of file, 104858 lines; version 8388640-18d5dbd2e0798195]"
+      }
+    ],
+    "data/long-line-8m.txt": [
+      {
+        "wall_s": 0.0498,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 352,
+        "server_to_client_bytes": 66008,
+        "peak_rss_kib": 0,
+        "calls": 2,
+        "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5dbd2c38a516e]"
+      },
+      {
+        "wall_s": 0.0681,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 352,
+        "server_to_client_bytes": 66008,
+        "peak_rss_kib": 0,
+        "calls": 2,
+        "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5dbd2c38a516e]"
+      },
+      {
+        "wall_s": 0.0718,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 352,
+        "server_to_client_bytes": 66008,
+        "peak_rss_kib": 0,
+        "calls": 2,
+        "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5dbd2c38a516e]"
+      },
+      {
+        "wall_s": 0.051,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 352,
+        "server_to_client_bytes": 66008,
+        "peak_rss_kib": 0,
+        "calls": 2,
+        "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5dbd2c38a516e]"
+      },
+      {
+        "wall_s": 0.0447,
+        "load_before": 95.3,
+        "load_after": 95.3,
+        "client_to_server_bytes": 352,
+        "server_to_client_bytes": 66008,
+        "peak_rss_kib": 0,
+        "calls": 2,
+        "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5dbd2c38a516e]"
+      }
+    ],
+    "data/lines-128m.txt": [
+      {
+        "wall_s": 63.5572,
+        "load_before": 86.3,
+        "load_after": 54.6,
+        "client_to_server_bytes": 181010,
+        "server_to_client_bytes": 75513839,
+        "peak_rss_kib": 9984,
+        "calls": 1012,
+        "last_hint": "CCNM_E_INVALID_ARGS: data/lines-128m.txt: reading line 838120 would mean walking more than 64 MiB; use search_text to fi"
+      }
+    ]
+  },
+  "mcp_serve_exit": 0,
+  "mcp_serve_stderr_tail": []
+}

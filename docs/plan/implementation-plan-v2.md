@@ -1,6 +1,6 @@
 # toexec 实施方案 v2：共享库为主，收窄 exec-server 复用范围
 
-日期：2026-09-15。状态：**实施中**——V2-K、V2-H、V2-Q、V2-C 四条主线已完成（V2-C 于 2026-09-16 经 ccnm P24 真机验收），Claude 实验线 V2-P0–P5 未开始；逐项进度见第 11 节的状态表，**计划原文与实际执行的偏移和处理见第 11 节"对齐检查"**。
+日期：2026-09-15。状态：**实施中**——V2-K、V2-H、V2-Q、V2-C 四条主线已完成（V2-C 于 2026-09-16 经 ccnm P24 真机验收），Claude 实验线 V2-P0 已完成、V2-P1–P5 未开始；逐项进度见第 11 节的状态表，**计划原文与实际执行的偏移和处理见第 11 节"对齐检查"**。
 
 本次修订：gld 本地不接 exec-server；Claude 复用 exec-server 从默认架构降为独立、无模型的收益验证。Codex 原生 exec-server 路线保留。
 
@@ -360,7 +360,8 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | 第 13 节缺陷队列 | 全部已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）、`67159d3` / `6cdffe5`（task_context 与任务回包里的逐文件清单）、`a3618ea`（变更摘要比错基线）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
 | ccnm instructions 预算与顺序 | 已修（ccnm P13） | `60ad480` 代码、`557837d` 阶段验收；记录在 ccnm `docs/research/p13-instructions-host-cap-2026-09-16.md` |
 | Q2 结论的落地 | 已落地（ccnm P15，只改文档） | ccnm `db53098`：外部入口的 `mcpServers` 示例加 `"alwaysLoad": true`，协议文档写清依据与代价；选服务器配置而非工具 `_meta`。本机零额度复现 `coding` 21→14、`read` 18→14，记录在 ccnm `docs/research/p15-alwaysload-2026-09-16.md`。Managed 路径不需要改 |
-| V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
+| V2-P0 | **已完成（2026-09-17）** | 判据先于候选冻结：`docs/plan/v2-p0-claude-trial-baseline.md`（提交 `9e128c8`、方法补充 `d3de152`）。对照组 D 在 macOS 本机按 `evidence/v2-p/p0/baseline.py` 跑过：11 个探针 5/5 全成功（直接路径没有 OS 层约束），起进程往返 p50 约 6 ms；按行号分页读 128 MiB 在 64 MiB 处被 ccnm 有意拒绝。候选比较了 exec-server 进程委派、分块读委派，以及不经 RPC 的 `codex sandbox`。模型 0 次 |
+| V2-P1–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
 
 ### 对齐检查（2026-09-16，ccnm P24 之后）
 
