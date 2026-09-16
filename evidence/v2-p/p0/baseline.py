@@ -215,10 +215,12 @@ class RssSampler:
 def measure(fn, session):
     sent, recv = session.sent_bytes, session.received_bytes
     sampler = RssSampler(session.proc.pid)
+    load_before = os.getloadavg()[0]
     t0 = time.perf_counter()
     extra = fn()
     wall = time.perf_counter() - t0
-    return {"wall_s": round(wall, 4), "client_to_server_bytes": session.sent_bytes - sent,
+    return {"wall_s": round(wall, 4), "load_before": round(load_before, 1), "load_after": round(os.getloadavg()[0], 1),
+            "client_to_server_bytes": session.sent_bytes - sent,
             "server_to_client_bytes": session.received_bytes - recv, "peak_rss_kib": sampler.done(), **(extra or {})}
 
 
@@ -249,7 +251,7 @@ def drain_output(session, ref):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("out")
-    ap.add_argument("--ccnm", default=str((HERE / "../../../../ccnm/target/debug/ccnm").resolve()))
+    ap.add_argument("--ccnm", default=str((HERE / "../../../../ccnm/target/release/ccnm").resolve()))
     ap.add_argument("--skip-128m", action="store_true")
     args = ap.parse_args()
     base = Path(args.out).resolve()
@@ -275,6 +277,8 @@ def main():
                           "version": run([codex, "--version"], env={"PATH": "/usr/bin:/bin", "HOME": str(home), "CODEX_HOME": str(home)}).stdout.strip(),
                           "note": "not used by the control; pinned here so P1 runs against the same file"},
         "python": sys.version.split()[0],
+        "cpus": os.cpu_count(),
+        "load_at_start": [round(x, 1) for x in os.getloadavg()],
         "tools": {t: run(["/bin/sh", "-c", f"command -v {t}"]).stdout.strip() for t in ("git", "nc", "python3", "rg")},
     }
 
@@ -297,13 +301,15 @@ def main():
     # M1: process start round trip.
     rounds = []
     for _ in range(REPEAT):
+        load_before = os.getloadavg()[0]
         walls = []
         for _ in range(TRUE_CALLS):
             t0 = time.perf_counter()
             s.call("exec_command", {"cmd": ["/usr/bin/true"]})
             walls.append((time.perf_counter() - t0) * 1000)
         walls.sort()
-        rounds.append({"p50_ms": round(statistics.median(walls), 2), "p95_ms": round(walls[int(len(walls) * 0.95) - 1], 2)})
+        rounds.append({"p50_ms": round(statistics.median(walls), 2), "p95_ms": round(walls[int(len(walls) * 0.95) - 1], 2),
+                       "load_before": round(load_before, 1), "load_after": round(os.getloadavg()[0], 1)})
     result["m1_true_x50"] = {"rounds": rounds, "median_p50_ms": statistics.median(r["p50_ms"] for r in rounds),
                              "median_p95_ms": statistics.median(r["p95_ms"] for r in rounds)}
 
