@@ -1,0 +1,413 @@
+{
+  "experiment": "tui-shared-path",
+  "mode": "tui",
+  "cwd_flag": "<scratch>/p21/shared/work",
+  "local_cwd": "<scratch>/p21/runs/r2/tui-shared-path/local-cwd",
+  "bridge_connections": 1,
+  "model_steps": 3,
+  "plan_done": true,
+  "approval_prompts": 0,
+  "pane_tail": "cc7-b4eb9f181fd5/scratchpad/p21/shared/work\n\n╭──────────────────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                           │\n│                                                      │\n│ model:     gpt-6-astra   /model to change            │\n│ directory: /private/tmp/claude-501/…/p21/shared/work │\n╰──────────────────────────────────────────────────────╯\n\n  Tip: New Build faster with the Desktop app. Run 'codex app' or visit https://chatgpt.com/codex?app-landing-page=true\n\n\n› run the probe\n\n\n• Ran pwd; id -un; echo inside > inside.txt; echo outside > /home/runner/outside/o.txt; echo rc=$?; ls -a\n  └ <scratch>/p21/shared/work\n    runner\n    … +7 lines (ctrl + t to view transcript)\n    AGENTS.md\n    inside.txt\n\n• Added patched.txt (+1 -0)\n    1 +hello from apply_patch\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n• done\n\n────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · <scratch>/p21/shared/work · probe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+  "methods": {
+    "initialize": 1,
+    "initialized": 1,
+    "fs/getMetadata": 46,
+    "fs/readFile": 2,
+    "environmentConfig/read": 1,
+    "process/start": 1,
+    "process/terminate": 1,
+    "fs/writeFile": 1
+  },
+  "fs_and_config_calls": [
+    {
+      "method": "initialize",
+      "params": {
+        "clientName": "codex-environment",
+        "resumeSessionId": null
+      },
+      "outcome": "ok"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/claude-501/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/.agents/skills",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/AGENTS.override.md",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/AGENTS.md",
+      "sandbox": null,
+      "outcome": "ok"
+    },
+    {
+      "method": "fs/readFile",
+      "path": "file://<scratch>/p21/shared/work/AGENTS.md",
+      "sandbox": null,
+      "outcome": "ok"
+    },
+    {
+      "method": "environmentConfig/read",
+      "params": {
+        "cwd": "file://<scratch>/p21/shared/work",
+        "configPaths": [
+          [
+            "mcp_servers"
+          ]
+        ],
+        "requirementsPaths": [
+          [
+            "mcp_servers"
+          ]
+        ]
+      },
+      "outcome": "ok"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/claude-501/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/.agents/skills",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/claude-501/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/.agents/skills",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<tmp>/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/claude-501/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/tmp/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///private/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file://<scratch>/p21/shared/work/patched.txt",
+      "sandbox": "present",
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/readFile",
+      "path": "file://<scratch>/p21/shared/work/patched.txt",
+      "sandbox": "present",
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/writeFile",
+      "path": "file://<scratch>/p21/shared/work/patched.txt",
+      "sandbox": "present",
+      "outcome": "ok"
+    }
+  ],
+  "process_starts": [
+    {
+      "argv": [
+        "/bin/sh",
+        "-lc",
+        "pwd; id -un; echo inside > inside.txt; echo outside > /home/runner/outside/o.txt; echo rc=$?; ls -a"
+      ],
+      "cwd": "file://<scratch>/p21/shared/work",
+      "sandbox_cwd": "file://<scratch>/p21/shared/work",
+      "workspaceRoots": [
+        "file://<scratch>/p21/shared/work"
+      ],
+      "entries": [
+        [
+          {
+            "kind": "root"
+          },
+          "read"
+        ],
+        [
+          {
+            "kind": "project_roots"
+          },
+          "write"
+        ],
+        [
+          {
+            "kind": "slash_tmp"
+          },
+          "write"
+        ],
+        [
+          {
+            "kind": "tmpdir"
+          },
+          "write"
+        ],
+        [
+          {
+            "kind": "project_roots",
+            "subpath": ".git"
+          },
+          "read"
+        ],
+        [
+          {
+            "kind": "project_roots",
+            "subpath": ".agents"
+          },
+          "read"
+        ],
+        [
+          {
+            "kind": "project_roots",
+            "subpath": ".codex"
+          },
+          "read"
+        ]
+      ],
+      "network": "restricted",
+      "outcome": "ok"
+    }
+  ],
+  "process_output": {
+    "67803-16fb6d6e-91a9-4ea2-bfce-ee072b2d5bd5": "<scratch>/p21/shared/work\nrunner\nrc=2\n/bin/sh: 1: cannot create /home/runner/outside/o.txt: Read-only file system\n.\n..\n.agents\n.codex\n.git\nAGENTS.md\ninside.txt\n"
+  },
+  "container_after": "total 12\ndrwxr-xr-x 1 runner runner 60 Sep 16 10:39 .\ndrwxr-xr-x 1 runner runner  8 Sep 16 10:28 ..\n-rw-r--r-- 1 runner runner 21 Sep 16 10:39 AGENTS.md\n-rw-r--r-- 1 runner runner  7 Sep 16 10:39 inside.txt\n-rw-r--r-- 1 runner runner 23 Sep 16 10:39 patched.txt\n== AGENTS.md\nREMOTE-AGENTS-MARKER\n== inside.txt\ninside\n== patched.txt\nhello from apply_patch\n== outside\ntotal 0\ndrwxr-xr-x 1 runner runner   0 Sep 16 10:35 .\ndrwxr-xr-x 1 runner runner 112 Sep 16 10:24 ..\n",
+  "markers_in_model_request": {
+    "LOCAL-AGENTS-MARKER": false,
+    "REMOTE-AGENTS-MARKER": true
+  }
+}

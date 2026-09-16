@@ -1,0 +1,15 @@
+{
+  "experiment": "exec-remote-cwd",
+  "mode": "exec",
+  "cwd_flag": "/srv/p21/work",
+  "local_cwd": "<scratch>/p21/runs/r1/exec-remote-cwd/local-cwd",
+  "bridge_connections": 0,
+  "codex_rc": 1,
+  "stderr_tail": "Error: No such file or directory (os error 2)\n",
+  "methods": {},
+  "fs_and_config_calls": [],
+  "process_starts": [],
+  "process_output": {},
+  "container_after": "total 0\ndrwxr-xr-x 1 runner runner 0 Sep 16 10:50 .\ndrwxr-xr-x 1 runner runner 8 Sep 16 10:49 ..\n== *\n== outside\ntotal 0\ndrwxr-xr-x 1 runner runner   0 Sep 16 10:49 .\ndrwxr-xr-x 1 runner runner 112 Sep 16 10:24 ..\n",
+  "markers_in_model_request": null
+}

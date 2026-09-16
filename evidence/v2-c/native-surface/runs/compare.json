@@ -1,0 +1,890 @@
+{
+  "exec-local-cwd": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": 0,
+      "plan_done": null,
+      "approval_prompts": null,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start"
+      ],
+      "requests": [
+        "environmentConfig/read file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/tmp/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/exec-local-cwd/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd/patched.txt sandbox=present error -32603",
+        "fs/getMetadata file:///private/tmp/claude-501/.git sandbox=null error -32004",
+        "fs/readFile file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd/patched.txt sandbox=present error -32603",
+        "fs/writeFile file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd/patched.txt sandbox=present error -32603 entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file://<scratch>/p21/runs/rN/exec-local-cwd/local-cwd sandbox=present error -32603 entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write"
+      ],
+      "refused": [],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": []
+    }
+  },
+  "exec-remote-cwd": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": 1,
+      "plan_done": null,
+      "approval_prompts": null,
+      "bridge_connections": 0,
+      "methods": [],
+      "requests": [],
+      "refused": [],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": []
+    }
+  },
+  "exec-shared-path": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": 0,
+      "plan_done": null,
+      "approval_prompts": null,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file://<scratch>/p21/shared/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/tmp/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/AGENTS.md sandbox=null ok",
+        "fs/getMetadata file://<scratch>/p21/shared/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/patched.txt sandbox=present error -32004",
+        "fs/getMetadata file:///private/tmp/claude-501/.git sandbox=null error -32004",
+        "fs/readFile file://<scratch>/p21/shared/work/AGENTS.md sandbox=null ok",
+        "fs/readFile file://<scratch>/p21/shared/work/patched.txt sandbox=present error -32004",
+        "fs/writeFile file://<scratch>/p21/shared/work/patched.txt sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file://<scratch>/p21/shared/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [
+        "AGENTS.md",
+        "inside.txt",
+        "patched.txt"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": true
+      },
+      "process_output": [
+        ".\n..\n.agents\n.codex\n.git\n<scratch>/p21/shared/work\nAGENTS.md\ncannot create /home/runner/outside/o.txt: Read-only file system\ninside.txt\nrc=2\nrunner"
+      ]
+    }
+  },
+  "git-none": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        "fatal: not a git repository (or any of the parent directories): .git\nrc=0"
+      ]
+    }
+  },
+  "git-parent-forwarded": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null ok",
+        "fs/getMetadata file:///srv/p21/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        "rc=0"
+      ]
+    }
+  },
+  "git-parent-intercepted": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004"
+      ],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        "rc=0"
+      ]
+    }
+  },
+  "git-root": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null ok",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [
+        ".git"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        "rc=0"
+      ]
+    }
+  },
+  "policy-basic": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/patched.txt sandbox=present error -32004",
+        "fs/readFile file:///srv/p21/work/patched.txt sandbox=present error -32004",
+        "fs/writeFile file:///srv/p21/work/patched.txt sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004"
+      ],
+      "files_after": [
+        "inside.txt",
+        "patched.txt"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        ".\n..\n.agents\n.codex\n.git\n/srv/p21/work\ncannot create /home/runner/outside/o.txt: Read-only file system\ninside.txt\nrc=2\nrunner"
+      ]
+    }
+  },
+  "policy-escalate-accept": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 2,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///home/runner/outside/patched-outside.txt sandbox=null error -32600",
+        "fs/getMetadata file:///home/runner/outside/patched-outside.txt sandbox=present error -32600",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/readFile file:///home/runner/outside/patched-outside.txt sandbox=null error -32600",
+        "fs/readFile file:///home/runner/outside/patched-outside.txt sandbox=present error -32600",
+        "fs/writeFile file:///home/runner/outside/patched-outside.txt sandbox=null error -32600",
+        "fs/writeFile file:///home/runner/outside/patched-outside.txt sandbox=present error -32600 entries={\"path\": \"file:///home/runner/outside\", \"type\": \"path\"}:write|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=null error -32600"
+      ],
+      "refused": [
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///home/runner/outside/patched-outside.txt sandbox=null error -32600",
+        "fs/getMetadata file:///home/runner/outside/patched-outside.txt sandbox=present error -32600",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/readFile file:///home/runner/outside/patched-outside.txt sandbox=null error -32600",
+        "fs/readFile file:///home/runner/outside/patched-outside.txt sandbox=present error -32600",
+        "fs/writeFile file:///home/runner/outside/patched-outside.txt sandbox=null error -32600",
+        "fs/writeFile file:///home/runner/outside/patched-outside.txt sandbox=present error -32600 entries={\"path\": \"file:///home/runner/outside\", \"type\": \"path\"}:write|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/start file:///srv/p21/work sandbox=null error -32600"
+      ],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": []
+    }
+  },
+  "policy-surface": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/remove",
+        "fs/writeFile",
+        "initialize",
+        "initialized"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///home/runner/outside/pic.png sandbox=present error -32600",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/a.txt sandbox=present ok",
+        "fs/getMetadata file:///srv/p21/work/b.txt sandbox=present ok",
+        "fs/getMetadata file:///srv/p21/work/moved.txt sandbox=present error -32004",
+        "fs/getMetadata file:///srv/p21/work/pic.png sandbox=present ok",
+        "fs/readFile file:///srv/p21/work/a.txt sandbox=present ok",
+        "fs/readFile file:///srv/p21/work/b.txt sandbox=present ok",
+        "fs/readFile file:///srv/p21/work/moved.txt sandbox=present error -32004",
+        "fs/readFile file:///srv/p21/work/pic.png sandbox=present ok",
+        "fs/remove file:///srv/p21/work/a.txt sandbox=present ok",
+        "fs/remove file:///srv/p21/work/b.txt sandbox=present ok",
+        "fs/writeFile file:///srv/p21/work/moved.txt sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -"
+      ],
+      "refused": [
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///home/runner/outside/pic.png sandbox=present error -32600",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004"
+      ],
+      "files_after": [
+        "moved.txt",
+        "pic.png",
+        "sub"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": []
+    }
+  },
+  "project-config-trusted": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [
+        ".codex"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        "fatal: not a git repository (or any of the parent directories): .git\nrc=0"
+      ]
+    }
+  },
+  "tui-escalate-accept": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 2,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///home/runner/outside/patched-outside.txt sandbox=present error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/readFile file:///home/runner/outside/patched-outside.txt sandbox=present error -32004",
+        "fs/writeFile file:///home/runner/outside/patched-outside.txt sandbox=present ok entries={\"path\": \"file:///home/runner/outside\", \"type\": \"path\"}:write|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=null ok",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [
+        "esc.txt",
+        "patched-outside.txt"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        "rc=0"
+      ]
+    }
+  },
+  "tui-escalate-decline": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": false,
+      "approval_prompts": 1,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "initialize",
+        "initialized"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -"
+      ],
+      "refused": [],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": []
+    }
+  },
+  "tui-no-cwd": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": false,
+      "approval_prompts": 1,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start"
+      ],
+      "requests": [
+        "environmentConfig/read file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/tmp/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/tui-no-cwd/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd/patched.txt sandbox=present error -32603",
+        "fs/getMetadata file:///private/tmp/claude-501/.git sandbox=null error -32004",
+        "fs/readFile file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd/patched.txt sandbox=present error -32603",
+        "fs/writeFile file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd/patched.txt sandbox=present error -32603 entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file://<scratch>/p21/runs/rN/tui-no-cwd/local-cwd sandbox=present error -32603 entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write"
+      ],
+      "refused": [],
+      "files_after": [],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": []
+    }
+  },
+  "tui-remote-cwd": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/patched.txt sandbox=present error -32004",
+        "fs/readFile file:///srv/p21/work/patched.txt sandbox=present error -32004",
+        "fs/writeFile file:///srv/p21/work/patched.txt sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file:///srv/p21/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [
+        "inside.txt",
+        "patched.txt"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": [
+        ".\n..\n.agents\n.codex\n.git\n/srv/p21/work\ncannot create /home/runner/outside/o.txt: Read-only file system\ninside.txt\nrc=2\nrunner"
+      ]
+    }
+  },
+  "tui-shared-path": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/writeFile",
+        "initialize",
+        "initialized",
+        "process/start",
+        "process/terminate"
+      ],
+      "requests": [
+        "environmentConfig/read file://<scratch>/p21/shared/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/.git sandbox=null error -32004",
+        "fs/getMetadata file:///private/tmp/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<tmp>/55a6e803-c6b0-41be-acc7-b4eb9f181fd5/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/.git sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/AGENTS.md sandbox=null ok",
+        "fs/getMetadata file://<scratch>/p21/shared/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file://<scratch>/p21/shared/work/patched.txt sandbox=present error -32004",
+        "fs/getMetadata file:///private/tmp/claude-501/.git sandbox=null error -32004",
+        "fs/readFile file://<scratch>/p21/shared/work/AGENTS.md sandbox=null ok",
+        "fs/readFile file://<scratch>/p21/shared/work/patched.txt sandbox=present error -32004",
+        "fs/writeFile file://<scratch>/p21/shared/work/patched.txt sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -",
+        "process/start file://<scratch>/p21/shared/work sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "process/terminate  sandbox=null ok"
+      ],
+      "refused": [],
+      "files_after": [
+        "AGENTS.md",
+        "inside.txt",
+        "patched.txt"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": true
+      },
+      "process_output": [
+        ".\n..\n.agents\n.codex\n.git\n<scratch>/p21/shared/work\nAGENTS.md\ncannot create /home/runner/outside/o.txt: Read-only file system\ninside.txt\nrc=2\nrunner"
+      ]
+    }
+  },
+  "tui-surface": {
+    "rounds": [
+      "r1",
+      "r2",
+      "r3"
+    ],
+    "consistent": true,
+    "differences": {},
+    "facts": {
+      "codex_rc": null,
+      "plan_done": true,
+      "approval_prompts": 0,
+      "bridge_connections": 1,
+      "methods": [
+        "environmentConfig/read",
+        "fs/getMetadata",
+        "fs/readFile",
+        "fs/remove",
+        "fs/writeFile",
+        "initialize",
+        "initialized"
+      ],
+      "requests": [
+        "environmentConfig/read file:///srv/p21/work sandbox=null ok",
+        "fs/getMetadata file:///.git sandbox=null error -32004",
+        "fs/getMetadata file:///home/runner/outside/pic.png sandbox=present ok",
+        "fs/getMetadata file:///srv/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.agents/skills sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/.git sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/AGENTS.override.md sandbox=null error -32004",
+        "fs/getMetadata file:///srv/p21/work/a.txt sandbox=present ok",
+        "fs/getMetadata file:///srv/p21/work/b.txt sandbox=present ok",
+        "fs/getMetadata file:///srv/p21/work/moved.txt sandbox=present error -32004",
+        "fs/getMetadata file:///srv/p21/work/pic.png sandbox=present ok",
+        "fs/readFile file:///home/runner/outside/pic.png sandbox=present ok",
+        "fs/readFile file:///srv/p21/work/a.txt sandbox=present ok",
+        "fs/readFile file:///srv/p21/work/b.txt sandbox=present ok",
+        "fs/readFile file:///srv/p21/work/moved.txt sandbox=present error -32004",
+        "fs/readFile file:///srv/p21/work/pic.png sandbox=present ok",
+        "fs/remove file:///srv/p21/work/a.txt sandbox=present ok",
+        "fs/remove file:///srv/p21/work/b.txt sandbox=present ok",
+        "fs/writeFile file:///srv/p21/work/moved.txt sandbox=present ok entries={\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".agents\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".codex\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\", \"subpath\": \".git\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"project_roots\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"root\"}}:read|{\"type\": \"special\", \"value\": {\"kind\": \"slash_tmp\"}}:write|{\"type\": \"special\", \"value\": {\"kind\": \"tmpdir\"}}:write",
+        "initialize  sandbox=null ok",
+        "initialized  sandbox=null -"
+      ],
+      "refused": [],
+      "files_after": [
+        "moved.txt",
+        "pic.png",
+        "sub"
+      ],
+      "markers": {
+        "LOCAL-AGENTS-MARKER": false,
+        "REMOTE-AGENTS-MARKER": false
+      },
+      "process_output": []
+    }
+  }
+}

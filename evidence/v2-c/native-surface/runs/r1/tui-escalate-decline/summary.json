@@ -1,0 +1,177 @@
+{
+  "experiment": "tui-escalate-decline",
+  "mode": "tui",
+  "cwd_flag": "/srv/p21/work",
+  "local_cwd": "<scratch>/p21/runs/r1/tui-escalate-decline/local-cwd",
+  "bridge_connections": 1,
+  "model_steps": 1,
+  "plan_done": false,
+  "approval_prompts": 1,
+  "pane_tail": "ome to Codex, OpenAI's command-line coding agent\n\n> You are in /srv/p21/work\n\n  Do you trust the contents of this directory? Working with untrusted contents comes with higher risk of prompt injection. Trusting the directory allows project-local config, hooks, and exec policies\n  to load.\n\n› 1. Yes, continue\n  2. No, quit\n\n  Press enter to continue\n╭───────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)            │\n│                                       │\n│ model:     loading   /model to change │\n│ directory: /srv/p21/work              │\n╰───────────────────────────────────────╯\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · /srv/p21/work\n\n╭───────────────────────────────────────────╮\n│ >_ OpenAI Codex (v0.154.0)                │\n│                                           │\n│ model:     gpt-6-astra   /model to change │\n│ directory: /srv/p21/work                  │\n╰───────────────────────────────────────────╯\n\n  Tip: New Build faster with the Desktop app. Run 'codex app' or visit https://chatgpt.com/codex?app-landing-page=true\n\n\n› run the probe\n\n\n✗ You canceled the request to run echo escalated > /home/runner/outside/esc.txt; echo rc=$?\n\n• Ran echo escalated > /home/runner/outside/esc.txt; echo rc=$?\n  └ (no output)\n\n■ Conversation interrupted - tell the model what to do differently. Something went wrong? Hit `/feedback` to report the issue.\n\n\n› Ask Codex to do anything\n\n  gpt-6-astra default · /srv/p21/work · probe\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+  "methods": {
+    "initialize": 1,
+    "initialized": 1,
+    "fs/getMetadata": 21,
+    "environmentConfig/read": 1
+  },
+  "fs_and_config_calls": [
+    {
+      "method": "initialize",
+      "params": {
+        "clientName": "codex-environment",
+        "resumeSessionId": null
+      },
+      "outcome": "ok"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/.agents/skills",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/AGENTS.override.md",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/AGENTS.md",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "environmentConfig/read",
+      "params": {
+        "cwd": "file:///srv/p21/work",
+        "configPaths": [
+          [
+            "mcp_servers"
+          ]
+        ],
+        "requirementsPaths": [
+          [
+            "mcp_servers"
+          ]
+        ]
+      },
+      "outcome": "ok"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/.agents/skills",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/.agents/skills",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/work/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/p21/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///srv/.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    },
+    {
+      "method": "fs/getMetadata",
+      "path": "file:///.git",
+      "sandbox": null,
+      "outcome": "error {\"code\": -32004, \"message\": \"No such file or directory (os error 2)\"}"
+    }
+  ],
+  "process_starts": [],
+  "process_output": {},
+  "container_after": "total 0\ndrwxr-xr-x 1 runner runner 0 Sep 16 10:53 .\ndrwxr-xr-x 1 runner runner 8 Sep 16 10:49 ..\n== *\n== outside\ntotal 0\ndrwxr-xr-x 1 runner runner   0 Sep 16 10:53 .\ndrwxr-xr-x 1 runner runner 112 Sep 16 10:24 ..\n",
+  "markers_in_model_request": {
+    "LOCAL-AGENTS-MARKER": false,
+    "REMOTE-AGENTS-MARKER": false
+  }
+}
