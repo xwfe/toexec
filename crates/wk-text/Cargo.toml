@@ -1,0 +1,11 @@
+[package]
+name = "wk-text"
+description = "gld 与 ccnm 共用的文本读取原语"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# 故意没有依赖。这个 crate 只碰 std::io::BufRead 和字节切片；一旦它需要
+# tokio、serde 或者任何一个产品的错误类型，就说明抽错了层。
+[dependencies]

@@ -1,0 +1,121 @@
+# V2-K 开工前的重复度盘点（2026-09-16）
+
+对应 [v2 方案](../../docs/plan/implementation-plan-v2.md) 第 6.1 节和第 8 节的 V2-K 线。
+
+盘点对象：gld `e577a04`（0.4.0）、ccnm `db53098`（0.7.0），都是当前工作区的 HEAD。
+只读源码，没有改动任何一侧。
+
+## 结论先行
+
+1. **V2-K 写的"先提取有界文本读取"，按字面做是错的。**两边的读取契约不一样，
+   而且各自都有对拍测试锁死。真正重合的只有"别把多字节字符切成两半"那几十行。
+2. **重合度最高、收益最明确的是原子写入与回滚**，不是读取。两边都实现了「临时文件
+   → rename → 失败回滚」，但 ccnm 那份明显更硬（fsync、保留权限、备份落盘、回滚
+   失败留 journal），gld 那份把整个原文件读进内存当备份、没有 fsync、不保留权限。
+3. **进程/输出这条线短期不要碰**：gld 是 tokio async + 要支持 Windows，ccnm 是同步
+   + 只跑 Unix。共享的代价最大，收益最不确定。
+4. 按现在的真实重复量，第一刀能消掉的重复大约在**一两百行**量级。要不要为此引入
+   一个跨仓依赖（发版、pin 版本、双仓 CI 联动），是需要先算清楚的账，见最后一节。
+
+## 逐块对照
+
+### 读取：契约不同，不是同一个东西
+
+ccnm `crates/ccnm-core/src/mcp/read.rs`（1275 行）对
+gld `crates/core/src/tools/file.rs` 的 `read_text_selection`（约 100 行）。
+
+| | ccnm | gld |
+| --- | --- | --- |
+| 给调用方的粒度 | 一行一行（`Ending` 区分 CRLF / LF / 无终结符） | 一整段 `content`，换行符原样留着 |
+| 非法 UTF-8 | 有损替换成 U+FFFD，继续读，加一条 note | **直接报 `UNSUPPORTED_ENCODING`** |
+| 是否读到文件尾 | 不一定：撞上 `max_lines` / `max_bytes` 就停，`total_lines` 可能是 `None` | **一定读完**——`total_lines` 和「整份文件是否合法 UTF-8」都要看到最后一个字节 |
+| 超长单行 | 有界读，扫描超过 64 MiB 报错让人改用 `search_text` | 截断后继续，后面只数换行符 |
+| BOM | 剥掉并标记 | 不处理 |
+| CRLF | 识别、剥离、报 `line_ending` | 留在 content 里 |
+| 截断信息 | `truncated_by` 枚举 + `next_start_line` + `partial_line` | 一个 bool |
+| 行号类型 | `u32` | `usize` |
+
+这些不是实现细节的出入，是**对外契约**：ccnm 那套写进了 `ccnm.workspace-mcp/1`
+（已冻结），gld 那套有 `assert_same_as_reference` 拿旧算法逐字节对拍。v2 第 6.2 节
+自己也写了「读取与搜索：保留编码、BOM、范围、总行数、ignore、排序、截断约定」。
+硬抽成一个函数，只会得到一个全是开关的四不像。
+
+**真正重合的是下面那一层**，两边都得干、都各写了一遍：
+
+- 把切口退回字符边界，别切出半个字符：ccnm `trim_cut`（10 行），gld 读完之后
+  `str::from_utf8(&kept)` 那几行。
+- 跨读取块的 UTF-8 增量校验：gld `utf8_chunk_ok`（20 行，块尾留 tail）。ccnm 没有
+  等价物，因为它不校验整份文件。
+- 有界行切分：ccnm `next_line`（45 行，带 `keep` 上限和 `scanned` 计数）；gld 是
+  `split_inclusive(b'\n')` 加 room 判断。同一件事，边界条件不同。
+
+### 编辑：模型不同，不能共享；提交机制能
+
+| | ccnm `mcp/patch.rs`（3428 行） | gld `tools/patch.rs`（793 行） |
+| --- | --- | --- |
+| 输入 | 结构化 edits（old/new 字符串），**顺序依赖**（a→b、b→c） | Unified Diff / codex patch 文本，解析成 hunk |
+| 定位 | 先整体按位置匹配，失败再逐条按序匹配，带 near-miss 诊断 | `find_hunk_position`，按 header 行号找 |
+| 版本检查 | 有（`check_version`，stale 就拒） | 无 |
+
+v2 第 6.2 节要求两边各自保留，所以编辑算法本来就不在共享范围。
+
+**提交那一段是真重复**，而且质量差得明显：
+
+| | ccnm | gld |
+| --- | --- | --- |
+| 备份 | 落盘成临时文件（`Staged.backup`） | **整个原文件读进内存** `HashMap<PathBuf, Option<Vec<u8>>>` |
+| 落盘保证 | `sync_all()` 之后才 rename | **没有 fsync** |
+| 权限 | `set_permissions` 保留原权限（补丁不会让脚本丢掉可执行位） | 不保留 |
+| 回滚失败 | 写 journal，下一次 patch 会发现工作区不一致 | `let _ =` 尽力而为，失败无声 |
+| 中途失败 | 已提交的逐个 rollback，未提交的 discard | 同样是先恢复备份再报错 |
+| Windows | 不支持 | `replace_file` 先 remove 再 rename |
+
+抽这一块，gld 能拿到 fsync、权限保留和不吃内存的备份；ccnm 能拿到 Windows 的
+替换路径（暂时用不上，但以后要用）。这是**收益最实在的一块**。
+
+代价也最大：它是两个产品最危险的代码路径，第一刀切在这里，一旦有回归就是丢数据。
+
+### 进程与输出：短期不要碰
+
+| | ccnm `mcp/exec.rs` + `mcp/output.rs` | gld `tools/exec.rs` |
+| --- | --- | --- |
+| 执行模型 | 同步（`mcp` 之外全仓不用 async） | **tokio async**，带 SessionStore、超时监控、会话驱逐 |
+| 平台 | Unix（macOS / Debian 13 验过） | **要支持 Windows**（隐藏窗口 flags、bat 命令行拼装、PATH 解析） |
+| 输出 | 落盘 + `read_output` 分页（`output_ref`） | 会话内保留 |
+
+要共享就得先统一执行模型，那是把 ccnm 拖进 async，或者把 gld 的会话机制拆开。
+代价远大于当前能省的重复。
+
+### 搜索：不重复
+
+ccnm 的 `search_text` 调外部 `ripgrep`；gld 自己实现 `Matcher`。没有可共享的东西。
+
+## 三个仓库的工程现状
+
+| | gld | ccnm | workspace-kernel |
+| --- | --- | --- | --- |
+| Rust 工程 | 有（3 个 crate） | 有（2 个 crate） | **没有，只有文档和 evidence** |
+| `rust-version` | 1.85 | 1.89 | — |
+| edition | 2021 | 2024 | — |
+| resolver | 2 | 3 | — |
+| git remote | `xwfe/gld` | `xwfe/ccnm` | **没有 remote，纯本地仓库** |
+| CI | GitHub Actions，单仓 checkout | GitHub Actions，单仓 checkout | 无 |
+
+两条直接后果：
+
+- 统一 `rust-version` 的时点到了（用户 2026-09-15 定的下限 1.89）：gld 要从 1.85 提到
+  1.89。edition 不必统一，共享 crate 自己声明就行。
+- **`path` 依赖在 CI 上直接死**：GitHub runner 只 checkout 当前仓库，`../workspace-kernel`
+  不存在。要让两边 CI 继续绿，共享 crate 必须能从网络取到——也就是 workspace-kernel
+  得有 remote。这是本轮第一个需要用户决定的事。
+
+## 建议的切法
+
+1. **先切一块小的、纯函数、无 I/O 的**：UTF-8 增量边界 + 有界行切分原语。它是
+   「有界文本读取」里两边真正共有的内核，可以穷举测试，出错也只影响文本切分，
+   不碰写入。这一刀的主要目的是**把基础设施打通**——crate 放哪、怎么被依赖、
+   两边 CI 怎么绿、rust-version 怎么统一。
+2. **再切原子写入与回滚**，收益最大那块，等第一刀的联动机制被证明可用之后再动。
+3. 进程/输出留到后面，或者干脆不动，等有新证据。
+
+每一刀都要求：两边现有测试一个不改断言地通过，语义逐字节不变。
