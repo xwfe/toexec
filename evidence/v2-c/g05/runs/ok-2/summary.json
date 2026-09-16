@@ -1,0 +1,28 @@
+{
+  "scenario": "ok",
+  "codex_rc": 0,
+  "bridge_accepted": 1,
+  "bridge_refused": [
+    "replayed",
+    "wrong-path",
+    "wrong-path"
+  ],
+  "bytes_up": 8581,
+  "bytes_down": 5296,
+  "model_requests": 2,
+  "shell_tool_offered": [
+    true,
+    true
+  ],
+  "env_marker": [],
+  "post_checks": {
+    "bridge_token_after_run": "HTTP/1.1 404 Not Found",
+    "wrong_token": "HTTP/1.1 404 Not Found",
+    "no_path": "HTTP/1.1 404 Not Found"
+  },
+  "secret_hits": {},
+  "probe_in_exec_server_downstream": true,
+  "probe_in_model_requests": [
+    "model-request-1.json"
+  ]
+}

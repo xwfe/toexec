@@ -1,0 +1,27 @@
+{
+  "scenario": "wrong",
+  "codex_rc": 0,
+  "bridge_accepted": 1,
+  "bridge_refused": [
+    "wrong-path",
+    "wrong-path",
+    "wrong-path",
+    "wrong-path",
+    "wrong-path"
+  ],
+  "bytes_up": 0,
+  "bytes_down": 166,
+  "model_requests": 1,
+  "shell_tool_offered": [
+    false
+  ],
+  "env_marker": [],
+  "post_checks": {
+    "bridge_token_after_run": "HTTP/1.1 101 Switching Protocols",
+    "wrong_token": "HTTP/1.1 404 Not Found",
+    "no_path": "HTTP/1.1 404 Not Found"
+  },
+  "secret_hits": {},
+  "probe_in_exec_server_downstream": false,
+  "probe_in_model_requests": []
+}
