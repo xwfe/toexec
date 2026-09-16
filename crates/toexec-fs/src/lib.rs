@@ -18,4 +18,4 @@
 
 mod atomic;
 
-pub use atomic::{replace, write_durable};
+pub use atomic::{Step, WriteError, replace, write_durable};

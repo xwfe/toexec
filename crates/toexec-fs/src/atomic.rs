@@ -2,6 +2,61 @@ use std::fs::{self, File, Permissions};
 use std::io::{self, Write};
 use std::path::Path;
 
+/// [`write_durable`] 是在哪一步失败的。
+///
+/// 报出来，是因为调用方对这几步的看法不一样：建不出文件通常是路径或权限
+/// 的事，调用方改得了；刷盘失败是机器的事，改不了。ccnm 就按这个分界把
+/// 前两步归成「参数问题」、后两步归成「内部错误」，两种错误码在它的 MCP
+/// 协议里含义不同。共享库不替谁做这个判断，只把事实说清楚。
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Step {
+    /// 建文件（或截断一个已有的）。
+    Create,
+    /// 写内容。
+    Write,
+    /// 刷到盘上。
+    Sync,
+    /// 设权限。
+    Permissions,
+}
+
+impl Step {
+    /// 一句话说明这一步在干什么，给调用方拼错误消息用。
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Step::Create => "create",
+            Step::Write => "write",
+            Step::Sync => "flush",
+            Step::Permissions => "set permissions on",
+        }
+    }
+}
+
+/// 写失败了，以及是哪一步。
+#[derive(Debug)]
+pub struct WriteError {
+    pub step: Step,
+    pub source: io::Error,
+}
+
+impl std::fmt::Display for WriteError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "cannot {} the file: {}", self.step.as_str(), self.source)
+    }
+}
+
+impl std::error::Error for WriteError {
+    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
+        Some(&self.source)
+    }
+}
+
+impl From<WriteError> for io::Error {
+    fn from(e: WriteError) -> io::Error {
+        e.source
+    }
+}
+
 /// 把 `bytes` 写进 `path`，**内容落盘之后才返回**；给了 `mode` 就设权限。
 ///
 /// 为什么要 fsync：少了它，后面那次 `rename` 可能先持久化、内容还没有。
@@ -13,13 +68,18 @@ use std::path::Path;
 ///
 /// 目标已存在时会被截断重写。这个函数只管写一个文件，不管它是不是临时
 /// 文件——临时文件的命名和清理是调用方的事。
-pub fn write_durable(path: &Path, bytes: &[u8], mode: Option<&Permissions>) -> io::Result<()> {
-    let mut file = File::create(path)?;
-    file.write_all(bytes)?;
-    file.sync_all()?;
+pub fn write_durable(
+    path: &Path,
+    bytes: &[u8],
+    mode: Option<&Permissions>,
+) -> Result<(), WriteError> {
+    let fail = |step: Step| move |source: io::Error| WriteError { step, source };
+    let mut file = File::create(path).map_err(fail(Step::Create))?;
+    file.write_all(bytes).map_err(fail(Step::Write))?;
+    file.sync_all().map_err(fail(Step::Sync))?;
     drop(file);
     if let Some(mode) = mode {
-        fs::set_permissions(path, mode.clone())?;
+        fs::set_permissions(path, mode.clone()).map_err(fail(Step::Permissions))?;
     }
     Ok(())
 }
@@ -166,7 +226,8 @@ mod tests {
         let dir = Dir::new("nodir");
         let path = dir.join("missing-dir").join("a.txt");
         let err = write_durable(&path, b"x", None).expect_err("父目录不存在，应该失败");
-        assert_eq!(err.kind(), io::ErrorKind::NotFound, "{err}");
+        assert_eq!(err.step, Step::Create, "{err}");
+        assert_eq!(err.source.kind(), io::ErrorKind::NotFound, "{err}");
     }
 
     #[test]
