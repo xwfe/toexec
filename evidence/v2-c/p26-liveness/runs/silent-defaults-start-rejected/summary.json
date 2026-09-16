@@ -1,0 +1,37 @@
+{
+  "exit_code": 0,
+  "last_client_byte_s": 0.002,
+  "ended_s": 601.001,
+  "silence_until_end_s": 601.0,
+  "handshake_ok": true,
+  "process_start_reply": {
+    "error": {
+      "code": -32602,
+      "message": "invalid character: expected an optional prefix of `urn:uuid:` followed by [0-9a-fA-F-], found `<` at 1"
+    },
+    "id": 2
+  },
+  "sleep_running_while_silent": [],
+  "sleep_running_after": [],
+  "pings": 19,
+  "first_ping_s": 30.656,
+  "ping_gaps_s": [
+    30
+  ],
+  "ping_ids": [
+    "ccnm-liveness-1",
+    "ccnm-liveness-2",
+    "ccnm-liveness-3"
+  ],
+  "write_guards": {
+    "824912a3459ce63f.lock": "released\n"
+  },
+  "exec_server_homes_left": [],
+  "stderr_tail": [
+    "\u001b[2m2026-09-16T15:22:25.059357Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server supervisor starting \u001b[3mworkspace\u001b[0m\u001b[2m=\u001b[0mdemo \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m982df32b-af52-4b9c-b0a4-e73b62e6382c \u001b[3mruntime_user\u001b[0m\u001b[2m=\u001b[0mbing",
+    "\u001b[2m2026-09-16T15:22:25.613381Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server handshake \u001b[3mprovider_id\u001b[0m\u001b[2m=\u001b[0m\"sha256:827a20f2260f53ca58aa207243d3363c6ea7fe34e8e579d7d2a24bb35bf39ed1\" \u001b[3mexecutor_version\u001b[0m\u001b[2m=\u001b[0m\"0.154.0\"",
+    "\u001b[2m2026-09-16T15:32:25.220257Z\u001b[0m \u001b[33m WARN\u001b[0m nothing from the client, not even an answer to a liveness request; ending the exec-server session \u001b[3msilent_seconds\u001b[0m\u001b[2m=\u001b[0m600",
+    "\u001b[2m2026-09-16T15:32:25.220755Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientSilent",
+    "\u001b[2m2026-09-16T15:32:25.495865Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m982df32b-af52-4b9c-b0a4-e73b62e6382c"
+  ]
+}

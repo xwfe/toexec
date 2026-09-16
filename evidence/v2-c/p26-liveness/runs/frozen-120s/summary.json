@@ -1,0 +1,56 @@
+{
+  "turn_one": true,
+  "sleep_running_before_freeze": [
+    34825
+  ],
+  "frozen_pids": 4,
+  "freeze_seconds": 120.0,
+  "exec_serve_exit_code": null,
+  "exec_serve_ended_after_freeze_s": 120.5,
+  "sleep_running_after_give_up": [
+    34825
+  ],
+  "write_guards": {
+    "824912a3459ce63f.lock": "held 876f00f8-cdf0-4d0a-8922-8a2c59ae92b4 demo\n"
+  },
+  "turn_two_model_steps": true,
+  "pane_final_tail": [
+    "│                                                      │",
+    "│ model:     gpt-6-astra   /model to change            │",
+    "│ directory: /Users/bing/xdw/toexec/…/frozen-120s/work │",
+    "╰──────────────────────────────────────────────────────╯",
+    "  Tip: NEW: Prevent sleep while running is now available in /experimental.",
+    "› run turn one",
+    "• turn one done",
+    "› run turn two",
+    "• Ran echo after-resume",
+    "  └ after-resume",
+    "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+    "• turn two done",
+    "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+    "  1 background terminal running · /ps to view · /stop to close",
+    "› Ask Codex to do anything",
+    "  gpt-6-astra default · /Users/bing/xdw/toexec/evidence/v2-c/p25-liveness/runs/frozen-120s/work · probe"
+  ],
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "last_client_message_before_freeze_s": 15.4,
+  "pings_while_frozen": 4,
+  "ping_gaps_s": [
+    30
+  ],
+  "model_outputs_head": [
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"0bedda\",\"wall_time_seconds\":10.001468375,\"session_id\":13539,\"original_token_count\":0,\"output\":\"\"}'}]",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"0bedda\",\"wall_time_seconds\":10.001468375,\"session_id\":13539,\"original_token_count\":0,\"output\":\"\"}'}]",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"78b19a\",\"wall_time_seconds\":0.000002209,\"exit_code\":0,\"original_token_count\":4,\"output\":\"after-resume\\\\n\"}'}]"
+  ],
+  "exec_serve_stderr_tail": [
+    "\u001b[2m2026-09-16T15:35:44.630160Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":73}",
+    "\u001b[2m2026-09-16T15:35:44.630459Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":74}",
+    "\u001b[2m2026-09-16T15:35:44.630512Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":75}",
+    "\u001b[2m2026-09-16T15:35:51.159936Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientClosed",
+    "\u001b[2m2026-09-16T15:35:51.425351Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m876f00f8-cdf0-4d0a-8922-8a2c59ae92b4"
+  ]
+}

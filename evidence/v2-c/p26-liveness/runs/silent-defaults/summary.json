@@ -1,0 +1,41 @@
+{
+  "exit_code": 0,
+  "last_client_byte_s": 0.001,
+  "ended_s": 600.893,
+  "silence_until_end_s": 600.9,
+  "handshake_ok": true,
+  "process_start_reply": {
+    "id": 2,
+    "result": {
+      "processId": "p2",
+      "sandboxType": "macosSeatbelt"
+    }
+  },
+  "sleep_running_while_silent": [
+    33607
+  ],
+  "sleep_running_after": [
+    38734
+  ],
+  "pings": 19,
+  "first_ping_s": 30.371,
+  "ping_gaps_s": [
+    30
+  ],
+  "ping_ids": [
+    "ccnm-liveness-1",
+    "ccnm-liveness-2",
+    "ccnm-liveness-3"
+  ],
+  "write_guards": {
+    "824912a3459ce63f.lock": "released\n"
+  },
+  "exec_server_homes_left": [],
+  "stderr_tail": [
+    "\u001b[2m2026-09-16T15:32:44.449989Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server supervisor starting \u001b[3mworkspace\u001b[0m\u001b[2m=\u001b[0mdemo \u001b[3msession\u001b[0m\u001b[2m=\u001b[0med0f5e1c-075a-4b5a-ad93-7a1da9e79a9b \u001b[3mruntime_user\u001b[0m\u001b[2m=\u001b[0mbing",
+    "\u001b[2m2026-09-16T15:32:44.470253Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server handshake \u001b[3mprovider_id\u001b[0m\u001b[2m=\u001b[0m\"sha256:827a20f2260f53ca58aa207243d3363c6ea7fe34e8e579d7d2a24bb35bf39ed1\" \u001b[3mexecutor_version\u001b[0m\u001b[2m=\u001b[0m\"0.154.0\"",
+    "\u001b[2m2026-09-16T15:42:44.811963Z\u001b[0m \u001b[33m WARN\u001b[0m nothing from the client, not even an answer to a liveness request; ending the exec-server session \u001b[3msilent_seconds\u001b[0m\u001b[2m=\u001b[0m600",
+    "\u001b[2m2026-09-16T15:42:44.812439Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientSilent",
+    "\u001b[2m2026-09-16T15:42:45.071692Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0med0f5e1c-075a-4b5a-ad93-7a1da9e79a9b"
+  ]
+}

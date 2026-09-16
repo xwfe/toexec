@@ -1,0 +1,53 @@
+{
+  "turn_one": true,
+  "sleep_running_before_freeze": [
+    76953
+  ],
+  "frozen_pids": 4,
+  "exec_serve_exit_code": 0,
+  "exec_serve_ended_after_freeze_s": 583.2,
+  "sleep_running_after_give_up": [],
+  "write_guards": {
+    "824912a3459ce63f.lock": "released\n"
+  },
+  "turn_two_model_steps": true,
+  "pane_final_tail": [
+    "╰──────────────────────────────────────────────────────────╯",
+    "› Ask Codex to do anything",
+    "  gpt-6-astra default · /Users/bing/xdw/toexec/evidence/v2-c/p25-liveness/runs/frozen-defaults/work",
+    "╭──────────────────────────────────────────────────────────╮",
+    "│ >_ OpenAI Codex (v0.154.0)                               │",
+    "│                                                          │",
+    "│ model:     gpt-6-astra   /model to change                │",
+    "│ directory: /Users/bing/xdw/toexec/…/frozen-defaults/work │",
+    "╰──────────────────────────────────────────────────────────╯",
+    "  Tip: New Build faster with the Desktop app. Run 'codex app' or visit https://chatgpt.com/codex?app-landing-page=true",
+    "› run turn one",
+    "• turn one done",
+    "› run turn two",
+    "• turn two done",
+    "› Ask Codex to do anything",
+    "  gpt-6-astra default · /Users/bing/xdw/toexec/evidence/v2-c/p25-liveness/runs/frozen-defaults/work · probe"
+  ],
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "last_client_message_before_freeze_s": 18.2,
+  "pings_while_frozen": 19,
+  "ping_gaps_s": [
+    30
+  ],
+  "model_outputs_head": [
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.3 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"b9530b\",\"wall_time_seconds\":10.002436083,\"session_id\":14197,\"original_token_count\":0,\"output\":\"\"}'}]",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.3 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"b9530b\",\"wall_time_seconds\":10.002436083,\"session_id\":14197,\"original_token_count\":0,\"output\":\"\"}'}]",
+    "[{'type': 'input_text', 'text': 'Script failed\\nWall time 0.0 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': 'Script error:\\nexec_command failed: CreateProcess { message: \"Rejected(\\\\\"Failed to create unified exec process: exec-server transport disconnected\\\\\")\" }'}]"
+  ],
+  "exec_serve_stderr_tail": [
+    "\u001b[2m2026-09-16T15:22:29.398753Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":62}",
+    "\u001b[2m2026-09-16T15:22:29.398783Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server request refused \u001b[3mreply\u001b[0m\u001b[2m=\u001b[0m{\"error\":{\"code\":-32004,\"message\":\"No such file or directory (os error 2)\"},\"id\":63}",
+    "\u001b[2m2026-09-16T15:32:30.336165Z\u001b[0m \u001b[33m WARN\u001b[0m nothing from the client, not even an answer to a liveness request; ending the exec-server session \u001b[3msilent_seconds\u001b[0m\u001b[2m=\u001b[0m600",
+    "\u001b[2m2026-09-16T15:32:30.336694Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientSilent",
+    "\u001b[2m2026-09-16T15:32:30.607006Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0ma00cb3e5-ed1d-4015-b489-c7ad8207e34b"
+  ]
+}

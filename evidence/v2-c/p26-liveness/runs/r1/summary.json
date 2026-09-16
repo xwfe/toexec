@@ -1,0 +1,74 @@
+{
+  "ping_seconds": 5.0,
+  "turn_one": true,
+  "idle_seconds": 40.0,
+  "turn_two": true,
+  "turn_three": true,
+  "pings_sent": 13,
+  "pings_answered": 13,
+  "reply_error_codes": [
+    -32601
+  ],
+  "reply_messages": [
+    "exec-server client does not implement `ccnm/liveness` yet"
+  ],
+  "unanswered": [],
+  "transport_spawns": 1,
+  "relay_events": [
+    {
+      "event": "connected",
+      "t": 1789571372.915
+    },
+    {
+      "event": "codex-stdin-eof",
+      "t": 1789571439.375
+    },
+    {
+      "event": "server-eof",
+      "t": 1789571440.247
+    },
+    {
+      "event": "relay-exit",
+      "t": 1789571440.248
+    }
+  ],
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "commands_ok": [
+    true,
+    true,
+    false,
+    false,
+    true
+  ],
+  "outputs_head": [
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"1e4503\",\"wall_time_seconds\":0.000002166,\"exit_code\":0,\"original_token_count\":3,\"output\":",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"1e4503\",\"wall_time_seconds\":0.000002166,\"exit_code\":0,\"original_token_count\":3,\"output\":",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"b8137a\",\"wall_time_seconds\":10.001079083,\"session_id\":56630,\"original_token_count\":0,\"o",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"b8137a\",\"wall_time_seconds\":10.001079083,\"session_id\":56630,\"original_token_count\":0,\"o",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"ca64d1\",\"wall_time_seconds\":0.000002875,\"exit_code\":0,\"original_token_count\":2,\"output\":"
+  ],
+  "disconnect_reported": false,
+  "pane_mentions_ping": false,
+  "pane_tail": [
+    "",
+    "• Ran echo last",
+    "  └ last",
+    "",
+    "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+    "",
+    "• turn three done",
+    "",
+    "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+    "",
+    "",
+    "› Ask Codex to do anything",
+    "",
+    "  gpt-6-astra default · /Users/bing/xdw/toexec/evidence/v2-c/p25-liveness/runs/r1/work · probe"
+  ],
+  "work_files": [
+    "AGENTS.md"
+  ]
+}

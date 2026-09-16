@@ -1,0 +1,80 @@
+{
+  "ping_seconds": 0.25,
+  "turn_one": true,
+  "idle_seconds": 10.0,
+  "turn_two": true,
+  "turn_three": true,
+  "pings_sent": 142,
+  "pings_answered": 142,
+  "reply_error_codes": [
+    -32601
+  ],
+  "reply_messages": [
+    "exec-server client does not implement `ccnm/liveness` yet"
+  ],
+  "unanswered": [],
+  "transport_spawns": 1,
+  "relay_events": [
+    {
+      "event": "connected",
+      "t": 1789571463.775
+    },
+    {
+      "event": "codex-stdin-eof",
+      "t": 1789571500.223
+    },
+    {
+      "event": "ping-write-failed",
+      "id": "ccnm-liveness-143",
+      "error": "BrokenPipeError(32, 'Broken pipe')",
+      "t": 1789571500.282
+    },
+    {
+      "event": "server-eof",
+      "t": 1789571501.952
+    },
+    {
+      "event": "relay-exit",
+      "t": 1789571501.954
+    }
+  ],
+  "runtime_connections": 1,
+  "exec_serve_exit_codes": [
+    0
+  ],
+  "commands_ok": [
+    true,
+    true,
+    false,
+    false,
+    true
+  ],
+  "outputs_head": [
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"be2b24\",\"wall_time_seconds\":0.000002958,\"exit_code\":0,\"original_token_count\":3,\"output\":",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"be2b24\",\"wall_time_seconds\":0.000002958,\"exit_code\":0,\"original_token_count\":3,\"output\":",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"c5652f\",\"wall_time_seconds\":10.001992625,\"session_id\":15623,\"original_token_count\":0,\"o",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 10.2 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"c5652f\",\"wall_time_seconds\":10.001992625,\"session_id\":15623,\"original_token_count\":0,\"o",
+    "[{'type': 'input_text', 'text': 'Script completed\\nWall time 0.1 seconds\\nOutput:\\n'}, {'type': 'input_text', 'text': '{\"chunk_id\":\"1493b4\",\"wall_time_seconds\":0.00000275,\"exit_code\":0,\"original_token_count\":2,\"output\":\""
+  ],
+  "disconnect_reported": false,
+  "pane_mentions_ping": false,
+  "pane_tail": [
+    "",
+    "• Ran echo last",
+    "  └ last",
+    "",
+    "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+    "",
+    "• turn three done",
+    "",
+    "────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+    "",
+    "",
+    "› Ask Codex to do anything",
+    "",
+    "  gpt-6-astra default · /Users/bing/xdw/toexec/evidence/v2-c/p25-liveness/runs/r2-fast/work · probe"
+  ],
+  "work_files": [
+    "AGENTS.md"
+  ]
+}
