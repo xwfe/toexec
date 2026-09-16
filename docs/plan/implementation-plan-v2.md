@@ -383,7 +383,9 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | 9 | V2-G09 资源上限（200 MiB 连续输出、磁盘写失败等） | 对原生链没做；只有 ccnm 自己的 32 MiB 单帧上限（P22） | **未做** |
 | 10 | 第 2.1 节首轮源码基线里的 gld `521386a`、ccnm `8205bc2` | 两边早已前进 | 不改：那是起草时的基线，本来就是历史值 |
 
-**P24 暴露的、计划里原本没有的事**（记在 ccnm `docs/plan/status.json` 的 observed_gaps，这里只列题目）：Agent 静默离网时 Runtime 一直占锁，缩短它要用户在"Runtime sshd 开 `ClientAliveInterval` / ccnm 加空闲超时 / 维持限制"里选；从 Agent 起会话遇到锁被占时报错码是 `CCNM_E_RUNTIME_UNREACHABLE`；`ccnm doctor` 不探原生链；Codex 把 Agent 本机个人 skill 的名字列进提示；Codex 的 Linux 沙箱在 `/tmp` 留空目录；装在各机器上的 ccnm 0.7.0 不含原生链，要发版和替换才能真正用上。
+**P24 暴露的、计划里原本没有的事**（记在 ccnm `docs/plan/status.json` 的 observed_gaps，这里只列题目）：Agent 静默离网时 Runtime 一直占锁——用户选了"ccnm 加空闲超时"，ccnm P26 已做完（见下面第六批）；从 Agent 起会话遇到锁被占时报错码是 `CCNM_E_RUNTIME_UNREACHABLE`；`ccnm doctor` 不探原生链；Codex 把 Agent 本机个人 skill 的名字列进提示；Codex 的 Linux 沙箱在 `/tmp` 留空目录；装在各机器上的 ccnm 0.7.0 不含原生链，要发版和替换才能真正用上。
+
+2026-09-17 第六批：ccnm P26（立项时叫 P25，与并行分支撞号后按开工先后顺延）。`exec-serve` 在客户端静默 30 秒时发一个 Codex 不认识的请求 `ccnm/liveness`，Codex 0.154.0 回 `-32601` 且不断连；连续 10 分钟没有任何客户端字节就走正常收尾放锁。零额度本机实测：155 次探活全部得到回答；真实 `exec-serve` 默认计时下，静默客户端和被 SIGSTOP 冻住的真实 Codex TUI 都在最后一个字节后约 601 秒结束、锁 `released`、命令被清；冻 2 分钟再恢复的会话照常可用。代价是 Agent 离开超过 10 分钟原生会话作废。hpsrv 真机黑洞没有复测（公钥已撤）。记录在 ccnm `docs/research/p26-native-liveness-2026-09-17.md`，脚本在 `evidence/v2-c/p26-liveness/`。模型额度 0 次。
 
 2026-09-16 第五批：ccnm P23（Agent 侧接线，开工前核对源码推翻了 WebSocket 网桥的前提）和 P24（真机验收）做完，V2-C 收尾。P24 按用户逐项同意的授权清单执行，root 步骤由会话执行，完成后两台机器按计划清理。
 
