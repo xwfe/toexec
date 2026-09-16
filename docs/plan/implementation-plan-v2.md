@@ -350,11 +350,12 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | V2-Q | Q1 客户端层已确认，模型侧确认仍受阻；**Q2 已完成，结论采纳 alwaysLoad** | Q1：Claude Code 2.1.269 按 2048 个 UTF-16 码元截断 instructions（静态代码 + 真实连接 debug 日志），模型侧那一次尝试因 CLI 未登录未发出请求，见 `evidence/v2-q1/README.md`。Q2：fodelf 上 2.1.272 + ccnm 0.7.0 跑 18 格（3 任务 × 2 组 × 3 次）全通过，A 组每格恰好一次 ToolSearch、多一个回合，四条判据全满足，见 `evidence/v2-q2/README.md`。**累计模型运行 20/145，$2.1454** |
 | 第 13 节缺陷队列 | 除新发现的 task_context 外全部已修 | gld `7aac894`（git 超时）、`bfcdffb`（LICENSE）；ccnm `dc30b69`（协议上限）、`741f23c`（AGENTS.md） |
 | ccnm instructions 预算与顺序 | 已修（ccnm P13） | `60ad480` 代码、`557837d` 阶段验收；记录在 ccnm `docs/research/p13-instructions-host-cap-2026-09-16.md` |
+| Q2 结论的落地 | 已落地（ccnm P15，只改文档） | ccnm `db53098`：外部入口的 `mcpServers` 示例加 `"alwaysLoad": true`，协议文档写清依据与代价；选服务器配置而非工具 `_meta`。本机零额度复现 `coding` 21→14、`read` 18→14，记录在 ccnm `docs/research/p15-alwaysload-2026-09-16.md`。Managed 路径不需要改 |
 | V2-P0–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
 
 2026-09-15 第一批：修了第 13 节 4 项"立即修"（只改 gld git 工具超时这一处执行路径，另三项是文档/许可证），做了 V2-Q1。未安装依赖、未构建 exec-server、未跑 SSH、未改 ccnm 阶段状态。后续结果放入可追溯的 evidence 目录，记录命令、固定版本、输入/输出 hash、OS/身份、通过/失败/跳过与限制；真实秘密不进入证据。
 
-2026-09-16 第二批：跑完 V2-Q2（唯一一次动用模型额度，20 次 $2.1454）。同一天在 ccnm 那边做的三件事都在 ccnm 仓库记账，这里只留指针：P13（instructions 预算与顺序）、P14（read_file 按行有界读取）、0.7.0 发版并把两台机器都换成该版本。共享库、hub、exec-server 仍未开工。
+2026-09-16 第二批：跑完 V2-Q2（唯一一次动用模型额度，20 次 $2.1454），并把它的结论落到 ccnm（P15，纯文档，没再花额度）。同一天在 ccnm 那边做的四件事都在 ccnm 仓库记账，这里只留指针：P13（instructions 预算与顺序）、P14（read_file 按行有界读取）、0.7.0 发版并把两台机器都换成该版本、P15（外部入口配置示例启用 alwaysLoad）。**V2-Q 这条线到此收尾**——Q1 的模型侧确认仍缺，但它不挡任何东西。共享库、hub、exec-server 仍未开工。
 
 ## 12. 固定来源与延伸阅读
 
