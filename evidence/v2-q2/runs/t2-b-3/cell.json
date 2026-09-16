@@ -1,0 +1,43 @@
+{
+ "task": "t2",
+ "arm": "b",
+ "rep": 3,
+ "metrics": {
+  "turns": 8,
+  "tool_search_calls": 0,
+  "ccnm_tool_calls": 7,
+  "builtin_tool_calls": 0,
+  "tools": {
+   "mcp__ccnm__workspace_info": 1,
+   "mcp__ccnm__list_files": 1,
+   "mcp__ccnm__read_file": 3,
+   "mcp__ccnm__apply_patch": 1,
+   "mcp__ccnm__exec_command": 1
+  },
+  "input_tokens": 12,
+  "output_tokens": 793,
+  "cache_creation_input_tokens": 13619,
+  "cache_read_input_tokens": 194471,
+  "total_cost_usd": 0.10238219999999999,
+  "duration_ms": 14799,
+  "result_subtype": "success",
+  "result_text": "4 个测试全过了。改动只有一行：`stats.py` 里 `moving_average` 的 `range(len(xs) - window)` 少了 `+1`，导致窗口个数算错、窗口等于序列长度时直接返回空列表。",
+  "is_error": false,
+  "total_input_tokens": 208102,
+  "exit_code": 0,
+  "wall_s": 16.8
+ },
+ "grade": {
+  "changed": [
+   "stats.py"
+  ],
+  "ok": true,
+  "why": "",
+  "tests_exit": 0,
+  "tests_tail": [
+   "Ran 4 tests in 0.000s",
+   "",
+   "OK"
+  ]
+ }
+}

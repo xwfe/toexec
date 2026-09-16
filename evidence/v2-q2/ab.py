@@ -234,9 +234,15 @@ def parse_stream(path):
 
 
 def changed_files(pristine, proj):
-    """夹具副本相对原始夹具改了哪些文件。判分只看副作用，这是主要依据。"""
+    """夹具副本相对原始夹具改了哪些文件。判分只看副作用，这是主要依据。
+
+    排除 __pycache__：跑一次 `python3 -m unittest` 就会生成它，任务本身也要求
+    跑测试，所以它是产物不是改动。第一轮就是没排它，18 格里 12 格被误判成
+    「改了不该改的文件」。
+    """
     p = subprocess.Popen(
-        ["diff", "-rq", pristine, proj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+        ["diff", "-rq", "-x", "__pycache__", "-x", "*.pyc",
+         pristine, proj], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
     )
     text = p.communicate()[0].decode("utf-8", "replace")
     names = set()
@@ -395,6 +401,23 @@ def cmd_run(args):
     return 0
 
 
+def cmd_regrade(args):
+    """只重判分，不再发模型请求。判分脚本改了就用它，夹具副本还在原地。"""
+    runs = os.path.join(args.outdir, "runs")
+    for name in sorted(os.listdir(runs)):
+        p = os.path.join(runs, name, "cell.json")
+        if not os.path.exists(p):
+            continue
+        with open(p) as f:
+            c = json.load(f)
+        if c["task"] in PROMPTS:
+            c["grade"] = grade(c["task"], os.path.join(runs, name), c["metrics"])
+        with open(p, "w") as f:
+            json.dump(c, f, ensure_ascii=False, indent=1)
+        print(line(c))
+    return 0
+
+
 def median(xs):
     xs = [x for x in xs if x is not None]
     return statistics.median(xs) if xs else None
@@ -467,16 +490,20 @@ def main():
             p.add_argument("--tasks", default="t1,t2,t3")
             p.add_argument("--arms", default="a,b")
             p.add_argument("--reps", type=int, default=3)
-    p = sub.add_parser("report")
-    p.add_argument("outdir")
+    for name in ("report", "regrade"):
+        p = sub.add_parser(name)
+        p.add_argument("outdir")
     args = ap.parse_args()
     if not args.cmd:
         ap.print_help()
         return 2
-    if args.cmd != "report":
+    if args.cmd in ("smoke", "run"):
         args.ccnm = os.path.abspath(os.path.expanduser(args.ccnm))
     args.outdir = os.path.abspath(os.path.expanduser(args.outdir))
-    return {"smoke": cmd_smoke, "run": cmd_run, "report": cmd_report}[args.cmd](args)
+    return {
+        "smoke": cmd_smoke, "run": cmd_run,
+        "report": cmd_report, "regrade": cmd_regrade,
+    }[args.cmd](args)
 
 
 if __name__ == "__main__":

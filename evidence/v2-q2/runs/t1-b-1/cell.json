@@ -1,0 +1,33 @@
+{
+ "task": "t1",
+ "arm": "b",
+ "rep": 1,
+ "metrics": {
+  "turns": 3,
+  "tool_search_calls": 0,
+  "ccnm_tool_calls": 2,
+  "builtin_tool_calls": 0,
+  "tools": {
+   "mcp__ccnm__search_text": 1,
+   "mcp__ccnm__list_files": 1
+  },
+  "input_tokens": 6,
+  "output_tokens": 248,
+  "cache_creation_input_tokens": 12234,
+  "cache_read_input_tokens": 90039,
+  "total_cost_usd": 0.0704838,
+  "duration_ms": 9355,
+  "result_subtype": "success",
+  "result_text": "找到了,在 `data/2026-09-14.log` 第3行的注释里。\n\n436254879",
+  "is_error": false,
+  "total_input_tokens": 102279,
+  "exit_code": 0,
+  "wall_s": 11.5
+ },
+ "grade": {
+  "changed": [],
+  "ok": true,
+  "why": "",
+  "answer": "436254879"
+ }
+}

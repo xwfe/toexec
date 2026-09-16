@@ -1,0 +1,31 @@
+{
+ "task": "smoke",
+ "arm": "a",
+ "rep": 0,
+ "metrics": {
+  "turns": 3,
+  "tool_search_calls": 1,
+  "ccnm_tool_calls": 1,
+  "builtin_tool_calls": 0,
+  "tools": {
+   "ToolSearch": 1,
+   "mcp__ccnm__workspace_info": 1
+  },
+  "input_tokens": 6,
+  "output_tokens": 168,
+  "cache_creation_input_tokens": 12103,
+  "cache_read_input_tokens": 79944,
+  "total_cost_usd": 0.06709180000000001,
+  "duration_ms": 13582,
+  "result_subtype": "success",
+  "result_text": "demo",
+  "is_error": false,
+  "total_input_tokens": 92053,
+  "exit_code": 0,
+  "wall_s": 17.3
+ },
+ "grade": {
+  "ok": true,
+  "changed": []
+ }
+}
