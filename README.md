@@ -22,7 +22,7 @@ toexec-fs   = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-fs-v0.
 
 按 tag 固定，不跟 `main` 走：改了共享库不会在某次 `cargo update` 之后突然改变产品行为，升级是显式的一步——这边发新 tag，那边改那一行。本地要同时改两边时临时换成 `path` 依赖，**别提交**，提交了两边 CI 就拉不到了。三个仓库的 `rust-version` 统一在 1.89。
 
-Codex 原生 exec-server 那条线（V2-C）的实测证据在 [`evidence/v2-c/`](evidence/v2-c/)：连接身份、协议、权限三道门禁，P21 的方法表，以及 P23 的 stdio 传输（Codex 按 `CODEX_HOME/environments.toml` 自己起子进程，不需要 WebSocket 网桥）；产品实现在 ccnm 的 P21–P24，2026-09-16 已在 macOS Agent + Debian 13 Runtime 上真机验收（`evidence/v2-c/p24-real/`）；封存前最后两个阶段是 P29（并发、在途请求、资源上限的门禁补测，`evidence/v2-c/p29-gates/`）和 P30（修它查出的 fs helper 活过放锁）。**2026-09-17 封存**（ccnm P31）：opt-in 保留、钉 0.154.0、不再维护，原因在 ccnm `docs/plan/runtime-surfaces.md` 第 12.0 节。计划执行到哪、和原文哪里不一样，见 v2 计划第 11 节的对齐检查。
+Codex 原生 exec-server 那条线（V2-C）的实测证据在 [`evidence/v2-c/`](evidence/v2-c/)：连接身份、协议、权限三道门禁，P21 的方法表，以及 P23 的 stdio 传输（Codex 按 `CODEX_HOME/environments.toml` 自己起子进程，不需要 WebSocket 网桥）；产品实现在 ccnm 的 P21–P24，2026-09-16 已在 macOS Agent + Debian 13 Runtime 上真机验收（`evidence/v2-c/p24-real/`）；封存前最后两个阶段是 P29（并发、在途请求、资源上限的门禁补测，`evidence/v2-c/p29-gates/`）和 P30（修它查出的 fs helper 活过放锁）。**2026-09-17 封存**（ccnm P32）：opt-in 保留、钉 0.154.0、不再维护，原因在 ccnm `docs/plan/runtime-surfaces.md` 第 12.0 节。计划执行到哪、和原文哪里不一样，见 v2 计划第 11 节的对齐检查。
 
 方案入口是 [v2 实施方案](docs/plan/implementation-plan-v2.md)：四条主线都已完成；V2-P1 的结论是维持直接执行（[结果](docs/plan/v2-p1-claude-trial-result.md)）；第 0.1 节是最终目标和当前覆盖表。[v1 原文](docs/plan/implementation-plan.md)保持不变，供历史对照；其中的实施与额度声明不自动成为 v2 授权。产品进度仍由各自仓库维护。
 
