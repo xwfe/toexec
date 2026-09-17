@@ -123,7 +123,7 @@ gld hub 接 ccnm 远端成员时，透传的是一份**静态白名单**（`remo
 2. **整文件覆盖**：`apply_patch` 加一种操作，覆盖已有文件时必须带 `read_file` 给的版本号。
 3. **一行 shell**：`exec_command` 加一个和 `cmd` 二选一的参数，省得模型自己拼 argv。不因此改任何权限判断——现在模型本来就能写 `["sh","-c",…]`。
 
-1–3 已在 ccnm P37 做完（2026-09-17），和上面写的有三处不同，gld 同步时照实现走：执行用的是 `bash -c` 而不是 `sh -c`，没有 bash 就报错、不退回 sh（Debian 的 sh 是 dash，模型写的是 bash 方言）；`type` 和 `glob` 同时给时拒绝（rg 里命中 glob 的文件不看类型）；覆盖操作叫 `write`，只替换已存在的文件。依据在 ccnm 的 `docs/research/p37-execution-surface-batch1-2026-09-17.md`。
+1–3 已在 ccnm P37 做完（2026-09-17），和上面写的有三处不同，gld 同步时照实现走：执行用的是 `bash -c` 而不是 `sh -c`，没有 bash 就报错、不退回 sh（Debian 的 sh 是 dash，模型写的是 bash 方言）；调用方的 glob 不再作为 rg 的 `--glob`（rg 里 glob 一命中就不看 `.gitignore`，文件级的也一样），改成文件名部分交给 `--type-add` 缩小范围、整条 glob 由 ccnm 按 rg 规则过滤，`type` 和 `glob` 同给取交集（ccnm P38）；覆盖操作叫 `write`，只替换已存在的文件。依据在 ccnm 的 `docs/research/p37-execution-surface-batch1-2026-09-17.md` 和 `p38-glob-gitignore-2026-09-17.md`。
 4. **图片**：加 `view_image`（名字和 gld、Codex 的一致），返回 MCP 图片内容块。受 Claude Code 对 MCP 输出的上限约束（默认 25,000 token），上限和要不要缩放实测后定。
 5. **notebook**：`read_file` 遇到 `.ipynb` 按 cell 渲染成带编号的文本；`apply_patch` 加按 cell 改的操作。纯 JSON，不加依赖。
 6. **PDF**：MCP 内容块里没有"文档"这一种，只能转成文本。做法和 `search_text` 依赖 `rg` 一样：Runtime 上有 `pdftotext` 就用，没有就报一个说清楚该装什么的错。
