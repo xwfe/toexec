@@ -1,0 +1,1057 @@
+{
+  "date": "2026-09-17T10:26:52+0900",
+  "pins": {
+    "ccnm_sha256": "97a93d0b9fe4cb50fa9505259c7bf002c2ea47c95abc5053385190bea8e76440",
+    "codex_sha256": "4f85982624b3898c8991cb80c0981b2aa71070e3537046c9a95950318a95afcc"
+  },
+  "cpus": 10,
+  "load_at_start": 29.3,
+  "paths": {
+    "workspace": "/Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/workspace",
+    "outside": "/Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/outside",
+    "home": "/Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/runtime/home",
+    "tmp": "/private/tmp/v2-p1-umfb2sfq"
+  },
+  "probes": [
+    {
+      "probe": "W1-workspace-write",
+      "kind": "legit",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      },
+      "S": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      }
+    },
+    {
+      "probe": "W2-outside-write",
+      "kind": "constraint",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": "/bin/sh: /Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/outside/w2-A1.txt: Operation not permitted"
+      },
+      "S": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": "/bin/sh: /Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/outside/w2-S1.txt: Operation not permitted"
+      }
+    },
+    {
+      "probe": "W3-home-write",
+      "kind": "constraint",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": "/bin/sh: /Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/runtime/home/w3-A1.txt: Operation not permitted"
+      },
+      "S": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": "/bin/sh: /Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/runtime/home/w3-S1.txt: Operation not permitted"
+      }
+    },
+    {
+      "probe": "W4-tmp-write",
+      "kind": "constraint",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      },
+      "S": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      }
+    },
+    {
+      "probe": "W5-dotgit-write",
+      "kind": "constraint",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": "/bin/sh: /Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/workspace/.git/w5-A1: Operation not permitted"
+      },
+      "S": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": "/bin/sh: /Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/workspace/.git/w5-S1: Operation not permitted"
+      }
+    },
+    {
+      "probe": "R1-outside-read",
+      "kind": "constraint",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      },
+      "S": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      }
+    },
+    {
+      "probe": "R2-home-read",
+      "kind": "constraint",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      },
+      "S": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      }
+    },
+    {
+      "probe": "N1-loopback-connect",
+      "kind": "constraint",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": ""
+      },
+      "S": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 1"
+        ],
+        "first_block_evidence": ""
+      }
+    },
+    {
+      "probe": "L1-run-project-code",
+      "kind": "legit",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      },
+      "S": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      }
+    },
+    {
+      "probe": "L2-git-commit",
+      "kind": "legit",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 128"
+        ],
+        "first_block_evidence": "fatal: Unable to create '/Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/workspace/.git/index.lock': Operation not permitted"
+      },
+      "S": {
+        "effect_rounds": 0,
+        "exits": [
+          "exit 128"
+        ],
+        "first_block_evidence": "fatal: Unable to create '/Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/workspace/.git/index.lock': Operation not permitted"
+      }
+    },
+    {
+      "probe": "L3-workspace-read",
+      "kind": "legit",
+      "D": {
+        "effect_rounds": 5,
+        "exits": [
+          "ok"
+        ],
+        "first_block_evidence": null
+      },
+      "A": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      },
+      "S": {
+        "effect_rounds": 5,
+        "exits": [
+          "exit 0"
+        ],
+        "first_block_evidence": null
+      }
+    }
+  ],
+  "rpc_read_probes": [
+    {
+      "case": "outside-absolute",
+      "path": "/Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/outside/canary.txt",
+      "D": "CCNM_E_POLICY: /Users/bing/xdw/toexec/evidence/v2-p/p1/runs/macos-1/outside/canary.txt is an absolute path; ccnm only reads inside the workspace",
+      "D_allowed": false,
+      "A": {
+        "code": -32600,
+        "message": "ccnm refused fs/open: path is outside the workspace"
+      },
+      "A_allowed": false
+    },
+    {
+      "case": "parent-components",
+      "path": "../outside/canary.txt",
+      "D": "CCNM_E_POLICY: ../outside/canary.txt contains `..`; ccnm only reads inside the workspace",
+      "D_allowed": false,
+      "A": {
+        "code": -32600,
+        "message": "ccnm refused fs/open: path is not a plain file: URI"
+      },
+      "A_allowed": false
+    },
+    {
+      "case": "symlink-escape",
+      "path": "escape/canary.txt",
+      "D": "CCNM_E_POLICY: escape/canary.txt resolves outside the workspace (symlink escape)",
+      "D_allowed": false,
+      "A": {
+        "code": -32600,
+        "message": "ccnm refused fs/open: escape/canary.txt resolves outside the workspace (symlink escape)"
+      },
+      "A_allowed": false
+    },
+    {
+      "case": "dotgit-config",
+      "path": ".git/config",
+      "D": "1→[core]",
+      "D_allowed": true,
+      "A": {
+        "ok": true
+      },
+      "A_allowed": true
+    },
+    {
+      "case": "inside",
+      "path": "README.md",
+      "D": " 1→synthetic V2-P0 workspace",
+      "D_allowed": true,
+      "A": {
+        "ok": true
+      },
+      "A_allowed": true
+    }
+  ],
+  "env": {
+    "A": {
+      "extra_names": [
+        "CCNM_EXEC_SESSION",
+        "CODEX_HOME",
+        "__CF_USER_TEXT_ENCODING"
+      ],
+      "missing_names": [],
+      "extra_credential_like": []
+    },
+    "S": {
+      "extra_names": [
+        "CODEX_HOME",
+        "CODEX_SANDBOX",
+        "CODEX_SANDBOX_NETWORK_DISABLED",
+        "__CF_USER_TEXT_ENCODING"
+      ],
+      "missing_names": [
+        "CCNM_CONFIG",
+        "XDG_STATE_HOME"
+      ],
+      "extra_credential_like": []
+    },
+    "D_credential_like": []
+  },
+  "m1": {
+    "rounds": [
+      {
+        "load_before": 41.3,
+        "D": {
+          "p50_ms": 2.85,
+          "p95_ms": 3.32
+        },
+        "A": {
+          "p50_ms": 35.99,
+          "p95_ms": 37.48
+        },
+        "S": {
+          "p50_ms": 32.72,
+          "p95_ms": 34.26
+        },
+        "N": {
+          "p50_ms": 3.11,
+          "p95_ms": 3.52
+        },
+        "L": {
+          "p50_ms": 2.76,
+          "p95_ms": 3.17
+        },
+        "load_after": 44.9
+      },
+      {
+        "load_before": 44.9,
+        "D": {
+          "p50_ms": 3.08,
+          "p95_ms": 3.59
+        },
+        "A": {
+          "p50_ms": 35.58,
+          "p95_ms": 36.94
+        },
+        "S": {
+          "p50_ms": 32.96,
+          "p95_ms": 36.76
+        },
+        "N": {
+          "p50_ms": 3.19,
+          "p95_ms": 3.71
+        },
+        "L": {
+          "p50_ms": 2.83,
+          "p95_ms": 3.49
+        },
+        "load_after": 44.9
+      },
+      {
+        "load_before": 44.9,
+        "D": {
+          "p50_ms": 3.17,
+          "p95_ms": 5.59
+        },
+        "A": {
+          "p50_ms": 35.66,
+          "p95_ms": 37.22
+        },
+        "S": {
+          "p50_ms": 32.61,
+          "p95_ms": 35.84
+        },
+        "N": {
+          "p50_ms": 3.04,
+          "p95_ms": 3.62
+        },
+        "L": {
+          "p50_ms": 2.8,
+          "p95_ms": 3.32
+        },
+        "load_after": 47.6
+      },
+      {
+        "load_before": 47.6,
+        "D": {
+          "p50_ms": 3.11,
+          "p95_ms": 3.55
+        },
+        "A": {
+          "p50_ms": 35.5,
+          "p95_ms": 37.19
+        },
+        "S": {
+          "p50_ms": 33.15,
+          "p95_ms": 35.8
+        },
+        "N": {
+          "p50_ms": 3.25,
+          "p95_ms": 9.84
+        },
+        "L": {
+          "p50_ms": 2.78,
+          "p95_ms": 3.37
+        },
+        "load_after": 49.9
+      },
+      {
+        "load_before": 49.9,
+        "D": {
+          "p50_ms": 3.12,
+          "p95_ms": 3.46
+        },
+        "A": {
+          "p50_ms": 35.76,
+          "p95_ms": 37.83
+        },
+        "S": {
+          "p50_ms": 32.86,
+          "p95_ms": 37.85
+        },
+        "N": {
+          "p50_ms": 3.11,
+          "p95_ms": 3.67
+        },
+        "L": {
+          "p50_ms": 2.81,
+          "p95_ms": 3.22
+        },
+        "load_after": 53.4
+      }
+    ],
+    "summary": {
+      "D": {
+        "median_p50_ms": 3.11,
+        "median_p95_ms": 3.55
+      },
+      "A": {
+        "median_p50_ms": 35.66,
+        "median_p95_ms": 37.22
+      },
+      "S": {
+        "median_p50_ms": 32.86,
+        "median_p95_ms": 35.84
+      },
+      "N": {
+        "median_p50_ms": 3.11,
+        "median_p95_ms": 3.67
+      },
+      "L": {
+        "median_p50_ms": 2.8,
+        "median_p95_ms": 3.32
+      }
+    }
+  },
+  "m2": [
+    {
+      "D_preview": {
+        "wall_s": 2.6751,
+        "load_before": 53.4,
+        "load_after": 53.4,
+        "client_to_server_bytes": 181,
+        "server_to_client_bytes": 4558,
+        "peak_rss_kib": 12608,
+        "exit": "ok in 2639 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "D_drain": {
+        "wall_s": 0.3773,
+        "load_before": 53.4,
+        "load_after": 53.4,
+        "client_to_server_bytes": 367609,
+        "server_to_client_bytes": 67422868,
+        "peak_rss_kib": 73904,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      },
+      "A_all": {
+        "wall_s": 2.6985,
+        "load_before": 53.4,
+        "load_after": 56.8,
+        "client_to_server_bytes": 1629,
+        "server_to_client_bytes": 90348726,
+        "peak_rss_kib": 52352,
+        "exit": 0,
+        "output_bytes": 67108864
+      },
+      "S_local": {
+        "wall_s": 2.6742,
+        "output_bytes": 67108864,
+        "load_before": 56.8
+      },
+      "L_local": {
+        "wall_s": 2.8835,
+        "output_bytes": 67108864,
+        "load_before": 56.8
+      }
+    },
+    {
+      "D_preview": {
+        "wall_s": 2.655,
+        "load_before": 59.5,
+        "load_after": 60.9,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4559,
+        "peak_rss_kib": 13216,
+        "exit": "ok in 2619 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "D_drain": {
+        "wall_s": 0.4068,
+        "load_before": 60.9,
+        "load_after": 60.9,
+        "client_to_server_bytes": 368295,
+        "server_to_client_bytes": 67423554,
+        "peak_rss_kib": 73984,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      },
+      "A_all": {
+        "wall_s": 2.7091,
+        "load_before": 60.9,
+        "load_after": 60.9,
+        "client_to_server_bytes": 1629,
+        "server_to_client_bytes": 90348726,
+        "peak_rss_kib": 59632,
+        "exit": 0,
+        "output_bytes": 67108864
+      },
+      "S_local": {
+        "wall_s": 2.6686,
+        "output_bytes": 67108864,
+        "load_before": 60.9
+      },
+      "L_local": {
+        "wall_s": 2.8826,
+        "output_bytes": 67108864,
+        "load_before": 62.4
+      }
+    },
+    {
+      "D_preview": {
+        "wall_s": 2.6587,
+        "load_before": 62.4,
+        "load_after": 64.7,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4559,
+        "peak_rss_kib": 13296,
+        "exit": "ok in 2624 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "D_drain": {
+        "wall_s": 0.4052,
+        "load_before": 64.7,
+        "load_after": 64.7,
+        "client_to_server_bytes": 368295,
+        "server_to_client_bytes": 67423554,
+        "peak_rss_kib": 74048,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      },
+      "A_all": {
+        "wall_s": 2.7176,
+        "load_before": 64.7,
+        "load_after": 64.7,
+        "client_to_server_bytes": 1629,
+        "server_to_client_bytes": 90348726,
+        "peak_rss_kib": 66160,
+        "exit": 0,
+        "output_bytes": 67108864
+      },
+      "S_local": {
+        "wall_s": 2.6571,
+        "output_bytes": 67108864,
+        "load_before": 64.7
+      },
+      "L_local": {
+        "wall_s": 2.8696,
+        "output_bytes": 67108864,
+        "load_before": 67.1
+      }
+    },
+    {
+      "D_preview": {
+        "wall_s": 2.6526,
+        "load_before": 69.0,
+        "load_after": 69.0,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4559,
+        "peak_rss_kib": 13280,
+        "exit": "ok in 2616 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "D_drain": {
+        "wall_s": 0.4146,
+        "load_before": 69.0,
+        "load_after": 69.0,
+        "client_to_server_bytes": 368295,
+        "server_to_client_bytes": 67423554,
+        "peak_rss_kib": 74048,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      },
+      "A_all": {
+        "wall_s": 2.7053,
+        "load_before": 69.0,
+        "load_after": 69.9,
+        "client_to_server_bytes": 1629,
+        "server_to_client_bytes": 90348726,
+        "peak_rss_kib": 66112,
+        "exit": 0,
+        "output_bytes": 67108864
+      },
+      "S_local": {
+        "wall_s": 2.6773,
+        "output_bytes": 67108864,
+        "load_before": 69.9
+      },
+      "L_local": {
+        "wall_s": 2.893,
+        "output_bytes": 67108864,
+        "load_before": 69.9
+      }
+    },
+    {
+      "D_preview": {
+        "wall_s": 2.6642,
+        "load_before": 70.9,
+        "load_after": 70.9,
+        "client_to_server_bytes": 182,
+        "server_to_client_bytes": 4559,
+        "peak_rss_kib": 13248,
+        "exit": "ok in 2624 ms, 67108864 B stdout, 0 B stderr"
+      },
+      "D_drain": {
+        "wall_s": 0.4093,
+        "load_before": 70.9,
+        "load_after": 70.9,
+        "client_to_server_bytes": 368853,
+        "server_to_client_bytes": 67424112,
+        "peak_rss_kib": 74144,
+        "calls": 2048,
+        "last_hint": "[end of stdout at 67108864 bytes]"
+      },
+      "A_all": {
+        "wall_s": 2.7177,
+        "load_before": 70.9,
+        "load_after": 71.4,
+        "client_to_server_bytes": 1629,
+        "server_to_client_bytes": 90348726,
+        "peak_rss_kib": 66128,
+        "exit": 0,
+        "output_bytes": 67108864
+      },
+      "S_local": {
+        "wall_s": 2.6938,
+        "output_bytes": 67108864,
+        "load_before": 71.4
+      },
+      "L_local": {
+        "wall_s": 2.865,
+        "output_bytes": 67108864,
+        "load_before": 71.7
+      }
+    }
+  ],
+  "m3": {
+    "data/lines-8m.txt": [
+      {
+        "D": {
+          "wall_s": 0.4539,
+          "load_before": 71.7,
+          "load_after": 71.7,
+          "client_to_server_bytes": 22341,
+          "server_to_client_bytes": 9350799,
+          "peak_rss_kib": 9104,
+          "calls": 127,
+          "last_hint": "[end of file, 104858 lines; version 8388640-18d5f75ea5ce8041]"
+        },
+        "A": {
+          "wall_s": 0.1168,
+          "load_before": 71.7,
+          "load_after": 71.7,
+          "client_to_server_bytes": 42548,
+          "server_to_client_bytes": 11200030,
+          "peak_rss_kib": 61616,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388640
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.4062,
+          "load_before": 71.7,
+          "load_after": 71.7,
+          "client_to_server_bytes": 22341,
+          "server_to_client_bytes": 9350799,
+          "peak_rss_kib": 9424,
+          "calls": 127,
+          "last_hint": "[end of file, 104858 lines; version 8388640-18d5f75ea5ce8041]"
+        },
+        "A": {
+          "wall_s": 0.1163,
+          "load_before": 71.7,
+          "load_after": 71.7,
+          "client_to_server_bytes": 42642,
+          "server_to_client_bytes": 11200124,
+          "peak_rss_kib": 61664,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388640
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.4101,
+          "load_before": 71.7,
+          "load_after": 71.7,
+          "client_to_server_bytes": 22341,
+          "server_to_client_bytes": 9350799,
+          "peak_rss_kib": 9424,
+          "calls": 127,
+          "last_hint": "[end of file, 104858 lines; version 8388640-18d5f75ea5ce8041]"
+        },
+        "A": {
+          "wall_s": 0.1186,
+          "load_before": 71.7,
+          "load_after": 71.7,
+          "client_to_server_bytes": 42935,
+          "server_to_client_bytes": 11200417,
+          "peak_rss_kib": 61664,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388640
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.3971,
+          "load_before": 71.7,
+          "load_after": 72.3,
+          "client_to_server_bytes": 22341,
+          "server_to_client_bytes": 9350799,
+          "peak_rss_kib": 9424,
+          "calls": 127,
+          "last_hint": "[end of file, 104858 lines; version 8388640-18d5f75ea5ce8041]"
+        },
+        "A": {
+          "wall_s": 0.1109,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 42935,
+          "server_to_client_bytes": 11200417,
+          "peak_rss_kib": 61664,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388640
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.4067,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 22341,
+          "server_to_client_bytes": 9350799,
+          "peak_rss_kib": 9424,
+          "calls": 127,
+          "last_hint": "[end of file, 104858 lines; version 8388640-18d5f75ea5ce8041]"
+        },
+        "A": {
+          "wall_s": 0.1074,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 42935,
+          "server_to_client_bytes": 11200417,
+          "peak_rss_kib": 61664,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388640
+        }
+      }
+    ],
+    "data/long-line-8m.txt": [
+      {
+        "D": {
+          "wall_s": 0.0132,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 352,
+          "server_to_client_bytes": 66008,
+          "peak_rss_kib": 0,
+          "calls": 2,
+          "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5f75e9e637582]"
+        },
+        "A": {
+          "wall_s": 0.119,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 43451,
+          "server_to_client_bytes": 11200377,
+          "peak_rss_kib": 61664,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388609
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.0089,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 352,
+          "server_to_client_bytes": 66008,
+          "peak_rss_kib": 0,
+          "calls": 2,
+          "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5f75e9e637582]"
+        },
+        "A": {
+          "wall_s": 0.1108,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 43451,
+          "server_to_client_bytes": 11200377,
+          "peak_rss_kib": 61664,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388609
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.0124,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 352,
+          "server_to_client_bytes": 66008,
+          "peak_rss_kib": 0,
+          "calls": 2,
+          "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5f75e9e637582]"
+        },
+        "A": {
+          "wall_s": 0.1082,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 43451,
+          "server_to_client_bytes": 11200377,
+          "peak_rss_kib": 61664,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388609
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.0094,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 352,
+          "server_to_client_bytes": 66008,
+          "peak_rss_kib": 0,
+          "calls": 2,
+          "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5f75e9e637582]"
+        },
+        "A": {
+          "wall_s": 0.1104,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 43451,
+          "server_to_client_bytes": 11200377,
+          "peak_rss_kib": 61680,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388609
+        }
+      },
+      {
+        "D": {
+          "wall_s": 0.0097,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 352,
+          "server_to_client_bytes": 66008,
+          "peak_rss_kib": 0,
+          "calls": 2,
+          "last_hint": "[no lines returned: data/long-line-8m.txt has 1 line, and start_line was 2; version 8388609-18d5f75e9e637582]"
+        },
+        "A": {
+          "wall_s": 0.1121,
+          "load_before": 72.3,
+          "load_after": 72.3,
+          "client_to_server_bytes": 43451,
+          "server_to_client_bytes": 11200377,
+          "peak_rss_kib": 61680,
+          "calls": 387,
+          "pages": 129,
+          "bytes_read": 8388609
+        }
+      }
+    ],
+    "data/lines-128m.txt": [
+      {
+        "D": {
+          "wall_s": 20.3399,
+          "load_before": 72.3,
+          "load_after": 66.7,
+          "client_to_server_bytes": 181010,
+          "server_to_client_bytes": 75513759,
+          "peak_rss_kib": 9664,
+          "calls": 1012,
+          "last_hint": "CCNM_E_INVALID_ARGS: data/lines-128m.txt: reading line 838120 would mean walking more than 64 MiB; use search_text to fi"
+        },
+        "A": {
+          "wall_s": 2.303,
+          "load_before": 66.7,
+          "load_after": 64.9,
+          "client_to_server_bytes": 689149,
+          "server_to_client_bytes": 179204594,
+          "peak_rss_kib": 61536,
+          "calls": 6147,
+          "pages": 2049,
+          "bytes_read": 134217760
+        }
+      }
+    ]
+  },
+  "g03": [
+    {
+      "file": "empty.txt",
+      "A_bytes_equal_disk": true,
+      "A_bytes": 0,
+      "disk_bytes": 0,
+      "D_first_line": "[data/empty.txt is empty; version 0-18d5f75e9ddb36b5]",
+      "D_last_line": "[data/empty.txt is empty; version 0-18d5f75e9ddb36b5]"
+    },
+    {
+      "file": "bom.txt",
+      "A_bytes_equal_disk": true,
+      "A_bytes": 12,
+      "disk_bytes": 12,
+      "D_first_line": "1→bom line",
+      "D_last_line": "[a UTF-8 BOM was stripped from line 1]"
+    },
+    {
+      "file": "crlf.txt",
+      "A_bytes_equal_disk": true,
+      "A_bytes": 10,
+      "disk_bytes": 10,
+      "D_first_line": "1→one",
+      "D_last_line": "[end of file, 2 lines; version 10-18d5f75e9ddd97c4]"
+    },
+    {
+      "file": "no-newline.txt",
+      "A_bytes_equal_disk": true,
+      "A_bytes": 25,
+      "disk_bytes": 25,
+      "D_first_line": "1→last line without newline",
+      "D_last_line": "[end of file, 1 line; version 25-18d5f75e9de0f70e]"
+    },
+    {
+      "file": "invalid-utf8.txt",
+      "A_bytes_equal_disk": true,
+      "A_bytes": 13,
+      "disk_bytes": 13,
+      "D_first_line": "1→ok",
+      "D_last_line": "[the file is not valid UTF-8; invalid bytes were replaced with U+FFFD]"
+    },
+    {
+      "file": "multibyte.txt",
+      "A_bytes_equal_disk": true,
+      "A_bytes": 1310741,
+      "disk_bytes": 1310741,
+      "D_first_line": "1→aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "D_last_line": "[line 1 is longer than max_bytes and was cut; the rest of it is not returned]"
+    }
+  ],
+  "d_close": 0,
+  "a_close": 0,
+  "after_close": {
+    "a_leftover_pids": [],
+    "a_guards": [
+      "released\n"
+    ],
+    "d_guards": [
+      "released\n"
+    ],
+    "a_stderr_tail": []
+  },
+  "n1_errno_supplement": {
+    "why": "nc prints nothing when a connect fails, so the probe matrix has no block evidence for N1; the same connect from python3 shows the errno",
+    "D": "connected",
+    "A": "python3: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead\nerror 1 Operation not permitted",
+    "S": "error 1 Operation not permitted\npython3: warning: confstr() failed with code 5: couldn't get path of DARWIN_USER_TEMP_DIR; using /tmp instead",
+    "listener_got": [
+      "N1b"
+    ]
+  }
+}

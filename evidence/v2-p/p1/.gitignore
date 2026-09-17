@@ -1,0 +1,5 @@
+# Raw runs stay on the machine that ran them; only the result file is kept.
+runs/*/*
+!runs/*/p1.json
+runs/*.log
+__pycache__/
