@@ -380,12 +380,14 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | 4 | V2-K "再分批共享编辑/提交、进程/输出机制"（第 8 节） | 按重复度盘点只共享两个纯机制；读取契约、编辑回滚编排、进程/输出都不共享 | **已修正**：阶段表加注；**父目录 fsync** 仍是没做的待定决定 |
 | 5 | 三个仓库统一 `rust-version`，**并各加一个 MSRV CI 任务**（第 11 节） | 三仓都是 1.89；MSRV CI 任务当时没加（ccnm 和 gld 的 CI 只跑 stable，toexec 没有 CI），2026-09-17 补上 | **已修正**：toexec `37972c3`（新建 CI：stable 上 fmt、clippy、test，另加 msrv）；ccnm `2a4190b`（msrv job 只跑 Linux，全仓按 OS 分支的只有一个函数；阶段 P28，开工时叫 P25，按开工先后排在另外三个同时开工的阶段之后）；gld `2a90630`（Linux、macOS、Windows 三格，因为三套平台模块各只在自己的 OS 上编译）。版本都从根 `Cargo.toml` 读，不在 workflow 里再写一遍。推送前本机验证：三仓 `cargo +1.89 check --workspace --all-targets --locked` 通过、无警告；依赖闭包里声明最高的外部 crate 是 1.88.0，不需要升；全新 clone、空 `CARGO_HOME`、没有 git 凭据时匿名拉到 toexec 的 tag。**都还在本地分支（toexec 和 gld 是 `msrv-ci`），没推，GitHub 上没跑过；gld 的 Linux、Windows 两格本机没验** |
 | 6 | V2-G05：未授权连接、抢首连接、跨主体/工作区/配置代次句柄、合成凭据不可访问 | stdio 传输没有监听端口，前两项对原生链不适用；每个会话一个 exec-server 进程，句柄跨不了会话；执行端沙箱里读不到凭据（P24 实测）；配置代次没有单独绑定——按代码，会话打开时按当时的 Runtime 配置解析一次，之后改配置不影响已开会话（没实测） | 记录适用性，门禁定义不改 |
-| 7 | V2-G07：只读不取写锁、可与 coding 共存；同会话并发修改串行 | 原生链按设计只开 coding，只读仍走 MCP（ccnm P11 已验）；跨入口抢锁真机 74/74；**同一原生会话内并发修改没测** | 并发那一项**未测** |
-| 8 | V2-G08：前端断开、SSH 黑洞、监督器/服务/子进程崩溃、在途超时 | 前五项真机做了（P24.3）；**在途超时没测**；产品只有 stdio，没有 ws 生命周期可记 | 在途超时**未测** |
-| 9 | V2-G09 资源上限（200 MiB 连续输出、磁盘写失败等） | 对原生链没做；只有 ccnm 自己的 32 MiB 单帧上限（P22） | **未做** |
+| 7 | V2-G07：只读不取写锁、可与 coding 共存；同会话并发修改串行 | 原生链按设计只开 coding，只读仍走 MCP（ccnm P11 已验）；跨入口抢锁真机 74/74；同会话并发由 ccnm P29 补测：Codex 的 `apply_patch` 按源码不并行，exec-server 并发执行同一连接的请求；连发 280 个请求 20/20 每行完整、每个 id 一个回答，同路径并发写 20/20 完整。**P29 另查出一个缺陷**：exec-server 被强杀时，不带会话标记的 fs helper 活过放锁（macOS 20/20） | **已测**（ccnm `docs/research/p29-native-gates-2026-09-17.md`，`evidence/v2-c/p29-gates/`）；fs helper 缺陷待 ccnm 另立阶段修 |
+| 8 | V2-G08：前端断开、SSH 黑洞、监督器/服务/子进程崩溃、在途超时 | 前五项真机做了（P24.3）；产品只有 stdio，没有 ws 生命周期可记。在途超时由 ccnm P29 补测：Codex 对文件和进程请求不设超时、不重连，ccnm 也不该替它超时（理由见 P29 记录第 1 节）；请求在途时断开 20/20 干净，`process/terminate` 5/5 同组 0.09 秒内结束、脱离的会话结束时被扫掉 | **已测**（本机 macOS） |
+| 9 | V2-G09 资源上限（200 MiB 连续输出、磁盘写失败等） | ccnm P29 补测：200 MiB 输出 5/5，`exec-serve` 峰值 RSS 5.5 MiB，客户端停读时命令停住；exec-server 读 200 MiB 文件约 1 GiB（它自己 512 MiB 上限）；磁盘写满只回错误；过期引用原样报错；单文件写入约 24 MiB 为上限（超过结束会话） | **已测**（本机 macOS；Linux 与 Agent 侧 Codex 内存没测） |
 | 10 | 第 2.1 节首轮源码基线里的 gld `521386a`、ccnm `8205bc2` | 两边早已前进 | 不改：那是起草时的基线，本来就是历史值 |
 
 **P24 暴露的、计划里原本没有的事**（记在 ccnm `docs/plan/status.json` 的 observed_gaps，这里只列题目）：Agent 静默离网时 Runtime 一直占锁——用户选了"ccnm 加空闲超时"，ccnm P26 已做完（见下面第六批）；从 Agent 起会话遇到锁被占时报错码是 `CCNM_E_RUNTIME_UNREACHABLE`；`ccnm doctor` 不探原生链；Codex 把 Agent 本机个人 skill 的名字列进提示；Codex 的 Linux 沙箱在 `/tmp` 留空目录；装在各机器上的 ccnm 0.7.0 不含原生链，要发版和替换才能真正用上。
+
+2026-09-17 第七批：ccnm P29 补测上表第 7–9 行，零额度、本机 macOS，真实 `exec-serve` + 真实 Codex 0.154.0 exec-server + 不 import ccnm 的中立客户端（脚本在 `evidence/v2-c/p29-gates/`）。三项门禁都有了结果；查出 fs helper（exec-server 做带沙箱文件读写时起的子进程，环境被清空）在 exec-server 被强杀时活过放锁，ccnm 记为待修。模型额度 0 次。
 
 2026-09-17 第六批：ccnm P26（立项时叫 P25，与并行分支撞号后按开工先后顺延）。`exec-serve` 在客户端静默 30 秒时发一个 Codex 不认识的请求 `ccnm/liveness`，Codex 0.154.0 回 `-32601` 且不断连；连续 10 分钟没有任何客户端字节就走正常收尾放锁。零额度本机实测：155 次探活全部得到回答；真实 `exec-serve` 默认计时下，静默客户端和被 SIGSTOP 冻住的真实 Codex TUI 都在最后一个字节后约 601 秒结束、锁 `released`、命令被清；冻 2 分钟再恢复的会话照常可用。代价是 Agent 离开超过 10 分钟原生会话作废。hpsrv 真机黑洞没有复测（公钥已撤）。记录在 ccnm `docs/research/p26-native-liveness-2026-09-17.md`，脚本在 `evidence/v2-c/p26-liveness/`。模型额度 0 次。
 
