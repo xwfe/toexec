@@ -1,0 +1,33 @@
+{
+  "host": "codex-cli 0.154.0",
+  "rc": 0,
+  "model_requests": 2,
+  "model": "gpt-6-astra",
+  "script": "const r = await tools.mcp__media__media_probe({kind: \"image\"});\ntext(r.content[0].text);\ntext(JSON.stringify(r.content.map((b) => b.type)));\nimage(r.content[1]);\n",
+  "mcp_calls": [
+    {
+      "method": "tools/call",
+      "arguments": {
+        "kind": "image"
+      }
+    }
+  ],
+  "custom_tool_call_output": [
+    {
+      "type": "input_text",
+      "text": "Script completed\nWall time 0.1 seconds\nOutput:\n"
+    },
+    {
+      "type": "input_text",
+      "text": "MARK_TOOL_TEXT kind=image"
+    },
+    {
+      "type": "input_text",
+      "text": "[\"text\",\"image\"]"
+    },
+    {
+      "type": "input_image",
+      "image_url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAA...<122 chars>"
+    }
+  ]
+}

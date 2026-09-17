@@ -1,0 +1,93 @@
+{
+  "host": "codex-cli 0.154.0",
+  "runs": [
+    {
+      "kind": "image",
+      "rc": 0,
+      "seconds": 1.25,
+      "model_requests": 2,
+      "tool_name_offered": "mcp__media / media_probe",
+      "mcp_calls": [
+        {
+          "method": "tools/call",
+          "arguments": {
+            "kind": "image"
+          }
+        }
+      ],
+      "function_call_output": [
+        {
+          "type": "input_text",
+          "text": "Wall time: 0.0056 seconds\nOutput:"
+        },
+        {
+          "type": "input_text",
+          "text": "MARK_TOOL_TEXT kind=image"
+        },
+        {
+          "type": "input_image",
+          "image_url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAA...<122 chars>",
+          "detail": "high"
+        }
+      ]
+    },
+    {
+      "kind": "resource_png",
+      "rc": 0,
+      "seconds": 1.4,
+      "model_requests": 2,
+      "tool_name_offered": "mcp__media / media_probe",
+      "mcp_calls": [
+        {
+          "method": "tools/call",
+          "arguments": {
+            "kind": "resource_png"
+          }
+        }
+      ],
+      "function_call_output": [
+        {
+          "type": "input_text",
+          "text": "Wall time: 0.0013 seconds\nOutput:"
+        },
+        {
+          "type": "input_text",
+          "text": "MARK_TOOL_TEXT kind=resource_png"
+        },
+        {
+          "type": "input_text",
+          "text": "{\"type\":\"resource\",\"resource\":{\"uri\":\"file:///probe/red.png\"...<195 chars>"
+        }
+      ]
+    },
+    {
+      "kind": "resource_pdf",
+      "rc": 0,
+      "seconds": 1.25,
+      "model_requests": 2,
+      "tool_name_offered": "mcp__media / media_probe",
+      "mcp_calls": [
+        {
+          "method": "tools/call",
+          "arguments": {
+            "kind": "resource_pdf"
+          }
+        }
+      ],
+      "function_call_output": [
+        {
+          "type": "input_text",
+          "text": "Wall time: 0.0011 seconds\nOutput:"
+        },
+        {
+          "type": "input_text",
+          "text": "MARK_TOOL_TEXT kind=resource_pdf"
+        },
+        {
+          "type": "input_text",
+          "text": "{\"type\":\"resource\",\"resource\":{\"uri\":\"file:///probe/blank.pd...<359 chars>"
+        }
+      ]
+    }
+  ]
+}
