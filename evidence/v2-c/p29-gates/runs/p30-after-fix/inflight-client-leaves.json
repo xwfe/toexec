@@ -1,0 +1,233 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "c80b0b1",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "client-leaves",
+  "rounds": 20,
+  "results": [
+    {
+      "round": 1,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 2,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 3,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.2,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 4,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.17,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 5,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 6,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 7,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 8,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 9,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 10,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 11,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 12,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 13,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 14,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 15,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 16,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 17,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.18,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 18,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 19,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    },
+    {
+      "round": 20,
+      "read_pending_at_close": true,
+      "sleep_running_before": 1,
+      "exit_code": 0,
+      "close_to_exit_s": 0.19,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": [],
+      "homes_left": []
+    }
+  ]
+}

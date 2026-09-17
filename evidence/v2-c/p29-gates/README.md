@@ -25,6 +25,7 @@
 | `inflight.py` | P29.3：`client-leaves`、`helper-close`、`helper-crash` 各 20 轮，`terminate` 5 轮 |
 | `resources.py` | P29.4：`output`（200 MiB 输出，中途 60 秒不读）、`readfile`（200 MiB 文件、超过 512 MiB 的稀疏文件）、`diskfull`（16 MiB 磁盘映像）、`expired`（保留期前后读、关闭句柄后读）各 5 轮，`writelimit` 1 轮 |
 | `runs/` | 每个场景一个 `<脚本>-<场景>.json`，含版本、每轮结果 |
+| `runs/p30-after-fix/` | ccnm P30 修掉 fs helper 活过放锁之后，用修复后的构建重跑的 `helper-crash`、`helper-close`、`client-leaves`、`terminate`。结果文件里的 `ccnm_commit` 是跑的时候的 HEAD `c80b0b1`，二进制多带了随后提交为 `6437528` 的改动 |
 
 工作目录在 `work/`（不提交）。不放系统临时目录：exec-server 拒绝在那里建辅助链接（ccnm P21），macOS 的 `/tmp` 又是 ccnm 凭据审计判为 unknown 的符号链接。
 
@@ -48,6 +49,6 @@ python3 resources.py writelimit
 
 ## 看原始结果时要知道的事
 
-- `helper-crash` 里 `helper_wrote_after_release` 是脚本在锁已经 `released` 之后打开 FIFO 读端收到的内容——那就是缺陷本身，不是脚本写的。
+- `helper-crash` 里 `helper_wrote_after_release` 是脚本在锁已经 `released` 之后打开 FIFO 读端收到的内容——那就是缺陷本身，不是脚本写的。`runs/` 里是修复前（P29），`runs/p30-after-fix/` 里是修复后，同一个脚本。
 - `same-path` 第一批 20 轮没有记录回包顺序，补了 `reply_order` 之后重跑，`runs/` 里是重跑的结果。
 - `readfile` 的 RSS 按 50 毫秒采样，一次读 1–2 秒只有十来个样本，峰值是下限。
