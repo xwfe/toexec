@@ -1,0 +1,198 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "d5a5b76",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "output",
+  "rounds": 5,
+  "results": [
+    {
+      "round": 1,
+      "bytes_received": 209715200,
+      "expected": 209715200,
+      "chunks": 25600,
+      "seq_gaps": [
+        {
+          "after": 25492,
+          "got": 25494,
+          "at_mib": 199.2
+        }
+      ],
+      "streams": {
+        "stdout": 209715200
+      },
+      "exited_seq": 25493,
+      "closed_note": true,
+      "seconds_excluding_pause": 1.6,
+      "mib_per_s": 125.0,
+      "pause_s": 60.2,
+      "bytes_at_pause_mib": 50.7,
+      "command_progress_during_pause": [
+        "53",
+        "53"
+      ],
+      "supervisor_rss_kib_during_pause": [
+        5552,
+        5584
+      ],
+      "supervisor_peak_rss_mib": 5.5,
+      "executor_peak_rss_mib": 39.2,
+      "under_supervisor_peak_rss_mib": 42.4,
+      "samples": 334,
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 2,
+      "bytes_received": 209715200,
+      "expected": 209715200,
+      "chunks": 25600,
+      "seq_gaps": [
+        {
+          "after": 25478,
+          "got": 25480,
+          "at_mib": 199.1
+        }
+      ],
+      "streams": {
+        "stdout": 209715200
+      },
+      "exited_seq": 25479,
+      "closed_note": true,
+      "seconds_excluding_pause": 1.5,
+      "mib_per_s": 133.3,
+      "pause_s": 60.2,
+      "bytes_at_pause_mib": 51.1,
+      "command_progress_during_pause": [
+        "54",
+        "54"
+      ],
+      "supervisor_rss_kib_during_pause": [
+        5568,
+        5600
+      ],
+      "supervisor_peak_rss_mib": 5.5,
+      "executor_peak_rss_mib": 39.2,
+      "under_supervisor_peak_rss_mib": 42.4,
+      "samples": 329,
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 3,
+      "bytes_received": 209715200,
+      "expected": 209715200,
+      "chunks": 25600,
+      "seq_gaps": [
+        {
+          "after": 25480,
+          "got": 25482,
+          "at_mib": 199.1
+        }
+      ],
+      "streams": {
+        "stdout": 209715200
+      },
+      "exited_seq": 25481,
+      "closed_note": true,
+      "seconds_excluding_pause": 1.5,
+      "mib_per_s": 133.3,
+      "pause_s": 60.2,
+      "bytes_at_pause_mib": 50.1,
+      "command_progress_during_pause": [
+        "53",
+        "53"
+      ],
+      "supervisor_rss_kib_during_pause": [
+        5552,
+        5584
+      ],
+      "supervisor_peak_rss_mib": 5.5,
+      "executor_peak_rss_mib": 39.1,
+      "under_supervisor_peak_rss_mib": 42.4,
+      "samples": 328,
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 4,
+      "bytes_received": 209715200,
+      "expected": 209715200,
+      "chunks": 25600,
+      "seq_gaps": [
+        {
+          "after": 25480,
+          "got": 25482,
+          "at_mib": 199.1
+        }
+      ],
+      "streams": {
+        "stdout": 209715200
+      },
+      "exited_seq": 25481,
+      "closed_note": true,
+      "seconds_excluding_pause": 1.6,
+      "mib_per_s": 125.0,
+      "pause_s": 60.2,
+      "bytes_at_pause_mib": 50.4,
+      "command_progress_during_pause": [
+        "53",
+        "53"
+      ],
+      "supervisor_rss_kib_during_pause": [
+        5552,
+        4624
+      ],
+      "supervisor_peak_rss_mib": 5.5,
+      "executor_peak_rss_mib": 39.2,
+      "under_supervisor_peak_rss_mib": 42.4,
+      "samples": 330,
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 5,
+      "bytes_received": 209715200,
+      "expected": 209715200,
+      "chunks": 25600,
+      "seq_gaps": [
+        {
+          "after": 25477,
+          "got": 25479,
+          "at_mib": 199.0
+        }
+      ],
+      "streams": {
+        "stdout": 209715200
+      },
+      "exited_seq": 25478,
+      "closed_note": true,
+      "seconds_excluding_pause": 1.6,
+      "mib_per_s": 125.0,
+      "pause_s": 60.2,
+      "bytes_at_pause_mib": 50.7,
+      "command_progress_during_pause": [
+        "53",
+        "53"
+      ],
+      "supervisor_rss_kib_during_pause": [
+        5520,
+        5552
+      ],
+      "supervisor_peak_rss_mib": 5.4,
+      "executor_peak_rss_mib": 39.3,
+      "under_supervisor_peak_rss_mib": 42.5,
+      "samples": 333,
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    }
+  ]
+}

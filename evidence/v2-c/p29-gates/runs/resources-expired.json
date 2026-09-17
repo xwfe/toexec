@@ -1,0 +1,133 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "d5a5b76",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "expired",
+  "rounds": 5,
+  "results": [
+    {
+      "round": 1,
+      "closed_note": true,
+      "read_soon_text": "héllo 多字节\n",
+      "read_after_retention": {
+        "code": -32600,
+        "message": "unknown process id fast"
+      },
+      "terminate_after_retention": {
+        "running": false
+      },
+      "open": {
+        "handleId": "h1"
+      },
+      "block": "0123456789",
+      "close": {},
+      "block_after_close": {
+        "code": -32004,
+        "message": "unknown file read handle `h1`"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 2,
+      "closed_note": true,
+      "read_soon_text": "héllo 多字节\n",
+      "read_after_retention": {
+        "code": -32600,
+        "message": "unknown process id fast"
+      },
+      "terminate_after_retention": {
+        "running": false
+      },
+      "open": {
+        "handleId": "h1"
+      },
+      "block": "0123456789",
+      "close": {},
+      "block_after_close": {
+        "code": -32004,
+        "message": "unknown file read handle `h1`"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 3,
+      "closed_note": true,
+      "read_soon_text": "héllo 多字节\n",
+      "read_after_retention": {
+        "code": -32600,
+        "message": "unknown process id fast"
+      },
+      "terminate_after_retention": {
+        "running": false
+      },
+      "open": {
+        "handleId": "h1"
+      },
+      "block": "0123456789",
+      "close": {},
+      "block_after_close": {
+        "code": -32004,
+        "message": "unknown file read handle `h1`"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 4,
+      "closed_note": true,
+      "read_soon_text": "héllo 多字节\n",
+      "read_after_retention": {
+        "code": -32600,
+        "message": "unknown process id fast"
+      },
+      "terminate_after_retention": {
+        "running": false
+      },
+      "open": {
+        "handleId": "h1"
+      },
+      "block": "0123456789",
+      "close": {},
+      "block_after_close": {
+        "code": -32004,
+        "message": "unknown file read handle `h1`"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 5,
+      "closed_note": true,
+      "read_soon_text": "héllo 多字节\n",
+      "read_after_retention": {
+        "code": -32600,
+        "message": "unknown process id fast"
+      },
+      "terminate_after_retention": {
+        "running": false
+      },
+      "open": {
+        "handleId": "h1"
+      },
+      "block": "0123456789",
+      "close": {},
+      "block_after_close": {
+        "code": -32004,
+        "message": "unknown file read handle `h1`"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    }
+  ]
+}

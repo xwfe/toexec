@@ -1,0 +1,273 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "d5a5b76",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "same-path",
+  "rounds": 20,
+  "results": [
+    {
+      "round": 1,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 2,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 3,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 4,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 5,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 6,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 7,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 8,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 9,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 10,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 11,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 12,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 13,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 14,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 15,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 16,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 17,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 18,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 19,
+      "first": "long",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "short",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    },
+    {
+      "round": 20,
+      "first": "short",
+      "replies_ok": true,
+      "reply_order": [
+        "a",
+        "b"
+      ],
+      "outcome": "long",
+      "torn": null,
+      "exit_code": 0,
+      "guard_released": true
+    }
+  ]
+}

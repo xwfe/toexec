@@ -1,0 +1,148 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "d5a5b76",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "diskfull",
+  "rounds": 5,
+  "results": [
+    {
+      "round": 1,
+      "free_before_mib": 15.6,
+      "big_write_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "partial_file_bytes": 0,
+      "free_after_big_mib": 15.6,
+      "small_write_reply": {},
+      "small_on_disk": true,
+      "fill_started": true,
+      "fill_exit": {
+        "processId": "p5",
+        "seq": 3,
+        "exitCode": 0,
+        "sandboxDenied": false
+      },
+      "fill_output": "head: stdout: No space left on device\nrc=1",
+      "write_after_fill_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 2,
+      "free_before_mib": 15.6,
+      "big_write_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "partial_file_bytes": 0,
+      "free_after_big_mib": 15.6,
+      "small_write_reply": {},
+      "small_on_disk": true,
+      "fill_started": true,
+      "fill_exit": {
+        "processId": "p5",
+        "seq": 3,
+        "exitCode": 0,
+        "sandboxDenied": false
+      },
+      "fill_output": "head: stdout: No space left on device\nrc=1",
+      "write_after_fill_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 3,
+      "free_before_mib": 15.6,
+      "big_write_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "partial_file_bytes": 0,
+      "free_after_big_mib": 15.6,
+      "small_write_reply": {},
+      "small_on_disk": true,
+      "fill_started": true,
+      "fill_exit": {
+        "processId": "p5",
+        "seq": 3,
+        "exitCode": 0,
+        "sandboxDenied": false
+      },
+      "fill_output": "head: stdout: No space left on device\nrc=1",
+      "write_after_fill_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 4,
+      "free_before_mib": 15.6,
+      "big_write_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "partial_file_bytes": 0,
+      "free_after_big_mib": 15.6,
+      "small_write_reply": {},
+      "small_on_disk": true,
+      "fill_started": true,
+      "fill_exit": {
+        "processId": "p5",
+        "seq": 3,
+        "exitCode": 0,
+        "sandboxDenied": false
+      },
+      "fill_output": "head: stdout: No space left on device\nrc=1",
+      "write_after_fill_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    },
+    {
+      "round": 5,
+      "free_before_mib": 15.6,
+      "big_write_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "partial_file_bytes": 0,
+      "free_after_big_mib": 15.6,
+      "small_write_reply": {},
+      "small_on_disk": true,
+      "fill_started": true,
+      "fill_exit": {
+        "processId": "p5",
+        "seq": 3,
+        "exitCode": 0,
+        "sandboxDenied": false
+      },
+      "fill_output": "head: stdout: No space left on device\nrc=1",
+      "write_after_fill_reply": {
+        "code": -32603,
+        "message": "No space left on device (os error 28)"
+      },
+      "exit_code": 0,
+      "guard_released": true,
+      "marked_left": []
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "d5a5b76",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "writelimit",
+  "rounds": 1,
+  "results": [
+    {
+      "round": 1,
+      "under": {
+        "raw_mib": 23,
+        "line_mib": 30.67,
+        "seconds": 0.35,
+        "reply": {},
+        "file_size": 24117248,
+        "exit_code": 0,
+        "stderr_tail": [
+          "\u001b[2m2026-09-17T03:57:26.172509Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientClosed",
+          "\u001b[2m2026-09-17T03:57:26.327882Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0m014cb07c-ed2d-47b0-8285-ba24ef6c542e"
+        ],
+        "guard_released": true
+      },
+      "over": {
+        "raw_mib": 25,
+        "line_mib": 33.33,
+        "seconds": 0.26,
+        "reply": null,
+        "file_size": null,
+        "exit_code": 0,
+        "stderr_tail": [
+          "\u001b[2m2026-09-17T03:57:26.663046Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server relay ended \u001b[3mend\u001b[0m\u001b[2m=\u001b[0mClientTooLong",
+          "\u001b[2m2026-09-17T03:57:26.828151Z\u001b[0m \u001b[32m INFO\u001b[0m exec-server session ended; write guard released \u001b[3msession\u001b[0m\u001b[2m=\u001b[0mfab13eb3-c820-4bdf-954a-0c046b755a2f"
+        ],
+        "guard_released": true
+      },
+      "marked_left": []
+    }
+  ]
+}

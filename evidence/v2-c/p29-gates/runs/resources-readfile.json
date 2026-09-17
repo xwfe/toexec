@@ -1,0 +1,183 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "d5a5b76",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "readfile",
+  "rounds": 5,
+  "results": [
+    {
+      "round": 1,
+      "sandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 2.0,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1012.2,
+        "under_supervisor_peak_rss_mib": 1012.2,
+        "samples": 8,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "unsandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 1.05,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1034.7,
+        "under_supervisor_peak_rss_mib": 1034.7,
+        "samples": 5,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "marked_left": []
+    },
+    {
+      "round": 2,
+      "sandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 1.63,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1034.1,
+        "under_supervisor_peak_rss_mib": 1034.1,
+        "samples": 9,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "unsandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 0.98,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1032.7,
+        "under_supervisor_peak_rss_mib": 1032.7,
+        "samples": 6,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "marked_left": []
+    },
+    {
+      "round": 3,
+      "sandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 1.57,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1034.1,
+        "under_supervisor_peak_rss_mib": 1034.1,
+        "samples": 9,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "unsandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 1.07,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1032.8,
+        "under_supervisor_peak_rss_mib": 1032.8,
+        "samples": 5,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "marked_left": []
+    },
+    {
+      "round": 4,
+      "sandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 1.91,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1034.0,
+        "under_supervisor_peak_rss_mib": 1034.0,
+        "samples": 9,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "unsandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 1.0,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1034.7,
+        "under_supervisor_peak_rss_mib": 1034.7,
+        "samples": 5,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "marked_left": []
+    },
+    {
+      "round": 5,
+      "sandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 1.55,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1034.2,
+        "under_supervisor_peak_rss_mib": 1034.2,
+        "samples": 9,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "unsandboxed": {
+        "size": 209715200,
+        "expected": 209715200,
+        "seconds": 0.99,
+        "supervisor_peak_rss_mib": 5.4,
+        "executor_peak_rss_mib": 1034.8,
+        "under_supervisor_peak_rss_mib": 1034.8,
+        "samples": 5,
+        "over_limit_reply": {
+          "code": -32600,
+          "message": "file is too large to read: limit is 536870912 bytes"
+        },
+        "exit_code": 0,
+        "guard_released": true
+      },
+      "marked_left": []
+    }
+  ]
+}

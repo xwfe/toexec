@@ -1,0 +1,118 @@
+{
+  "versions": {
+    "ccnm": "ccnm 0.7.0",
+    "ccnm_commit": "d5a5b76",
+    "ccnm_bin": "/Users/bing/xdw/ccnm/target/release/ccnm",
+    "codex": "codex-cli 0.154.0",
+    "platform": "Darwin 25.6.0 arm64"
+  },
+  "scenario": "terminate",
+  "rounds": 5,
+  "results": [
+    {
+      "round": 1,
+      "sleeps_before": 3,
+      "distinct_groups_before": 2,
+      "terminate_reply": {
+        "running": true
+      },
+      "group_gone_within_s": 0.09,
+      "exited_note": true,
+      "exit_code_note": 137,
+      "closed_note": true,
+      "escaped_still_running_in_session": 1,
+      "guard_during": [
+        "held c1b06b00-6d89-4db4-be60-495ae2cdde3f demo"
+      ],
+      "session_exit_code": 0,
+      "close_to_exit_s": 0.44,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": []
+    },
+    {
+      "round": 2,
+      "sleeps_before": 3,
+      "distinct_groups_before": 2,
+      "terminate_reply": {
+        "running": true
+      },
+      "group_gone_within_s": 0.08,
+      "exited_note": true,
+      "exit_code_note": 137,
+      "closed_note": true,
+      "escaped_still_running_in_session": 1,
+      "guard_during": [
+        "held cd51f10f-0ac3-4cd3-a2c9-6bfc68f73789 demo"
+      ],
+      "session_exit_code": 0,
+      "close_to_exit_s": 0.44,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": []
+    },
+    {
+      "round": 3,
+      "sleeps_before": 3,
+      "distinct_groups_before": 2,
+      "terminate_reply": {
+        "running": true
+      },
+      "group_gone_within_s": 0.08,
+      "exited_note": true,
+      "exit_code_note": 137,
+      "closed_note": true,
+      "escaped_still_running_in_session": 1,
+      "guard_during": [
+        "held 77bbe509-1a09-4643-aa98-742351ac3311 demo"
+      ],
+      "session_exit_code": 0,
+      "close_to_exit_s": 0.44,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": []
+    },
+    {
+      "round": 4,
+      "sleeps_before": 3,
+      "distinct_groups_before": 2,
+      "terminate_reply": {
+        "running": true
+      },
+      "group_gone_within_s": 0.08,
+      "exited_note": true,
+      "exit_code_note": 137,
+      "closed_note": true,
+      "escaped_still_running_in_session": 1,
+      "guard_during": [
+        "held 57f54883-1481-4c09-8e47-61b5d97130c9 demo"
+      ],
+      "session_exit_code": 0,
+      "close_to_exit_s": 0.43,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": []
+    },
+    {
+      "round": 5,
+      "sleeps_before": 3,
+      "distinct_groups_before": 2,
+      "terminate_reply": {
+        "running": true
+      },
+      "group_gone_within_s": 0.08,
+      "exited_note": true,
+      "exit_code_note": 137,
+      "closed_note": true,
+      "escaped_still_running_in_session": 1,
+      "guard_during": [
+        "held acecf616-e16d-4e3b-af03-d60b162e0a05 demo"
+      ],
+      "session_exit_code": 0,
+      "close_to_exit_s": 0.44,
+      "guard_released": true,
+      "sleep_left": [],
+      "marked_left": []
+    }
+  ]
+}
