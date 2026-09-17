@@ -1,6 +1,6 @@
 # toexec 实施方案 v2：共享库为主，收窄 exec-server 复用范围
 
-日期：2026-09-15。状态：**实施中**——V2-K、V2-H、V2-Q、V2-C 四条主线已完成（V2-C 于 2026-09-16 经 ccnm P24 真机验收），Claude 实验线 V2-P0 已完成、V2-P1–P5 未开始；逐项进度见第 11 节的状态表，**计划原文与实际执行的偏移和处理见第 11 节"对齐检查"**。
+日期：2026-09-15。状态：**实施中**——V2-K、V2-H、V2-Q、V2-C 四条主线已完成（V2-C 于 2026-09-16 经 ccnm P24 真机验收），Claude 实验线 V2-P0、V2-P1 已完成，**V2-P1 结论是维持直接执行，实验线结束**（V2-P2–P5 不进入）；逐项进度见第 11 节的状态表，**计划原文与实际执行的偏移和处理见第 11 节"对齐检查"**。
 
 本次修订：gld 本地不接 exec-server；Claude 复用 exec-server 从默认架构降为独立、无模型的收益验证。Codex 原生 exec-server 路线保留。
 
@@ -85,7 +85,7 @@ Claude Desktop SSH、Remote Control、Cowork 可以参考宿主/执行分层，�
 | 选项 | 做法 | 复用/维护 | 兼容边界 | 决策 |
 | --- | --- | --- | --- | --- |
 | **主线：直接执行 + 共享库** | gld 本地和 ccnm MCP 使用共享原语 | 无额外 Codex 运行依赖，减少已有重复 | 各产品适配保留原语义 | **默认建设方向** |
-| A：Claude 委派少量操作 | MCP adapter 将分块读/进程操作交给官方 exec-server | 可复用进程/沙箱，但多一跳 RPC 和实验协议维护 | 搜索、编辑、提交、输出存储仍在共享库 | **只保留 V2-P1 验证，非默认采用** |
+| A：Claude 委派少量操作 | MCP adapter 将分块读/进程操作交给官方 exec-server | 可复用进程/沙箱，但多一跳 RPC 和实验协议维护 | 搜索、编辑、提交、输出存储仍在共享库 | **V2-P1（2026-09-17）否决**：进程委派挡住的 4 类操作，不经 RPC 的 `codex sandbox` 用同一权限对象挡住完全相同的 4 类；分块读没有新增约束。见 `docs/plan/v2-p1-claude-trial-result.md` |
 | B：仅派生执行端 | 为已确认高价值缺口添加最小扩展 | 承担额外 fork、构建、升级和回归成本 | 新 RPC 不会自动被官方 Codex 使用 | 需独立收益依据，不由 A 失败自动触发 |
 | gld 本地接 exec-server | 所有本地操作经 Codex 子进程 | 增加安装/发布、Windows 和版本耦合 | 缺 closeStdin 等会伤及既有会话 | **本版排除** |
 
@@ -361,7 +361,8 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | ccnm instructions 预算与顺序 | 已修（ccnm P13） | `60ad480` 代码、`557837d` 阶段验收；记录在 ccnm `docs/research/p13-instructions-host-cap-2026-09-16.md` |
 | Q2 结论的落地 | 已落地（ccnm P15，只改文档） | ccnm `db53098`：外部入口的 `mcpServers` 示例加 `"alwaysLoad": true`，协议文档写清依据与代价；选服务器配置而非工具 `_meta`。本机零额度复现 `coding` 21→14、`read` 18→14，记录在 ccnm `docs/research/p15-alwaysload-2026-09-16.md`。Managed 路径不需要改 |
 | V2-P0 | **已完成（2026-09-17）** | 判据先于候选冻结：`docs/plan/v2-p0-claude-trial-baseline.md`（提交 `9e128c8`、方法补充 `d3de152`）。对照组 D 在 macOS 本机按 `evidence/v2-p/p0/baseline.py` 跑过：11 个探针 5/5 全成功（直接路径没有 OS 层约束），起进程往返 p50 约 6 ms；按行号分页读 128 MiB 在 64 MiB 处被 ccnm 有意拒绝。候选比较了 exec-server 进程委派、分块读委派，以及不经 RPC 的 `codex sandbox`。模型 0 次 |
-| V2-P1–V2-P5 | 未开始 | Claude 收益验证及后续阶段未执行；不得推断已采纳 |
+| V2-P1 | **已完成（2026-09-17）：维持直接执行** | `docs/plan/v2-p1-claude-trial-result.md`，结果 `evidence/v2-p/p1/runs/macos-1/p1.json`，模型 0 次。本机 macOS 交替测量：A-proc 挡住工作区外写、HOME 写、`.git` 写、网络连接（直接路径 5/5 都能做），但 `codex sandbox` 不经 RPC 挡住的完全相同，冻结判据 9.2.2 不满足；合法 `git commit` 在沙箱里失败；起进程多约 30 ms，来自沙箱而不是 RPC（裸 exec-server 不带沙箱与直接执行一样）。A-read 的读取范围与直接路径相同，每页更快但服务端内存高约 51 MiB，9.3 不满足。附建议交用户：若要给 `exec_command` 加 OS 沙箱，用 `codex sandbox` 包命令即可，属 ccnm 产品阶段，Linux 未测 |
+| V2-P2–V2-P5 | 不进入 | V2-P1 否决了 A 候选；只有用户另行决定（例如按 V2-P1 第 8 节在 ccnm 立 `codex sandbox` 阶段），才有后续，而那不属于本实验线 |
 
 ### 对齐检查（2026-09-16，ccnm P24 之后）
 
