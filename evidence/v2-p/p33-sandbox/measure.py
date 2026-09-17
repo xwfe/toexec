@@ -14,7 +14,8 @@ sandbox had better refuse them.
 Standard library only; no model, no network beyond a loopback probe.
 
 usage: measure.py <name>      -> runs/<name>.json
-env: P33_CODEX (default /opt/homebrew/bin/codex)
+env: P33_CODEX (default /opt/homebrew/bin/codex), P33_CAPTURED (the captured
+     process/start fixture; default: the ccnm checkout next to this repo)
 """
 import json
 import os
@@ -22,14 +23,24 @@ import shutil
 import socket
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-CCNM_REPO = HERE.parents[3] / "ccnm"
 CODEX = os.environ.get("P33_CODEX", "/opt/homebrew/bin/codex")
-CAPTURED = CCNM_REPO / "tests/fixtures/codex-0.154.0/exec-server/process-start-workspace-write.json"
+
+
+def _captured_default():
+    """The ccnm checkout next to this repository; elsewhere, set P33_CAPTURED."""
+    try:
+        return HERE.parents[3] / "ccnm/tests/fixtures/codex-0.154.0/exec-server/process-start-workspace-write.json"
+    except IndexError:
+        return Path("/nonexistent/process-start-workspace-write.json")
+
+
+CAPTURED = Path(os.environ.get("P33_CAPTURED", _captured_default()))
 WORK = HERE / "work"
 REAL_HOME = Path.home()
 
@@ -55,7 +66,7 @@ class Fixture:
         self.outside = WORK / "outside"
         self.outside.mkdir()
         (self.outside / "canary.txt").write_text("outside-canary\n")
-        self.tmp = Path("/private/tmp") / f"p33-{os.getpid()}"
+        self.tmp = Path(tempfile.gettempdir()).resolve() / f"p33-{os.getpid()}"
         self.tmp.mkdir()
         self.root = WORK / "proj"
         self.root.mkdir()
@@ -119,8 +130,11 @@ def main():
     results = {"versions": {}}
     for tool, argv in (("codex", [CODEX, "--version"]), ("cargo", ["cargo", "--version"]), ("rustc", ["rustc", "--version"]),
                        ("git", ["git", "--version"]), ("python3", ["python3", "--version"]), ("node", ["node", "--version"])):
-        r = f.direct(argv)
-        results["versions"][tool] = (r.stdout or r.stderr).decode(errors="replace").strip()
+        try:
+            r = f.direct(argv)
+            results["versions"][tool] = (r.stdout or r.stderr).decode(errors="replace").strip()
+        except FileNotFoundError:
+            results["versions"][tool] = None
     results["platform"] = subprocess.run(["uname", "-srm"], capture_output=True, text=True).stdout.strip()
     results["home_layout"] = {d: os.path.islink(f.home / d) for d in (".cargo", ".rustup")}
 
@@ -159,7 +173,8 @@ def main():
          ["sh", "-c", "echo {label} >> README.md && git -c user.name=p33 -c user.email=p33@invalid commit -qam edit-{label}"],
          check=lambda l, r: f.direct(["git", "log", "-1", "--format=%s"]).stdout.strip() == f"edit-{l}".encode())
     case("L8-git-stash-list", "legit", ["git", "stash", "list"], check=lambda l, r: r.returncode == 0)
-    case("L9-node-run", "legit", ["node", "app.js"], check=lambda l, r: r.stdout.strip() == b"42")
+    if shutil.which("node", path=f.env["PATH"]):
+        case("L9-node-run", "legit", ["node", "app.js"], check=lambda l, r: r.stdout.strip() == b"42")
     case("L10-python-run", "legit", ["python3", "-c", "print(6*7)"], check=lambda l, r: r.stdout.strip() == b"42")
     case("L11-write-target", "legit", ["sh", "-c", "mkdir -p target && echo x > target/p33.txt"],
          check=lambda l, r: (f.root / "target/p33.txt").exists())
@@ -275,6 +290,7 @@ def main():
     results["cases"] = cases
     f.cleanup()
     path = HERE / "runs" / f"{name}.json"
+    path.parent.mkdir(exist_ok=True)
     path.write_text(json.dumps(results, indent=2, ensure_ascii=False) + "\n")
     print("wrote", path)
 

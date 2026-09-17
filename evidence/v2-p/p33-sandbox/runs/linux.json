@@ -1,0 +1,609 @@
+{
+  "versions": {
+    "codex": "codex-cli 0.154.0",
+    "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+    "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)",
+    "git": "git version 2.39.5",
+    "python3": "Python 3.11.2",
+    "node": null
+  },
+  "platform": "Linux 7.0.14-orbstack-00380-ga7e0a2dc9535 aarch64",
+  "home_layout": {
+    ".cargo": true,
+    ".rustup": true
+  },
+  "variants": {
+    "git_writable_commit": {
+      "rc": 0,
+      "stdout": "",
+      "stderr": "",
+      "committed": true
+    },
+    "git_writable_still_blocks_outside": {
+      "rc": 2,
+      "stdout": "",
+      "stderr": "sh: 1: cannot create /home/runner/p33/work/outside/w-V1.txt: Read-only file system",
+      "written": false
+    },
+    "network_enabled_connect": {
+      "rc": 0,
+      "stdout": "connected",
+      "stderr": "",
+      "connected": true
+    },
+    "network_enabled_cold_build": {
+      "rc": 101,
+      "stdout": "",
+      "stderr": "3de039b2554c837/.cache/se/rd/serde, error: Read-only file system (os error 30)\n Downloading crates ...\n  Downloaded serde v1.0.229 (registry `rsproxy-sparse`)\nerror: failed to download replaced source registry `crates-io`\n\nCaused by:\n  failed to create directory `/home/runner/p33/work/home/.cargo-cold-V2/registry/cache/rsproxy.cn-e3de039b2554c837`\n\nCaused by:\n  Read-only file system (os error 30)"
+    }
+  },
+  "fresh_builds": {
+    "D": [
+      {
+        "seconds": 1.32,
+        "rc": 0
+      },
+      {
+        "seconds": 1.31,
+        "rc": 0
+      },
+      {
+        "seconds": 1.32,
+        "rc": 0
+      }
+    ],
+    "S": [
+      {
+        "seconds": 1.34,
+        "rc": 0
+      },
+      {
+        "seconds": 1.31,
+        "rc": 0
+      },
+      {
+        "seconds": 1.42,
+        "rc": 0
+      }
+    ]
+  },
+  "process_group_from_outside": {
+    "wrapper_pid": 5589,
+    "wrapper_pgid": 5589,
+    "descendants": [
+      {
+        "pid": 5603,
+        "pgid": 5589,
+        "comm": "codex-linux-san"
+      },
+      {
+        "pid": 5608,
+        "pgid": 5608,
+        "comm": "bwrap"
+      },
+      {
+        "pid": 5609,
+        "pgid": 5609,
+        "comm": "codex-linux-san"
+      },
+      {
+        "pid": 5610,
+        "pgid": 5609,
+        "comm": "sh"
+      },
+      {
+        "pid": 5611,
+        "pgid": 5609,
+        "comm": "sleep"
+      }
+    ],
+    "all_in_wrapper_group": false
+  },
+  "missing_program_in_sandbox": {
+    "rc": 101,
+    "stdout": "",
+    "stderr": "thread 'main' (2) panicked at linux-sandbox/src/linux_run_main.rs:1575:5:\nFailed to execvp /nonexistent/program: No such file or directory (os error 2)\nnote: run with `RUST_BACKTRACE=1` environment variable to display a backtrace"
+  },
+  "bad_state_json": {
+    "rc": 1,
+    "stdout": "",
+    "stderr": "Error: invalid --sandbox-state-json value: key must be a string at line 1 column 2"
+  },
+  "empty_profile": {
+    "rc": 1,
+    "stdout": "",
+    "stderr": "bwrap: execvp codex-linux-sandbox: No such file or directory"
+  },
+  "exit_code_passthrough": {
+    "rc": 7,
+    "stdout": "",
+    "stderr": ""
+  },
+  "signal_passthrough": {
+    "rc": 143,
+    "stdout": "",
+    "stderr": ""
+  },
+  "ps_inside_sandbox": {
+    "rc": 0,
+    "stdout": "rc=1",
+    "stderr": "fatal library error, lookup self"
+  },
+  "env_added_by_sandbox": [
+    "CODEX_SANDBOX_NETWORK_DISABLED=1",
+    "PATH=/home/runner/p33/work/home/.codex-ccnm/tmp/arg0/codex-arg0Gtk2mA:/home/runner/.cargo/bin:/usr/local/bin:/usr/bin:/bin"
+  ],
+  "env_removed_by_sandbox": [
+    "PATH=/home/runner/.cargo/bin:/usr/local/bin:/usr/bin:/bin"
+  ],
+  "overhead_true": {
+    "D": {
+      "p50_ms": 0.3,
+      "max_ms": 3.0
+    },
+    "S": {
+      "p50_ms": 14.4,
+      "max_ms": 18.0
+    }
+  },
+  "cases": [
+    {
+      "id": "L1-cargo-version",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+        "stderr": "",
+        "seconds": 0.09,
+        "effect": true
+      }
+    },
+    {
+      "id": "L2-cargo-build-warm",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "build"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "Compiling serde_core v1.0.229\n   Compiling serde v1.0.229\n   Compiling p33 v0.1.0 (/home/runner/p33/work/proj)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.54s",
+        "seconds": 1.56,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "Compiling serde_core v1.0.229\n   Compiling serde v1.0.229\n   Compiling p33 v0.1.0 (/home/runner/p33/work/proj)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.40s",
+        "seconds": 1.42,
+        "effect": true
+      }
+    },
+    {
+      "id": "L3-cargo-test",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "test"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "running 1 test\ntest t::adds ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "stderr": "Compiling p33 v0.1.0 (/home/runner/p33/work/proj)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s\n     Running unittests src/main.rs (target-D/debug/deps/p33-6fecd343e6dfbcf6)",
+        "seconds": 0.18,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "running 1 test\ntest t::adds ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "stderr": "Compiling p33 v0.1.0 (/home/runner/p33/work/proj)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s\n     Running unittests src/main.rs (target-S/debug/deps/p33-6fecd343e6dfbcf6)",
+        "seconds": 0.18,
+        "effect": true
+      }
+    },
+    {
+      "id": "L4-cargo-run",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "run",
+        "-q"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.03,
+        "effect": true
+      }
+    },
+    {
+      "id": "L5-cargo-build-cold-cargo-home",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "build"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "Updating `rsproxy-sparse` index\n Downloading crates ...\n  Downloaded serde_core v1.0.229 (registry `rsproxy-sparse`)\n  Downloaded serde v1.0.229 (registry `rsproxy-sparse`)\n   Compiling serde_core v1.0.229\n   Compiling serde v1.0.229\n   Compiling p33 v0.1.0 (/home/runner/p33/work/proj)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.06s",
+        "seconds": 2.08,
+        "effect": true
+      },
+      "S": {
+        "rc": 101,
+        "stdout": "",
+        "stderr": "or: failed to get `serde` as a dependency of package `p33 v0.1.0 (/home/runner/p33/work/proj)`\n\nCaused by:\n  failed to load source for dependency `serde`\n\nCaused by:\n  unable to update registry `crates-io`\n\nCaused by:\n  failed to query replaced source registry `crates-io`\n\nCaused by:\n  download of config.json failed\n\nCaused by:\n  [6] Could not resolve hostname (Could not resolve host: rsproxy.cn)",
+        "seconds": 10.94,
+        "effect": false
+      },
+      "note": "CARGO_HOME that does not exist yet and a fresh target dir: cargo must create the home, download serde and build; needs HOME write and network"
+    },
+    {
+      "id": "L6-git-status",
+      "kind": "legit",
+      "argv": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "?? target-D/\n?? target-S/\n?? target-cold-D/",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "?? target-D/\n?? target-S/\n?? target-cold-D/",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      }
+    },
+    {
+      "id": "L7-git-add-commit",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "echo {label} >> README.md && git -c user.name=p33 -c user.email=p33@invalid commit -qam edit-{label}"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 128,
+        "stdout": "",
+        "stderr": "fatal: Unable to create '/home/runner/p33/work/proj/.git/index.lock': Read-only file system",
+        "seconds": 0.02,
+        "effect": false
+      }
+    },
+    {
+      "id": "L8-git-stash-list",
+      "kind": "legit",
+      "argv": [
+        "git",
+        "stash",
+        "list"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      }
+    },
+    {
+      "id": "L10-python-run",
+      "kind": "legit",
+      "argv": [
+        "python3",
+        "-c",
+        "print(6*7)"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      }
+    },
+    {
+      "id": "L11-write-target",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "mkdir -p target && echo x > target/p33.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      }
+    },
+    {
+      "id": "L12-write-tmpdir",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > \"$TMPDIR/p33-$1.txt\"",
+        "sh"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      }
+    },
+    {
+      "id": "L13-write-slash-tmp",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /tmp/p33-3935-$1.txt",
+        "sh"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      }
+    },
+    {
+      "id": "L14-cwd-subdir",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "pwd; echo y > sub.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "/home/runner/p33/work/proj/src",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "/home/runner/p33/work/proj/src",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      }
+    },
+    {
+      "id": "C1-write-outside",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /home/runner/p33/work/outside/w-{label}.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 2,
+        "stdout": "",
+        "stderr": "sh: 1: cannot create /home/runner/p33/work/outside/w-S.txt: Read-only file system",
+        "seconds": 0.02,
+        "effect": false
+      }
+    },
+    {
+      "id": "C2-write-home",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /home/runner/p33/work/home/w-{label}.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 2,
+        "stdout": "",
+        "stderr": "sh: 1: cannot create /home/runner/p33/work/home/w-S.txt: Read-only file system",
+        "seconds": 0.01,
+        "effect": false
+      }
+    },
+    {
+      "id": "C3-write-dotgit",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > .git/w-{label}"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 2,
+        "stdout": "",
+        "stderr": "sh: 1: cannot create .git/w-S: Read-only file system",
+        "seconds": 0.01,
+        "effect": false
+      }
+    },
+    {
+      "id": "C4-write-through-cargo-symlink",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /home/runner/p33/work/home/.cargo/p33-w-{label}.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 2,
+        "stdout": "",
+        "stderr": "sh: 1: cannot create /home/runner/p33/work/home/.cargo/p33-w-S.txt: Read-only file system",
+        "seconds": 0.01,
+        "effect": false
+      },
+      "note": "through the .cargo symlink into the real ~/.cargo"
+    },
+    {
+      "id": "C5-read-outside",
+      "kind": "constraint",
+      "argv": [
+        "cat",
+        "/home/runner/p33/work/outside/canary.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "outside-canary",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "outside-canary",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      }
+    },
+    {
+      "id": "C6-read-home",
+      "kind": "constraint",
+      "argv": [
+        "cat",
+        "/home/runner/p33/work/home/canary.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "home-canary",
+        "stderr": "",
+        "seconds": 0.0,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "home-canary",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      }
+    },
+    {
+      "id": "C7-loopback-connect",
+      "kind": "constraint",
+      "argv": [
+        "python3",
+        "-c",
+        "import socket; s=socket.socket(); s.connect(('127.0.0.1',38659)); s.send(b'p33'); print('connected')"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "connected",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 1,
+        "stdout": "",
+        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n  File \"/usr/lib/python3.11/socket.py\", line 232, in __init__\n    _socket.socket.__init__(self, family, type, proto, fileno)\nPermissionError: [Errno 1] Operation not permitted",
+        "seconds": 0.03,
+        "effect": false
+      }
+    }
+  ]
+}
