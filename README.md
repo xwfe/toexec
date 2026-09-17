@@ -71,6 +71,7 @@ replace(&temp, &target)?;                         // 一次 rename 顶替
 | 改这里的代码、发新 tag、和产品仓库本地联调 | [docs/development.md](docs/development.md) |
 | 知道 `evidence/` 里那些实测脚本和结果是干什么的 | [docs/evidence.md](docs/evidence.md) |
 | 看 gld / ccnm / toexec 三个仓库的跨仓方案和当前覆盖表 | [docs/plan/implementation-plan-v2.md](docs/plan/implementation-plan-v2.md) |
+| 看下一步：gld / ccnm 的工具面怎么对齐原生 CLI 的能力（含项目 skills） | [docs/plan/implementation-plan-v3-native-parity.md](docs/plan/implementation-plan-v3-native-parity.md) |
 
 ## 许可证
 
