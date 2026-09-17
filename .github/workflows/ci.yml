@@ -1,0 +1,51 @@
+# stable 上查格式、Clippy、跑测试；另在 Cargo.toml 声明的 rust-version 上
+# 编译一遍。
+#
+# 老版本那一遍为什么要有：gld 和 ccnm 按 tag 链接这里，三个仓库的
+# rust-version 统一（v2 计划第 11 节）。只跑 stable 的话，用了比声明更新的
+# std API 照样全绿，要等两个产品的 MSRV 任务，或者有人拿声明的版本装的时候
+# 才炸出来。
+#
+# 只用 GitHub 自己的 action：两个 crate 都没有依赖，编译几秒钟，用不着缓存，
+# 也就没理由多引一个第三方 action。
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  stable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 装 stable
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt,clippy
+          rustup default stable
+          rustc --version
+      - run: cargo fmt --all --check
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+
+  msrv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # 版本只写在 Cargo.toml 一处。以后三仓一起升 rust-version 时这里不用
+      # 跟着改，也就不会出现"声明升了、CI 还在测旧版本"。
+      - name: 装 Cargo.toml 里 rust-version 写的版本
+        run: |
+          msrv=$(sed -n 's/^rust-version *= *"\([0-9.]*\)".*/\1/p' Cargo.toml)
+          case "$msrv" in
+            ''|*[!0-9.]*)
+              echo "::error::根 Cargo.toml 要有且只有一行 rust-version = \"x.y\"，实际读到：$msrv"
+              exit 1 ;;
+          esac
+          rustup toolchain install "$msrv" --profile minimal
+          echo "MSRV=$msrv" >> "$GITHUB_ENV"
+      - run: cargo +"$MSRV" check --workspace --all-targets --locked
