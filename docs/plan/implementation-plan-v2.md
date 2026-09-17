@@ -13,7 +13,7 @@
 **共享 Rust 库和 gld hub 接 ccnm 是主线；三种客户端都走同一条执行路径——ccnm 的 MCP 七工具 + 共享库。Codex 的原生 exec-server 链做完、验收过，2026-09-17 封存；Claude 经 exec-server 的收益验证已否决。**（2026-09-15 的原文是"Codex 使用自己的 exec-server；Claude 是否复用它由收益决定"，两条线的结论都出来之后改成现在这样。）
 
 - Codex：保留官方 Agent，默认经 ccnm MCP 七工具执行。原生 exec-server 链（ccnm P21–P30）保留为 opt-in、钉 0.154.0、不再维护；封存的依据和解封条件在 ccnm `docs/plan/runtime-surfaces.md` 第 12.0 节。
-- Claude Code：保留官方 Agent，经 ccnm MCP 使用直接执行/共享库路径；V2-P1 实测 exec-server 没有净收益，实验线结束。
+- Claude Code：保留官方 Agent，经 ccnm MCP 使用直接执行/共享库路径；V2-P1 实测 exec-server 没有净收益，实验线结束。V2-P1 里唯一实测过的额外约束——命令的 OS 沙箱——由 ccnm P33 搬到了这条默认路径上：workspace 写 `exec_sandbox = "codex"`，三种客户端的 `exec_command` 都包进 `codex sandbox`（opt-in，权限对象一字不改）。
 - Web AI：由 gld hub 接 ccnm 公共 MCP bridge；Web AI 自行分析，不在后台额外启动 Agent。
 - gld 本地工具：**走共享库，不走 exec-server**。安装、发布、Windows 能力与交互会话不依赖 Codex 二进制或实验执行协议。
 - `toexec`：只共享两个产品真正共用的纯机制（有界行读取、原子文件替换，第 11 节）；exec-client 没有消费者，不建。
@@ -398,6 +398,8 @@ native@1、lean@1、纯文本输出、自动上下文、大纲和重复调用提
 | 10 | 第 2.1 节首轮源码基线里的 gld `521386a`、ccnm `8205bc2` | 两边早已前进 | 不改：那是起草时的基线，本来就是历史值 |
 
 **P24 暴露的、计划里原本没有的事**（记在 ccnm `docs/plan/status.json` 的 observed_gaps，这里只列题目）：Agent 静默离网时 Runtime 一直占锁——用户选了"ccnm 加空闲超时"，ccnm P26 已做完（见下面第六批）；从 Agent 起会话遇到锁被占时报错码是 `CCNM_E_RUNTIME_UNREACHABLE`；`ccnm doctor` 不探原生链；Codex 把 Agent 本机个人 skill 的名字列进提示；Codex 的 Linux 沙箱在 `/tmp` 留空目录；装在各机器上的 ccnm 0.7.0 不含原生链，要发版和替换才能真正用上。
+
+2026-09-17 第九批：ccnm P33——`exec_command` 可选包进 Codex 的 workspace-write 沙箱（`exec_sandbox = "codex"`，opt-in，默认不变）。零额度实测在 `evidence/v2-p/p33-sandbox/`（macOS 本机 + OrbStack Debian 容器）：warm cache 的构建测试正常、每条命令多 14–40 ms；挡住工作区外写、HOME 写、`.git` 写（`git commit`）、网络（依赖下不了，放开网络也不行——`~/.cargo` 在 HOME 下）。用户定：被挡就报失败，不给"不带沙箱重试"。真实 ccnm 二进制在容器里过了集成测试（含超时杀到 bwrap session 里的命令）；顺带抓到"状态目录在 /tmp 下时 Codex 拒建辅助程序、命令全失败"，ccnm 加了启动探针拒会话。三种客户端 × 三种系统那张表不变：Windows 仍是空的。模型额度 0 次。
 
 2026-09-17 第八批：用户决定**封存 V2-C**（ccnm P32）。依据：收益从没对照过（P24 只有 3 次模型回合、没有 MCP 组）；唯一实测过的额外约束是 OS 沙箱，而 V2-P1 已证明 `codex sandbox` 不经 RPC 拿到同一集合；只开交互模式，Machine API / Orchestrator 用不上；协议没有版本协商，Codex 每发一版都要重做 P21 的规则表。封存的做法：ccnm 代码和测试保留、opt-in、钉 0.154.0、不再重测、不发版、取消 hpsrv 黑洞复测和 Linux fs helper 实测。同时把最终目标写成第 0.1 节：三种客户端 × 三种操作系统，只留一条执行路径。沙箱那项收益改由 ccnm P33 搬到 MCP 路径的 `exec_command` 上（待用户定三个前置问题）。模型额度 0 次。
 
