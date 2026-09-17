@@ -1,0 +1,613 @@
+{
+  "versions": {
+    "codex": "codex-cli 0.154.0",
+    "cargo": "cargo 1.98.0 (797e8a9bc 2026-08-05)",
+    "rustc": "rustc 1.98.0 (88d9e12ae 2026-08-18)",
+    "git": "git version 2.55.0",
+    "python3": "Python 3.12.12",
+    "node": "v24.9.0"
+  },
+  "platform": "Darwin 25.6.0 arm64",
+  "home_layout": {
+    ".cargo": true,
+    ".rustup": true
+  },
+  "variants": {
+    "git_writable_commit": {
+      "rc": 0,
+      "stdout": "",
+      "stderr": "",
+      "committed": true
+    },
+    "git_writable_still_blocks_outside": {
+      "rc": 1,
+      "stdout": "",
+      "stderr": "sh: /Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/outside/w-V1.txt: Operation not permitted",
+      "written": false
+    },
+    "network_enabled_connect": {
+      "rc": 0,
+      "stdout": "connected",
+      "stderr": "",
+      "connected": true
+    },
+    "network_enabled_cold_build": {
+      "rc": 101,
+      "stdout": "",
+      "stderr": "or: Operation not permitted (os error 1)\n Downloading crates ...\n  Downloaded serde_core v1.0.229 (registry `rsproxy-sparse`)\nerror: failed to download replaced source registry `crates-io`\n\nCaused by:\n  failed to create directory `/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/home/.cargo-cold-V2/registry/cache/rsproxy.cn-e3de039b2554c837`\n\nCaused by:\n  Operation not permitted (os error 1)"
+    }
+  },
+  "fresh_builds": {
+    "D": [
+      {
+        "seconds": 3.04,
+        "rc": 0
+      },
+      {
+        "seconds": 2.2,
+        "rc": 0
+      },
+      {
+        "seconds": 2.3,
+        "rc": 0
+      }
+    ],
+    "S": [
+      {
+        "seconds": 2.4,
+        "rc": 0
+      },
+      {
+        "seconds": 2.45,
+        "rc": 0
+      },
+      {
+        "seconds": 2.3,
+        "rc": 0
+      }
+    ]
+  },
+  "process_group_from_outside": {
+    "wrapper_pid": 94607,
+    "wrapper_pgid": 94607,
+    "descendants": [
+      {
+        "pid": 94610,
+        "pgid": 94607,
+        "comm": "sleep"
+      }
+    ],
+    "all_in_wrapper_group": true
+  },
+  "missing_program_in_sandbox": {
+    "rc": 71,
+    "stdout": "",
+    "stderr": "sandbox-exec: execvp() of '/nonexistent/program' failed: No such file or directory"
+  },
+  "bad_state_json": {
+    "rc": 1,
+    "stdout": "",
+    "stderr": "Error: invalid --sandbox-state-json value: key must be a string at line 1 column 2"
+  },
+  "empty_profile": {
+    "rc": 134,
+    "stdout": "",
+    "stderr": ""
+  },
+  "exit_code_passthrough": {
+    "rc": 7,
+    "stdout": "",
+    "stderr": ""
+  },
+  "signal_passthrough": {
+    "rc": 143,
+    "stdout": "",
+    "stderr": ""
+  },
+  "ps_inside_sandbox": {
+    "rc": 0,
+    "stdout": "rc=126",
+    "stderr": "sh: /bin/ps: Operation not permitted"
+  },
+  "env_added_by_sandbox": [
+    "CODEX_SANDBOX=seatbelt",
+    "CODEX_SANDBOX_NETWORK_DISABLED=1",
+    "PATH=/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/home/.codex-ccnm/tmp/arg0/codex-arg0bXSOjw:/opt/homebrew/Caskroom/codex/0.154.0/codex-path:/Users/bing/.antigravity/antigravity/bin:/Users/bing/.catpawai/bin:/Users/bing/.local/bin:/Users/bing/.local/bin:/opt/homebrew/opt/ruby/bin:/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:/opt/homebrew/opt/dotnet@8/bin:/opt/homebrew/opt/postgresql@18/bin:/Users/bing/.local/share/mise/installs/bun/latest/bin:/Users/bing/.local/share/mise/installs/deno/2.4.3/bin:/Users/bing/.local/share/mise/installs/deno/2.4.3/.deno/bin:/Users/bing/.local/share/mise/installs/java/corretto-8/bin:/Users/bing/.local/share/mise/installs/node/24.9/bin:/Users/bing/.local/share/mise/installs/npm-cgr/latest/bin:/Users/bing/.local/share/mise/installs/npm-epub2md/latest/bin:/Users/bing/.local/share/mise/installs/npm-git-cz/latest/bin:/Users/bing/.local/share/mise/installs/npm-tsup/latest/bin:/Users/bing/.local/share/mise/installs/npm-whistle/latest/bin:/Users/bing/.local/share/mise/installs/npm-tsx/latest/bin:/Users/bing/.local/share/mise/installs/npm-serw/latest/bin:/Users/bing/.local/share/mise/installs/npm-antfu-ni/latest/bin:/Users/bing/.local/share/mise/installs/npm-typescript/latest/bin:/Users/bing/.local/share/mise/installs/npm-mrm/latest/bin:/Users/bing/.local/share/mise/installs/npm-deobfuscator/latest/bin:/Users/bing/.local/share/mise/installs/npm-frida/latest:/Users/bing/.local/share/mise/installs/pipx-frida-tools/latest/bin:/Users/bing/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/bing/.local/share/mise/installs/npm-electron-asar/latest/bin:/Users/bing/.local/share/mise/installs/npm-pnpm/latest/bin:/Users/bing/.local/share/mise/installs/maven/latest/apache-maven-3.9.12/bin:/Users/bing/.local/share/mise/installs/npm-npm-check-updates/latest/bin:/Users/bing/.local/share/mise/installs/pipx-angr/latest/bin:/Users/bing/.local/share/mise/installs/python/3.12/bin:/Users/bing/.local/share/mise/installs/npm-xwai-nalc/latest/bin:/Users/bing/.local/share/mise/installs/npm-mint/latest/bin:/Users/bing/.local/share/mise/installs/npm-earendil-works-pi-coding-agent/latest/bin:/Users/bing/.local/share/mise/installs/npm-setup-npm-trusted-publish/latest/bin:/Users/bing/.local/share/mise/installs/npm-ccusage/latest/bin:/Users/bing/.local/share/mise/shims:/Users/bing/.cargo/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/bing/.cargo/bin:/Users/bing/.local/bin:/Users/bing/.bun/bin:/Users/bing/.bun/bin:/opt/homebrew/opt/rustup/bin:/Users/bing/bin:/usr/local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/bing/.orbstack/bin:/Applications/IDA Professional 9.4.app/Contents/MacOS/tools/teams:/opt/homebrew/opt/icu4c/bin:/opt/homebrew/opt/icu4c/sbin:/opt/homebrew/share/android-commandlinetools/platform-tools:/Users/bing/.dotnet/tools:/Applications/IDA Professional 9.4.app/Contents/MacOS/tools/teams:/Users/bing/.claude/remote/plugins/3596d6d1/57962e597117aded/bin:/Users/bing/.claude/remote/plugins/3596d6d1/6512b8e02c39f47a/bin:/Users/bing/.claude/remote/plugins/3596d6d1/6aaed4155b84a74c/bin:/Users/bing/.claude/remote/plugins/3596d6d1/6f2eeb1d5726da77/bin:/Users/bing/.claude/remote/plugins/3596d6d1/74f350828f7b04de/bin:/Users/bing/.claude/remote/plugins/3596d6d1/94f3ad924744dbc7/bin:/Users/bing/.claude/remote/plugins/3596d6d1/d6190fe6a12a5c36/bin:/Users/bing/.claude/remote/plugins/3596d6d1/ef9942f3bdd46b47/bin:/Users/bing/.claude/remote/plugins/3596d6d1/f3b2ab7888e1fcd9/bin",
+    "__CF_USER_TEXT_ENCODING=0x1F5:0:0"
+  ],
+  "env_removed_by_sandbox": [
+    "PATH=/Users/bing/.antigravity/antigravity/bin:/Users/bing/.catpawai/bin:/Users/bing/.local/bin:/Users/bing/.local/bin:/opt/homebrew/opt/ruby/bin:/opt/homebrew/opt/ruby/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:/opt/homebrew/opt/dotnet@8/bin:/opt/homebrew/opt/postgresql@18/bin:/Users/bing/.local/share/mise/installs/bun/latest/bin:/Users/bing/.local/share/mise/installs/deno/2.4.3/bin:/Users/bing/.local/share/mise/installs/deno/2.4.3/.deno/bin:/Users/bing/.local/share/mise/installs/java/corretto-8/bin:/Users/bing/.local/share/mise/installs/node/24.9/bin:/Users/bing/.local/share/mise/installs/npm-cgr/latest/bin:/Users/bing/.local/share/mise/installs/npm-epub2md/latest/bin:/Users/bing/.local/share/mise/installs/npm-git-cz/latest/bin:/Users/bing/.local/share/mise/installs/npm-tsup/latest/bin:/Users/bing/.local/share/mise/installs/npm-whistle/latest/bin:/Users/bing/.local/share/mise/installs/npm-tsx/latest/bin:/Users/bing/.local/share/mise/installs/npm-serw/latest/bin:/Users/bing/.local/share/mise/installs/npm-antfu-ni/latest/bin:/Users/bing/.local/share/mise/installs/npm-typescript/latest/bin:/Users/bing/.local/share/mise/installs/npm-mrm/latest/bin:/Users/bing/.local/share/mise/installs/npm-deobfuscator/latest/bin:/Users/bing/.local/share/mise/installs/npm-frida/latest:/Users/bing/.local/share/mise/installs/pipx-frida-tools/latest/bin:/Users/bing/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/bing/.local/share/mise/installs/npm-electron-asar/latest/bin:/Users/bing/.local/share/mise/installs/npm-pnpm/latest/bin:/Users/bing/.local/share/mise/installs/maven/latest/apache-maven-3.9.12/bin:/Users/bing/.local/share/mise/installs/npm-npm-check-updates/latest/bin:/Users/bing/.local/share/mise/installs/pipx-angr/latest/bin:/Users/bing/.local/share/mise/installs/python/3.12/bin:/Users/bing/.local/share/mise/installs/npm-xwai-nalc/latest/bin:/Users/bing/.local/share/mise/installs/npm-mint/latest/bin:/Users/bing/.local/share/mise/installs/npm-earendil-works-pi-coding-agent/latest/bin:/Users/bing/.local/share/mise/installs/npm-setup-npm-trusted-publish/latest/bin:/Users/bing/.local/share/mise/installs/npm-ccusage/latest/bin:/Users/bing/.local/share/mise/shims:/Users/bing/.cargo/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/bing/.cargo/bin:/Users/bing/.local/bin:/Users/bing/.bun/bin:/Users/bing/.bun/bin:/opt/homebrew/opt/rustup/bin:/Users/bing/bin:/usr/local/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/bing/.orbstack/bin:/Applications/IDA Professional 9.4.app/Contents/MacOS/tools/teams:/opt/homebrew/opt/icu4c/bin:/opt/homebrew/opt/icu4c/sbin:/opt/homebrew/share/android-commandlinetools/platform-tools:/Users/bing/.dotnet/tools:/Applications/IDA Professional 9.4.app/Contents/MacOS/tools/teams:/Users/bing/.claude/remote/plugins/3596d6d1/57962e597117aded/bin:/Users/bing/.claude/remote/plugins/3596d6d1/6512b8e02c39f47a/bin:/Users/bing/.claude/remote/plugins/3596d6d1/6aaed4155b84a74c/bin:/Users/bing/.claude/remote/plugins/3596d6d1/6f2eeb1d5726da77/bin:/Users/bing/.claude/remote/plugins/3596d6d1/74f350828f7b04de/bin:/Users/bing/.claude/remote/plugins/3596d6d1/94f3ad924744dbc7/bin:/Users/bing/.claude/remote/plugins/3596d6d1/d6190fe6a12a5c36/bin:/Users/bing/.claude/remote/plugins/3596d6d1/ef9942f3bdd46b47/bin:/Users/bing/.claude/remote/plugins/3596d6d1/f3b2ab7888e1fcd9/bin"
+  ],
+  "overhead_true": {
+    "D": {
+      "p50_ms": 3.1,
+      "max_ms": 14.0
+    },
+    "S": {
+      "p50_ms": 39.7,
+      "max_ms": 50.1
+    }
+  },
+  "cases": [
+    {
+      "id": "L1-cargo-version",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "cargo 1.98.0 (797e8a9bc 2026-08-05)",
+        "stderr": "",
+        "seconds": 0.04,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "cargo 1.98.0 (797e8a9bc 2026-08-05)",
+        "stderr": "",
+        "seconds": 0.15,
+        "effect": true
+      }
+    },
+    {
+      "id": "L2-cargo-build-warm",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "build"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "Compiling serde_core v1.0.229\n   Compiling serde v1.0.229\n   Compiling p33 v0.1.0 (/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.91s",
+        "seconds": 2.96,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "Compiling serde_core v1.0.229\n   Compiling serde v1.0.229\n   Compiling p33 v0.1.0 (/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.24s",
+        "seconds": 6.32,
+        "effect": true
+      }
+    },
+    {
+      "id": "L3-cargo-test",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "test"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "running 1 test\ntest t::adds ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "stderr": "Compiling p33 v0.1.0 (/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s\n     Running unittests src/main.rs (target-D/debug/deps/p33-57106cab5843e27e)",
+        "seconds": 0.23,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "running 1 test\ntest t::adds ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "stderr": "Compiling p33 v0.1.0 (/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.16s\n     Running unittests src/main.rs (target-S/debug/deps/p33-57106cab5843e27e)",
+        "seconds": 0.24,
+        "effect": true
+      }
+    },
+    {
+      "id": "L4-cargo-run",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "run",
+        "-q"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.05,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.09,
+        "effect": true
+      }
+    },
+    {
+      "id": "L5-cargo-build-cold-cargo-home",
+      "kind": "legit",
+      "argv": [
+        "cargo",
+        "build"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "Updating `rsproxy-sparse` index\n Downloading crates ...\n  Downloaded serde v1.0.229 (registry `rsproxy-sparse`)\n  Downloaded serde_core v1.0.229 (registry `rsproxy-sparse`)\n   Compiling serde_core v1.0.229\n   Compiling serde v1.0.229\n   Compiling p33 v0.1.0 (/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.92s",
+        "seconds": 2.97,
+        "effect": true
+      },
+      "S": {
+        "rc": 101,
+        "stdout": "",
+        "stderr": "ependency of package `p33 v0.1.0 (/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj)`\n\nCaused by:\n  failed to load source for dependency `serde`\n\nCaused by:\n  unable to update registry `crates-io`\n\nCaused by:\n  failed to query replaced source registry `crates-io`\n\nCaused by:\n  download of config.json failed\n\nCaused by:\n  [6] Couldn't resolve host name (Could not resolve host: rsproxy.cn)",
+        "seconds": 10.82,
+        "effect": false
+      },
+      "note": "CARGO_HOME that does not exist yet and a fresh target dir: cargo must create the home, download serde and build; needs HOME write and network"
+    },
+    {
+      "id": "L6-git-status",
+      "kind": "legit",
+      "argv": [
+        "git",
+        "status",
+        "--porcelain"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "?? target-D/\n?? target-S/\n?? target-cold-D/",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "?? target-D/\n?? target-S/\n?? target-cold-D/",
+        "stderr": "",
+        "seconds": 0.05,
+        "effect": true
+      }
+    },
+    {
+      "id": "L7-git-add-commit",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "echo {label} >> README.md && git -c user.name=p33 -c user.email=p33@invalid commit -qam edit-{label}"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.03,
+        "effect": true
+      },
+      "S": {
+        "rc": 128,
+        "stdout": "",
+        "stderr": "fatal: Unable to create '/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj/.git/index.lock': Operation not permitted",
+        "seconds": 0.05,
+        "effect": false
+      }
+    },
+    {
+      "id": "L8-git-stash-list",
+      "kind": "legit",
+      "argv": [
+        "git",
+        "stash",
+        "list"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.04,
+        "effect": true
+      }
+    },
+    {
+      "id": "L9-node-run",
+      "kind": "legit",
+      "argv": [
+        "node",
+        "app.js"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.04,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.06,
+        "effect": true
+      }
+    },
+    {
+      "id": "L10-python-run",
+      "kind": "legit",
+      "argv": [
+        "python3",
+        "-c",
+        "print(6*7)"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.03,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "42",
+        "stderr": "",
+        "seconds": 0.06,
+        "effect": true
+      }
+    },
+    {
+      "id": "L11-write-target",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "mkdir -p target && echo x > target/p33.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.05,
+        "effect": true
+      }
+    },
+    {
+      "id": "L12-write-tmpdir",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > \"$TMPDIR/p33-$1.txt\"",
+        "sh"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.04,
+        "effect": true
+      }
+    },
+    {
+      "id": "L13-write-slash-tmp",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /tmp/p33-89165-$1.txt",
+        "sh"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.05,
+        "effect": true
+      }
+    },
+    {
+      "id": "L14-cwd-subdir",
+      "kind": "legit",
+      "argv": [
+        "sh",
+        "-c",
+        "pwd; echo y > sub.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj/src",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/proj/src",
+        "stderr": "",
+        "seconds": 0.05,
+        "effect": true
+      }
+    },
+    {
+      "id": "C1-write-outside",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/outside/w-{label}.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 1,
+        "stdout": "",
+        "stderr": "sh: /Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/outside/w-S.txt: Operation not permitted",
+        "seconds": 0.04,
+        "effect": false
+      }
+    },
+    {
+      "id": "C2-write-home",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/home/w-{label}.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.02,
+        "effect": true
+      },
+      "S": {
+        "rc": 1,
+        "stdout": "",
+        "stderr": "sh: /Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/home/w-S.txt: Operation not permitted",
+        "seconds": 0.04,
+        "effect": false
+      }
+    },
+    {
+      "id": "C3-write-dotgit",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > .git/w-{label}"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 1,
+        "stdout": "",
+        "stderr": "sh: .git/w-S: Operation not permitted",
+        "seconds": 0.04,
+        "effect": false
+      }
+    },
+    {
+      "id": "C4-write-through-cargo-symlink",
+      "kind": "constraint",
+      "argv": [
+        "sh",
+        "-c",
+        "echo x > /Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/home/.cargo/p33-w-{label}.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 1,
+        "stdout": "",
+        "stderr": "sh: /Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/home/.cargo/p33-w-S.txt: Operation not permitted",
+        "seconds": 0.05,
+        "effect": false
+      },
+      "note": "through the .cargo symlink into the real ~/.cargo"
+    },
+    {
+      "id": "C5-read-outside",
+      "kind": "constraint",
+      "argv": [
+        "cat",
+        "/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/outside/canary.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "outside-canary",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "outside-canary",
+        "stderr": "",
+        "seconds": 0.04,
+        "effect": true
+      }
+    },
+    {
+      "id": "C6-read-home",
+      "kind": "constraint",
+      "argv": [
+        "cat",
+        "/Users/bing/xdw/toexec/evidence/v2-p/p33-sandbox/work/home/canary.txt"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "home-canary",
+        "stderr": "",
+        "seconds": 0.01,
+        "effect": true
+      },
+      "S": {
+        "rc": 0,
+        "stdout": "home-canary",
+        "stderr": "",
+        "seconds": 0.04,
+        "effect": true
+      }
+    },
+    {
+      "id": "C7-loopback-connect",
+      "kind": "constraint",
+      "argv": [
+        "python3",
+        "-c",
+        "import socket; s=socket.socket(); s.connect(('127.0.0.1',63270)); s.send(b'p33'); print('connected')"
+      ],
+      "D": {
+        "rc": 0,
+        "stdout": "connected",
+        "stderr": "",
+        "seconds": 0.03,
+        "effect": true
+      },
+      "S": {
+        "rc": 1,
+        "stdout": "",
+        "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\nPermissionError: [Errno 1] Operation not permitted",
+        "seconds": 0.05,
+        "effect": false
+      }
+    }
+  ]
+}
