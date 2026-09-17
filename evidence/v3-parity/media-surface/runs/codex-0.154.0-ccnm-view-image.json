@@ -1,0 +1,24 @@
+{
+  "host": "codex-cli 0.154.0",
+  "server": "ccnm 0.7.0",
+  "rc": 0,
+  "model_requests": 2,
+  "tool_called": "mcp__ccnm / view_image",
+  "function_call_output": [
+    {
+      "type": "input_text",
+      "text": "Wall time: 0.0077 seconds\nOutput:"
+    },
+    {
+      "type": "input_text",
+      "text": "shots/red.png: PNG, 73 bytes"
+    },
+    {
+      "type": "input_image",
+      "image_url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAIAAA...<122 chars>",
+      "detail": "high"
+    }
+  ],
+  "input_image_is_the_file_byte_for_byte": true,
+  "server_commit": "ccnm 8a83381（本地 debug 构建）"
+}

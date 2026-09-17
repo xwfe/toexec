@@ -13,6 +13,7 @@ ccnm 想加一个 `view_image` 工具，把 Runtime 上的图片交给模型；P
 | `media_server.py` | 探针 MCP server。工具 `media_probe` 按参数返回一种内容块：`image`（2×2 PNG）、`resource_png`（同一张 PNG 放进 resource blob）、`resource_pdf`（最小 PDF 放进 resource blob），都带文本标记 |
 | `run_codex.py` | Codex 连探针，**不开 Code Mode**。本机假模型第一轮回一个 `function_call` 去调 `media_probe`，第二轮把 Codex 发来的请求存盘，看工具结果变成了什么。三种内容块各跑一次 |
 | `run_codex_code_mode.py` | 同上，但加上 ccnm 受管 Codex 会话用的 `--enable code_mode_only` 和 `excluded_tool_namespaces`。假模型第一轮给 `exec` 写一段 JS：调工具，再 `image(r.content[1])` |
+| `run_codex_ccnm.py` | ccnm 实现 `view_image`（P39）之后补的：真实 Codex 连**真实的 ccnm 二进制**（`internal mcp-serve`，外部 MCP 的 read 模式，配置和工作区在输出目录里临时建），假模型调一次 `view_image`，核对进了模型请求的图片和磁盘上的文件逐字节一致。要 `CCNM_BIN` 指向 ccnm 二进制 |
 | `runs/*.json` | 两个脚本的汇总（base64 截短）。原始请求不入库 |
 
 Codex 的隔离和 [skills-surface](../skills-surface/README.md) 一样：`sandbox-exec` 禁非本机出站，`HOME` / `CODEX_HOME` 是临时空目录，模型接口是本机假服务。
@@ -22,6 +23,7 @@ Claude Code 没登录就发不出模型请求，看不到工具结果最终的�
 ```bash
 python3 run_codex.py <仓库外的新目录>
 python3 run_codex_code_mode.py <仓库外的新目录>
+CCNM_BIN=<ccnm 二进制> python3 run_codex_ccnm.py <仓库外的新目录>
 ```
 
 ## 结果：Codex 0.154.0
@@ -37,6 +39,8 @@ python3 run_codex_code_mode.py <仓库外的新目录>
 - 不开 Code Mode 时，MCP 工具放在 `{"type":"namespace","name":"mcp__media"}` 里；调用要写 `"namespace":"mcp__media","name":"media_probe"`，只写 `"name":"media_probe"` 会得到 `unsupported call: media_probe`。
 - Code Mode 的 `exec` 说明里写着：`image()` 可以直接接收 MCP 的 `ImageContent` 块；图片块可以用 `_meta: {"codex/imageDetail": "original"}` 要求原始清晰度。
 - Code Mode 不指定模型时请求里的模型是 `gpt-6-astra`（CLI 默认），工具列表在 `input` 的 `additional_tools` 项里。
+
+**真实 ccnm 的 `view_image`**（`runs/codex-0.154.0-ccnm-view-image.json`，ccnm 8a83381 的本地构建，不开 Code Mode）：Codex 以 `mcp__ccnm` 命名空间提供工具；结果是 `input_text`（`shots/red.png: PNG, 73 bytes`）加 `input_image`（`detail: high`），data URL 解码后和工作区里的文件**逐字节一致**。
 
 ## 结果：Claude Code 2.1.273（静态证据）
 
