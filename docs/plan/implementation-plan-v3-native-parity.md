@@ -128,6 +128,8 @@ gld hub 接 ccnm 远端成员时，透传的是一份**静态白名单**（`remo
 第 4 项（图片）已在 ccnm P39 做完：工具叫 `view_image`，只发 MCP `image` 块、不缩放、只认 PNG / JPEG / GIF / WebP、上限 3932160 字节。依据是 [media-surface](../../evidence/v3-parity/media-surface/README.md) 的零额度实测——`resource` blob 在 Claude Code 里会被写到 Agent 机器的磁盘上、在 Codex 里变成 base64 文本，所以第 6 项的 PDF 也不能用 blob 发；gld 已有的 `view_image` 如果返回的是别的块形状，同步时要对照这份结果。
 
 第 5 项（notebook）已在 ccnm P40 做完，和上面写的不同：**没有改 `read_file`**（它返回 JSON 文本是冻结契约里的行为，已有人照着那份文本改 notebook），而是新增只读工具 `read_notebook`，`apply_patch` 加 `edit_notebook`（字段照 Claude Code 的 NotebookEdit）。写回用 nbformat 的写法，已用 nbformat 5.11.1 核对。gld 同步时照这个形状。第 6 项（PDF）要 Runtime 上有 poppler，ccnm 开发机没装；**用户 2026-09-18 定暂时不做**，第 3 步到此为止，接第 4 步。
+
+第 7 项（后台进程）已在 ccnm P41 做完，形状和下面第 7 条写的不同：没有照 gld 的 `yield_time_ms` / `write_stdin`，而是 `exec_command` 加 `run_in_background`（名字照 Claude Code，马上返回 `output_ref`，不给 `timeout_ms` 就没有期限）、`read_output` 加 `wait_ms`（等命令结束，结束即返回，上限 600000）、新工具 `stop_command`（进程组先 TERM、2 秒后 KILL）；同一个 server 进程最多 8 个；连接结束时先停掉所有命令再放写锁，客户端取消调用也停掉命令（这两条修的是 ccnm 原有缺陷）。不做 stdin / tty。依据是 [background-exec](../../evidence/v3-parity/background-exec/README.md) 的零额度实测：MCP 没有让 server 叫醒模型的可用通道，所以"等"必须是模型主动调的阻塞工具；Claude Code 交互会话里 MCP 调用超过 120 秒会被 Host 自己转后台。gld 同步时对照 ccnm 的 `docs/research/p41-background-commands-2026-09-18.md` 决定是改形状还是只在 hub 白名单里映射。
 4. **图片**：加 `view_image`（名字和 gld、Codex 的一致），返回 MCP 图片内容块。受 Claude Code 对 MCP 输出的上限约束（默认 25,000 token），上限和要不要缩放实测后定。
 5. **notebook**：`read_file` 遇到 `.ipynb` 按 cell 渲染成带编号的文本；`apply_patch` 加按 cell 改的操作。纯 JSON，不加依赖。
 6. **PDF**：MCP 内容块里没有"文档"这一种，只能转成文本。做法和 `search_text` 依赖 `rg` 一样：Runtime 上有 `pdftotext` 就用，没有就报一个说清楚该装什么的错。
