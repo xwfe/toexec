@@ -1,0 +1,31 @@
+{
+  "host": {
+    "name": "claude-code",
+    "title": "Claude Code",
+    "version": "2.1.273",
+    "description": "Anthropic's agentic coding tool",
+    "websiteUrl": "https://claude.com/claude-code"
+  },
+  "client_capabilities": {
+    "roots": {
+      "listChanged": true
+    },
+    "elicitation": {}
+  },
+  "mcp_methods_called": [
+    "initialize",
+    "notifications/initialized",
+    "tools/list",
+    "prompts/list",
+    "resources/list"
+  ],
+  "debug_lines": [
+    "Connection established with capabilities: {\"hasTools\":true,\"hasPrompts\":true,\"hasResources\":true,\"hasResourceSubscribe\":false,\"serverVersion\":{\"name\":\"probe\",\"version\":\"0\"}}",
+    "Tool \"probe_tool\" description truncated from 6000 to 2048 chars"
+  ],
+  "model_usage": {
+    "input_tokens": 0,
+    "output_tokens": 0
+  },
+  "duration_api_ms": 0
+}

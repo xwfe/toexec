@@ -90,13 +90,24 @@ gld hub 接 ccnm 远端成员时，透传的是一份**静态白名单**（`remo
 
 ### 4.1 项目 skills（第一批）
 
-**在 Runtime 上发现，经 MCP 工具交给模型；skill 里的东西在 Runtime 上跑。**
+**在 Runtime 上发现，经 MCP 交给模型；skill 里的东西在 Runtime 上跑。**
+
+交给模型有三条通道，哪条在哪个 Host 上真的通，2026-09-17 零额度实测过（[原始记录](../../evidence/v3-parity/skills-surface/README.md)）：
+
+| 通道 | Claude Code 2.1.273 | Codex 0.154.0 | 结论 |
+| --- | --- | --- | --- |
+| 目录放进一个工具的 description | 通；每个工具的 description 单独截到 2048 个 UTF-16 码元 | 通；不截断 | **现在的主通道**，三种客户端都能用 |
+| MCP `prompts` | 通；变成 `/mcp__<server>__<名字>`，参数按空白切分 | **不通**：Codex 连上之后只调 `tools/list` | 只给 Claude Code 的用户手动调用用 |
+| MCP 官方 skills 扩展（[SEP-2640](https://github.com/modelcontextprotocol/ext-skills)，2026-09-13 定稿：`skills/list`、`skills/get`、`skill://` 资源） | 客户端代码已经在 CLI 里，skill 会以 `<server>:<skill>` 出现在原生 Skill 机制中；但挂在特性开关 `tengu_mcp_skills` 后面，**默认关**，实测没有调 `skills/list` | 不通 | **标准路径，第二步做**：实现成本不高，开关打开的那天自动生效 |
+
+所以先做工具通道（加 prompts），紧接着一个阶段实现标准扩展。下面几条对两条通道都成立：
 
 - **发现**：Runtime 上的 `mcp-serve` 扫项目里的 `.claude/skills/*/SKILL.md`、`.claude/commands/**/*.md`，以及 Codex / gld 已经在用的 `.agents/skills/*/SKILL.md`。个数、单个大小都设上限，排序确定——同一个项目每次握手必须一样。
-- **目录**（name + description）放进一个新工具的 **description**，而不是 `instructions`：`instructions` 总共只有 2048 码元，还要装 `CLAUDE.md`。工具 description 有没有独立的上限、是多少，开工第一步实测。放不下的部分，调用这个工具不带名字就返回完整目录。
+- **目录**（name + description）放进一个新工具的 **description**，而不是 `instructions`：`instructions` 总共只有 2048 码元，还要装 `CLAUDE.md`；工具 description 有自己独立的 2048 码元。放不下的部分，调用这个工具不带名字就返回完整目录。
 - **加载**：工具带名字调用，返回 SKILL.md 正文。按官方语义替换 `$ARGUMENTS` / `$N` / `$name`；`${CLAUDE_SKILL_DIR}` 换成 skill 目录的**工作区相对路径**，模型用 `read_file` 读附件、用 `exec_command` 跑脚本——脚本因此天然在 Runtime 上、以执行账号的身份、受同一套写互斥和沙箱约束执行。
 - **`` !`命令` `` 注入不自动执行。** 原生是加载 skill 时由 Bash 工具先跑一遍、把输出填进去。ccnm 如果照做，等于模型一次"读"调用触发了项目指定的命令，绕过了 `exec_command` 上的人工确认（`allow_unattended_exec` 那一层）。第一版原样保留这些行，并在正文开头列出来，模型需要就自己用 `exec_command` 跑。官方对从 claude.ai 同步来的 skill 也是不执行注入命令的，这不是没有先例。
-- **用户手动调用**：把可由用户调用的 skill 和命令再登记成 MCP `prompts`。官方文档说 MCP prompt 会变成斜杠命令；具体叫什么、参数怎么传，实测。
+- **用户手动调用**：把可由用户调用的 skill 和命令再登记成 MCP `prompts`，在 Claude Code 里就是 `/mcp__ccnm__<名字> 参数…`。
+- **标准扩展那一步要多一个依赖**：SEP-2640 要求给 skill 的每个文件报 SHA-256 和字节数，ccnm 的依赖树里现在没有 SHA-256 实现。toexec 的 crate 守着零依赖，所以算摘要的代码放在产品里，不进共享库。
 - **忽略并写明的 frontmatter**：`allowed-tools`（ccnm 改不了 Host 的权限）、`context: fork` / `agent` / `model` / `effort`（要 Agent 面放开之后才有意义）、`hooks`（按第 1 节不带）。
 - `read` 模式也能列和读 skill（只读）；外部 bridge、Claude 受管、Codex 受管三种入口共用同一个实现，所以 Codex 会话也第一次有了项目 skills。
 

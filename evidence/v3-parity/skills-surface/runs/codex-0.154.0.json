@@ -1,0 +1,42 @@
+{
+  "host": "codex-cli 0.154.0",
+  "rc": 0,
+  "seconds": 1.22,
+  "model_requests": 1,
+  "mcp_methods_called": [
+    "initialize",
+    "notifications/initialized",
+    "tools/list"
+  ],
+  "client_initialize": {
+    "clientInfo": {
+      "name": "codex-mcp-client",
+      "title": "Codex",
+      "version": "0.154.0"
+    },
+    "capabilities": {
+      "experimental": {
+        "codex/auth-change": {}
+      },
+      "elicitation": {
+        "form": {},
+        "url": {}
+      }
+    }
+  },
+  "markers_in_model_requests": {
+    "MARK_Z_300": true,
+    "MARK_A_1000": true,
+    "MARK_B_2000": true,
+    "MARK_C_2100": true,
+    "MARK_D_3000": true,
+    "MARK_E_5900": true,
+    "MARK_INSTRUCTIONS": true,
+    "MARK_PROMPT_DESC": false,
+    "MARK_SKILL_DESC": false,
+    "MARK_SKILL_BODY": false
+  },
+  "probe_tool_description_lengths_sent": [
+    6000
+  ]
+}

@@ -18,6 +18,7 @@
 | [`v2-c/`](../evidence/v2-c/) | V2-C Codex 原生链 | 见下一节 |
 | [`v2-p/`](../evidence/v2-p/README.md) | V2-P Claude 实验线 | Claude 经 exec-server 执行有没有净收益。结论：没有，维持直接执行（[结果](plan/v2-p1-claude-trial-result.md)） |
 | `v2-p/p33-sandbox/` | ccnm P33 | 用 `codex sandbox` 包住日常项目操作（构建、测试、`git commit`、下依赖）之后哪些还能做、慢多少，macOS 和 Linux 容器各一份 |
+| [`v3-parity/skills-surface/`](../evidence/v3-parity/skills-surface/README.md) | [v3 方案](plan/implementation-plan-v3-native-parity.md)、ccnm P36 | 把项目 skills 交给模型有三条通道（工具 description、MCP prompts、MCP 官方 skills 扩展），Claude Code 和 Codex 各自真的支持哪条。零额度 |
 
 ## `v2-c/`：Codex 原生 exec-server 链
 
