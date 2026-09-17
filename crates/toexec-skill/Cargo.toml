@@ -1,0 +1,13 @@
+[package]
+name = "toexec-skill"
+description = "gld 与 ccnm 共用的 SKILL.md 读取：frontmatter、参数替换、注入命令识别"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# 跟另外两个 crate 一样，故意没有依赖。frontmatter 是 YAML，但 skill 作者实际
+# 写的只是 YAML 的一小块（单行值、引号、块标量、列表、一层 metadata），手写
+# 一个读取器比给两个产品各引入一个 YAML 库便宜，也不会把 YAML 库的报错措辞
+# 变成产品的对外行为。
+[dependencies]

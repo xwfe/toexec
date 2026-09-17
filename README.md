@@ -10,13 +10,15 @@
 
 - **读文件时被一行撑爆内存。** 标准库的 `read_line` / `lines()` 会先把整行读进内存。一个 2 GB 的单行文件（压缩过的 JS、一行导出的 JSON）会先分配 2 GB，你才有机会说"太长了"——实际结果是进程先被系统杀掉。
 - **写文件写到一半断电或崩溃，留下半截文件。** 或者补丁打完，脚本的可执行位丢了。
+- **要读项目里的 skills（`SKILL.md`）。** 它的开头是一段 YAML，而作者的写法五花八门：描述折成多行的、`allowed-tools` 写成列表的、带三层 `hooks` 的。逐行找 `description:` 前缀的读法，遇到多行描述读出来的就是一个 `>`。
 
 | crate | 管什么 | 当前 tag |
 | --- | --- | --- |
 | `toexec-text` | 有界行读取 `next_line`：事先说好一行最多留多少字节，超出的只数不存 | `toexec-text-v0.1.0` |
 | `toexec-fs` | 原子文件替换 `write_durable` + `replace`：内容先落盘，再一次 rename 顶替 | `toexec-fs-v0.2.0` |
+| `toexec-skill` | 读 `SKILL.md`：拆 frontmatter 并读成键值、按 Claude Code 的规则替换 `$ARGUMENTS` / `$0` / `$name`、找出 `` !`命令` `` 注入（只找不跑） | `toexec-skill-v0.1.0` |
 
-两个 crate 都**没有任何依赖**，只用标准库。
+三个 crate 都**没有任何依赖**，只用标准库。
 
 ## 快速使用
 
@@ -26,6 +28,7 @@
 [dependencies]
 toexec-text = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-text-v0.1.0" }
 toexec-fs   = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-fs-v0.2.0" }
+toexec-skill = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-skill-v0.1.0" }
 ```
 
 读文件，每行最多留 4096 字节：
@@ -67,7 +70,7 @@ replace(&temp, &target)?;                         // 一次 rename 顶替
 
 | 我想…… | 看这里 |
 | --- | --- |
-| 照着例子把两个 crate 用起来，弄清边界和常见坑 | [docs/usage.md](docs/usage.md) |
+| 照着例子把三个 crate 用起来，弄清边界和常见坑 | [docs/usage.md](docs/usage.md) |
 | 改这里的代码、发新 tag、和产品仓库本地联调 | [docs/development.md](docs/development.md) |
 | 知道 `evidence/` 里那些实测脚本和结果是干什么的 | [docs/evidence.md](docs/evidence.md) |
 | 看 gld / ccnm / toexec 三个仓库的跨仓方案和当前覆盖表 | [docs/plan/implementation-plan-v2.md](docs/plan/implementation-plan-v2.md) |

@@ -1,6 +1,6 @@
 # 使用说明
 
-两个 crate 怎么用、每个参数什么意思、哪些事它们**不管**。引用方式（`Cargo.toml` 那两行）在 [README](../README.md#快速使用)。
+三个 crate 怎么用、每个参数什么意思、哪些事它们**不管**。引用方式（`Cargo.toml` 那几行）在 [README](../README.md#快速使用)。
 
 文中的例子都实际编译、运行过。
 
@@ -128,3 +128,57 @@ fn overwrite(target: &Path, bytes: &[u8]) -> Result<(), String> {
 - **Windows 上的替换不是原子的。** 那里 `rename` 到一个已存在的文件会失败，所以 `replace` 先删再 rename，两步之间有一个目标不存在的窗口。标准库没有跨平台的原子替换，真要做得调 `ReplaceFileW`。
 - **没有 fsync 父目录。** `rename` 本身原子，但"rename 这件事"要在断电后仍然可见，还得 fsync 目标的父目录。这里没做，和两个产品原来的行为一致；补上意味着每次替换多一次 fsync，是另一个决定。
 - **两个路径必须在同一个文件系统上**，否则 `rename` 报 `EXDEV`（"Invalid cross-device link" / "Cross-device link"）。把临时文件建在目标同目录就不会遇到。
+
+## toexec-skill：把一份 SKILL.md 读明白
+
+skill 是一个目录，里面一份 `SKILL.md`：开头两条 `---` 之间是 YAML（叫 frontmatter，写着名字、描述、参数），后面是给模型看的正文。`.claude/commands/*.md` 是同一种格式。
+
+### 怎么用
+
+```rust
+use toexec_skill::{args, frontmatter, inject};
+
+let raw = std::fs::read_to_string(".claude/skills/deploy/SKILL.md")?;
+
+// 1. 拆开，读 frontmatter。没有 frontmatter 的文件整个是正文，这是合法的。
+let (front, body) = frontmatter::split(&raw);
+let meta = match front {
+    Some(text) => frontmatter::parse(text)?,   // 读不了会说是第几行、哪一类问题
+    None => Default::default(),
+};
+let description = meta.text("description");            // 多行写法也是一整段
+let hidden = meta.flag("disable-model-invocation") == Some(true);
+let names = meta.words("arguments");                   // 列表或 "a b" 字符串都行
+
+// 2. 用户敲的是 `/deploy staging "two words"`：把参数填进正文。
+let context = args::Context { skill_dir: Some(".claude/skills/deploy"), ..Default::default() };
+let filled = args::substitute(body, r#"staging "two words""#, &names, context);
+
+// 3. 正文里有没有要求「加载时先执行」的命令。
+for found in inject::find(body) {
+    println!("line {}: {}", found.line, found.command);
+}
+```
+
+### 三块各自的规矩
+
+| 模块 | 规矩 |
+| --- | --- |
+| `frontmatter` | 键不分 `-` / `_`、不分大小写（官方文档里 `when_to_use` 用下划线、`disable-model-invocation` 用连字符）。读得了：单行值、引号（可跨行）、`>` / `|` 块标量、`- ` 列表、缩进嵌套、`[a, b]` 和 `{k: v}`（可跨行）。读不了就报错：锚点 `&x`、别名 `*x`、标签 `!x`、嵌套的 `[[…]]`、tab 缩进 |
+| `args` | 对的是 Claude Code 2.1.273 的实际行为，不只是文档：`$N` 和 `$ARGUMENTS[N]` 没给到就**原样留着**；声明过的 `$name` 没给到是空串；`\$0` 转义；一个都没换成而又给了参数，就在末尾补 `ARGUMENTS: …` |
+| `inject` | `` !`cmd` `` 和 ```` ```! ```` 代码块。普通代码块里的不算——文档里举例写一个，不是在要求执行它 |
+
+### 容易踩的几处
+
+- **`$1` 没给参数时留着不换，是故意的。** skill 正文里经常有 `awk '{print $1}'` 这种 shell 片段；换成空串，脚本就坏了，而且坏得无声无息。
+- **`inject::find` 只找不跑。** 跑不跑、以谁的身份跑，是产品的安全决定，不是解析细节。ccnm 就不自动执行：一次"读 skill"的调用不该触发项目指定的命令。
+- **frontmatter 读不了时，整个文件的 frontmatter 都拿不到**，不会给你读了一半的结果。`ParseError` 里有行号（frontmatter 里的第几行）和分类，报错怎么措辞由你定。
+- **`hooks:` 这种三层嵌套也读得进来**，哪怕你根本不用它：读不过去的话，带 hooks 的 skill 连名字都拿不到。
+
+### 这个 crate 不管的事
+
+去哪些目录找 skill、最多收多少个、目录怎么排版、经什么通道交给模型。两个产品在这几件事上各不相同。
+
+### 拿什么验的
+
+除了单元测试，解析器在一台开发机的真实语料上跑过：`~/.claude` 下 941 个 SKILL.md / 命令 / agent 文件，810 个带 frontmatter 的 skill 和命令全部读得出来；读不了的 2 个是 agent 定义文件，它们的 YAML 本身就不合法（描述里有没缩进的 `<example>` 行）。跨行的引号串和跨行的 `[…]` 就是这样验出来要支持的——Anthropic 官方插件里有。
