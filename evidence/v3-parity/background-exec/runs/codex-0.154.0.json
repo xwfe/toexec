@@ -1,0 +1,175 @@
+{
+  "host": "codex-cli 0.154.0",
+  "runs": [
+    {
+      "scenario": "tools",
+      "rc": 0,
+      "seconds": 1.83,
+      "tools": {
+        "exec_command": {
+          "type": "function",
+          "name": "exec_command",
+          "description": "Runs a command in a PTY, returning output or a session ID for ongoing interaction.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "cmd": {
+                "type": "string",
+                "description": "Shell command to execute."
+              },
+              "justification": {
+                "type": "string",
+                "description": "User-facing approval question for `require_escalated`; omit otherwise."
+              },
+              "login": {
+                "type": "boolean",
+                "description": "True runs the shell with -l/-i semantics; false disables them. Defaults to true."
+              },
+              "max_output_tokens": {
+                "type": "number",
+                "description": "Output token budget. Defaults to 10000 tokens; larger requests may be capped by policy."
+              },
+              "prefix_rule": {
+                "type": "array",
+                "description": "Reusable approval prefix for `cmd`, only with `sandbox_permissions: \"require_escalated\"`; for example [\"git\", \"pull\"].",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sandbox_permissions": {
+                "type": "string",
+                "description": "Per-command sandbox override. Defaults to `use_default`; use `require_escalated` for unsandboxed execution.",
+                "enum": [
+                  "use_default",
+                  "require_escalated"
+                ]
+              },
+              "shell": {
+                "type": "string",
+                "description": "Shell binary to launch. Defaults to the user's default shell."
+              },
+              "tty": {
+                "type": "boolean",
+                "description": "True allocates a PTY for the command; false or omitted uses plain pipes."
+              },
+              "workdir": {
+                "type": "string",
+                "description": "Working directory for the command. Defaults to the turn cwd."
+              },
+              "yield_time_ms": {
+                "type": "number",
+                "description": "Wait before yielding output. Defaults to 10000 ms; effective range is 250-30000 ms."
+              }
+            },
+            "required": [
+              "cmd"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "write_stdin": {
+          "type": "function",
+          "name": "write_stdin",
+          "description": "Writes characters to an existing unified exec session and returns recent output.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "chars": {
+                "type": "string",
+                "description": "Bytes to write to stdin. Defaults to empty, which polls without writing."
+              },
+              "max_output_tokens": {
+                "type": "number",
+                "description": "Output token budget. Defaults to 10000 tokens; larger requests may be capped by policy."
+              },
+              "session_id": {
+                "type": "number",
+                "description": "Identifier of the running unified exec session."
+              },
+              "yield_time_ms": {
+                "type": "number",
+                "description": "Wait before yielding output. Non-empty writes default to 250 ms and cap at 30000 ms; empty polls wait 5000-300000 ms by default."
+              }
+            },
+            "required": [
+              "session_id"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    },
+    {
+      "scenario": "lifecycle",
+      "rc": 0,
+      "seconds": 3.68,
+      "model_requests": 4,
+      "outputs": {
+        "call_0": "Chunk ID: d94934\nWall time: 0.5026 seconds\nProcess running with session ID 36412\nOriginal token count: 2\nOutput:\nstarted\n",
+        "call_1": "Chunk ID: be8c10\nWall time: 1.3444 seconds\nProcess exited with code 0\nOriginal token count: 3\nOutput:\nfinished\n",
+        "call_2": "Chunk ID: 0780a1\nWall time: 0.5022 seconds\nProcess running with session ID 72101\nOriginal token count: 0\nOutput:\n"
+      },
+      "sleep_pid": 28539,
+      "sleep_alive_after_codex_exit": false
+    },
+    {
+      "scenario": "timeout",
+      "rc": 0,
+      "seconds": 75.53,
+      "namespace": "mcp__slow",
+      "seconds_between_call_and_next_request": 75.1,
+      "outputs": {
+        "call_0": "Wall time: 75.0317 seconds\nOutput:\nslept 75.0 s"
+      },
+      "server_saw": [
+        {
+          "t": 1789659482.43,
+          "method": "initialize",
+          "params": null
+        },
+        {
+          "t": 1789659482.43,
+          "method": "notifications/initialized",
+          "params": {}
+        },
+        {
+          "t": 1789659482.47,
+          "method": "tools/call",
+          "params": {
+            "_meta": {
+              "callId": "call_0",
+              "x-codex-turn-metadata": {
+                "session_id": "01a0b004-88fa-7cc1-8b1d-f548a197d029",
+                "thread_id": "01a0b004-88fa-7cc1-8b1d-f548a197d029",
+                "turn_started_at_unix_ms": 1789659482394,
+                "turn_id": "01a0b004-8918-76b1-a550-9214b6dbe1d7",
+                "node_repl_disabled": false,
+                "thread_source": "user",
+                "sandbox": "seatbelt",
+                "sandbox_mode": "workspace-write",
+                "auto_review_enabled": false,
+                "node_repl_auto_review_required": false,
+                "model": "gpt-5.1-codex",
+                "codex_version": "0.154.0"
+              },
+              "threadId": "01a0b004-88fa-7cc1-8b1d-f548a197d029",
+              "itemId": "fc_0",
+              "progressToken": 1
+            },
+            "name": "slow",
+            "arguments": {
+              "seconds": 75
+            }
+          }
+        },
+        {
+          "t": 1789659557.48,
+          "method": "tools/call finished",
+          "seconds": 75.0
+        }
+      ]
+    }
+  ]
+}
