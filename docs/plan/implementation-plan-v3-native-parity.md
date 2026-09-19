@@ -171,7 +171,9 @@ Codex 一侧对应的是放开 `web_search`（在厂商服务端执行）；`mul
 
 - **G1 hub 白名单**（2026-09-18 完成）：远端工具 7 → 13，连接时读一次远端 `tools/list`，远端没有的工具或参数在 gld 这边就拒。必须做这一半的理由是 ccnm 的参数结构体不拒绝未知字段——老版本收到 `run_in_background` 会**悄悄忽略**，命令在前台跑满 timeout，而模型以为起了后台命令。`wait_ms` 上限 50 秒（hub 单次调用预算 60 秒，等满会断连，而断连时远端会停掉这个会话起的后台命令）。
 - **G2 compact 的 skills**（2026-09-19 完成）：compact 是默认档，以前把 Skill 整个关掉（目录一条不给、两个工具也不暴露）。现在给一段有上限的目录（1200 字符），放不下的写明还有几个；**项目自己的 skill 排在主目录那批前面**，预算挤掉的应该是装给所有项目用的通用 skill。frontmatter 换成本仓的 `toexec-skill`，`description: >` 这种折行写法不再被读成一个 `>`。
-- **G3 gld 本机执行面**（未开工）：搜索的输出模式 / 跨行 / 类型过滤（对应上表第 2 步 gld 欠的部分）、notebook 按 cell 读写（第 3 步）。
+- **G3 gld 本机执行面**（2026-09-19 完成）：搜索加 `output_mode` / `multiline` / `type` / `include_hidden`（对应上表第 2 步 gld 欠的部分，类型名是 rg 的子集，不认识的类型报错而不是不过滤）；notebook 按 cell 读写（第 3 步）——新工具 `read_notebook`，`apply_patch` 加 `notebook_edits` 参数（gld 收的是文本补丁信封，塞不进结构化 op，所以是并列参数而不是 ccnm 那样的 op；cell 编辑和普通补丁在同一次事务里）。`read_file` 对 `.ipynb` 的既有行为没动。往返用的是和 ccnm 同一份 nbformat 核对过的 fixture。**已知差异**：ccnm 把输出里的图片当 MCP 图片块发出去，gld 的工具结果是单块的，只标注"有一张多大的图"。
+
+**第 5 步到此完成。**gld 一侧 G1/G2/G3 三块都做完了。
 | 6 | Agent 面放开（4.3） | ccnm | 要真实 CLI；少量模型运行 |
 | 7 | 对照实验：同一批任务，ccnm 路径对比"在 Runtime 上直接跑官方 CLI" | fodelf / 用户终端 | 20–30 次 |
 
