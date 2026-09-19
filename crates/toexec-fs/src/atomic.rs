@@ -95,22 +95,30 @@ pub fn write_durable(
 /// 还是旧内容，临时文件也还在（清不清是调用方的事）。
 ///
 /// Windows 走的是同一行代码。std 的 `rename` 文档写的是「目标已存在就
-/// 顶替掉」，实现是 `MoveFileExW(.., MOVEFILE_REPLACE_EXISTING)`，撞上
-/// `ERROR_ACCESS_DENIED`（比如目标是只读文件）再用
-/// `SetFileInformationByHandle` + `FileRenameInfoEx` 重试一次；本库 MSRV
-/// 1.89 前后的 1.85 和 1.98 源码都是这样。**这里以前写着「Windows 上
-/// rename 到已存在的文件会失败」并因此先 `remove_file` 一次，那句话针对
-/// 的是 C 的 `rename()` 和不带 flag 的 `MoveFileW`，对 std 不成立；而先
-/// 删的写法一旦后面的 rename 再失败，旧文件就真没了。**
+/// 顶替掉」，实现是 `MoveFileExW(.., MOVEFILE_REPLACE_EXISTING)`，拿到
+/// `ERROR_ACCESS_DENIED` 时再用 `SetFileInformationByHandle` +
+/// `FileRenameInfoEx` 重试一次；本库 MSRV 1.89 前后的 1.85 和 1.98 源码
+/// 都是这样，2026-09-19 在 windows-latest 上实测也确实顶替掉了已存在的
+/// 目标。**这里以前写着「Windows 上 rename 到已存在的文件会失败」并因此
+/// 先 `remove_file` 一次，那句话针对的是 C 的 `rename()` 和不带 flag 的
+/// `MoveFileW`，对 std 不成立；而先删的写法一旦后面的 rename 再失败，旧
+/// 文件就真没了。**
 ///
 /// 仍然成立的边界，别当成「所有文件系统上都原子安全」：
 ///
+/// - **Windows 上替换不了带只读属性的目标**，返回 `ERROR_ACCESS_DENIED`
+///   （实测 os error 5）：上面那次重试只带了 `REPLACE_IF_EXISTS |
+///   POSIX_SEMANTICS`，没带 `FILE_RENAME_FLAG_IGNORE_READONLY_ATTRIBUTE`。
+///   要覆盖这种文件，调用方得自己先摘掉只读属性。Unix 没这问题，那里
+///   rename 看的是父目录的权限。
 /// - 目标正被别人以不允许删除的方式打开（Windows 上没带
-///   `FILE_SHARE_DELETE`）时替换会失败。失败即不动旧文件，符合上面那条。
+///   `FILE_SHARE_DELETE`）时替换会失败。
 /// - Windows 上 `FileRenameInfoEx` 要 Windows 10 1607 以上、且文件系统
 ///   支持；不支持时走 `MoveFileExW`，那条路上 `target` 不能是目录。
 /// - 「rename 这件事」在断电后是否可见，仍取决于有没有 fsync 父目录——
 ///   这里没做，见 crate 文档。
+///
+/// 这些失败都不动旧文件，符合上面那条不可退让的约束。
 pub fn replace(temp: &Path, target: &Path) -> io::Result<()> {
     fs::rename(temp, target)
 }
@@ -267,15 +275,20 @@ mod tests {
         assert_eq!(fs::read(&target).expect("读"), b"old", "旧内容被动过");
     }
 
-    /// 只读的目标也要能被替换掉。
+    /// 目标带只读属性时会怎样——**两个平台不一样，这条把差别钉死。**
     ///
-    /// 补丁的目标文件带只读属性不算稀奇（Windows 上 `attrib +R`、Unix 上
-    /// 0o444）。以前 Windows 分支要先 `remove_file`，而 Windows 删只读文件
-    /// 会 `ERROR_ACCESS_DENIED`，替换直接失败；现在 std 的 `rename` 撞到
-    /// 这个错误会用 `FileRenameInfoEx` 重试，替换得以完成。Unix 上 rename
-    /// 看的本来就是父目录的权限，目标自己只读没关系。
+    /// 补丁的目标带只读属性不算稀奇（Windows 上 `attrib +R`、Unix 上 0o444）。
+    ///
+    /// - Unix：`rename` 看的是父目录的权限，目标自己只读没关系，替换成功。
+    /// - Windows：`MoveFileExW` 撞上只读目标返回 `ERROR_ACCESS_DENIED`，std
+    ///   的 `FileRenameInfoEx` 回退只带了 `REPLACE_IF_EXISTS |
+    ///   POSIX_SEMANTICS`、没带 `FILE_RENAME_FLAG_IGNORE_READONLY_ATTRIBUTE`，
+    ///   所以照样被拒（2026-09-19 在 windows-latest 上实测 os error 5）。
+    ///
+    /// 被拒不是问题，丢文件才是：Windows 那一支同时断言旧内容一个字节没变。
+    /// 要在那里覆盖只读文件，得调用方自己先把只读属性摘掉。
     #[test]
-    fn a_read_only_target_still_gets_replaced() {
+    fn a_read_only_target_is_replaced_on_unix_and_refused_on_windows() {
         let dir = Dir::new("readonly");
         let target = dir.join("a.txt");
         let temp = dir.join(".tmp-a");
@@ -287,11 +300,19 @@ mod tests {
         write_durable(&temp, b"new", None).expect("写临时");
         let result = replace(&temp, &target);
 
-        // 断言之前先把只读摘掉：万一这条在某个 Windows 文件系统上挂了，
-        // Dir::drop 还得删得掉这个目录——那里删只读文件会 ACCESS_DENIED，
-        // 不然临时目录里就留一份垃圾。Unix 不用，删文件看的是父目录权限。
+        #[cfg(unix)]
+        {
+            if let Err(e) = result {
+                panic!("Unix 上只读目标也该能替换，实际 {e}");
+            }
+            assert_eq!(fs::read(&target).expect("读"), b"new");
+        }
+
         #[cfg(windows)]
         {
+            // 断言之前先把只读摘掉，不然 Dir::drop 删不掉这个目录（Windows
+            // 上删只读文件会 ACCESS_DENIED），临时目录里就留一份垃圾。摘掉
+            // 不影响下面读内容。
             #[allow(
                 clippy::permissions_set_readonly_false,
                 reason = "测试自己的临时目录，摘掉只读只是为了能删干净"
@@ -301,15 +322,18 @@ mod tests {
                 perms.set_readonly(false);
                 let _ = fs::set_permissions(&target, perms);
             }
-        }
 
-        if let Err(e) = result {
-            panic!(
-                "只读目标也该能替换，实际 {e}（raw os error {:?}）",
+            let e = result.expect_err("Windows 上只读目标应该被拒");
+            assert_eq!(
+                e.kind(),
+                io::ErrorKind::PermissionDenied,
+                "{e}（raw os error {:?}）",
                 e.raw_os_error()
             );
+            // 被拒可以，吃掉旧文件不行。
+            assert_eq!(fs::read(&target).expect("读"), b"old", "旧内容被动过");
+            assert!(temp.exists(), "临时文件被动了");
         }
-        assert_eq!(fs::read(&target).expect("读"), b"new");
     }
 
     /// 目标被别人打开着、而且不许删（Windows 上没带 `FILE_SHARE_DELETE`）：

@@ -127,6 +127,7 @@ fn overwrite(target: &Path, bytes: &[u8]) -> Result<(), String> {
 
 - **失败了，旧目标一定还在——这条不退让。** `replace` 只做一次 `rename`，没有任何"先把目标删掉再试"的兜底。所以拿到 `Err` 的时候磁盘上还是旧内容，临时文件也还在（清它是你的事）。
   > 0.2.0 及以前不是这样：Windows 分支先 `remove_file(target)` 再 rename，只要后一步失败，旧文件就没了。那段代码的依据（"Windows 上 rename 到已存在的文件会失败"）说的是 C 的 `rename()` 和不带 flag 的 `MoveFileW`，对 Rust 的 std 不成立——std 的文档写的是"目标已存在就顶替掉"，实现是 `MoveFileExW(.., MOVEFILE_REPLACE_EXISTING)`，撞上 `ERROR_ACCESS_DENIED`（比如目标是只读文件）还会用 `SetFileInformationByHandle` + `FileRenameInfoEx` 再试一次。
+- **Windows 上替换不了带只读属性的目标**，报 `Access is denied. (os error 5)`。std 那次重试只带了 `REPLACE_IF_EXISTS | POSIX_SEMANTICS`，没带 `FILE_RENAME_FLAG_IGNORE_READONLY_ATTRIBUTE`。要覆盖这种文件，你得自己先摘掉只读属性再替换。Unix 没这问题——那里 rename 看的是父目录的权限，目标 0o444 也照样换得掉。这两种行为各有一条测试钉着（`a_read_only_target_is_replaced_on_unix_and_refused_on_windows`）。
 - **别把它当成"任何文件系统上都原子安全"。** 成立的是：没有先删那一步，也就没有目标不存在的窗口；失败不动旧文件。不成立的是跨所有 Windows 文件系统的原子替换保证——`FileRenameInfoEx` 要 Windows 10 1607 以上并且文件系统支持，退回 `MoveFileExW` 时目标不能是目录。目标正被别人以不许删除的方式打开（Windows 上没带 `FILE_SHARE_DELETE`）时替换会失败，这符合上面那条，但你得自己处理这个错误。
 - **没有 fsync 父目录。** `rename` 本身原子，但"rename 这件事"要在断电后仍然可见，还得 fsync 目标的父目录。这里没做，和两个产品原来的行为一致；补上意味着每次替换多一次 fsync，是另一个决定。
 - **两个路径必须在同一个文件系统上**，否则 `rename` 报 `EXDEV`（"Invalid cross-device link" / "Cross-device link"）。把临时文件建在目标同目录就不会遇到。
