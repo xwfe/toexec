@@ -15,7 +15,7 @@
 | crate | 管什么 | 当前 tag |
 | --- | --- | --- |
 | `toexec-text` | 有界行读取 `next_line`：事先说好一行最多留多少字节，超出的只数不存 | `toexec-text-v0.1.0` |
-| `toexec-fs` | 原子文件替换 `write_durable` + `replace`：内容先落盘，再一次 rename 顶替 | `toexec-fs-v0.2.0` |
+| `toexec-fs` | 原子文件替换 `write_durable` + `replace`：内容先落盘，再一次 rename 顶替 | `toexec-fs-v0.2.1` |
 | `toexec-skill` | 读 `SKILL.md`：拆 frontmatter 并读成键值、按 Claude Code 的规则替换 `$ARGUMENTS` / `$0` / `$name`、找出 `` !`命令` `` 注入（只找不跑） | `toexec-skill-v0.1.0` |
 
 三个 crate 都**没有任何依赖**，只用标准库。
@@ -27,7 +27,7 @@
 ```toml
 [dependencies]
 toexec-text = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-text-v0.1.0" }
-toexec-fs   = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-fs-v0.2.0" }
+toexec-fs   = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-fs-v0.2.1" }
 toexec-skill = { git = "https://github.com/xwfe/toexec.git", tag = "toexec-skill-v0.1.0" }
 ```
 
