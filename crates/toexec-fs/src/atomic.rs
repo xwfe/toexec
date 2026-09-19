@@ -90,16 +90,28 @@ pub fn write_durable(
 /// 写了一半的文件。两个路径必须在同一个文件系统上——通常的做法是把临时
 /// 文件建在目标的同一个目录里。
 ///
-/// Windows 上 `rename` 到一个已存在的文件会失败，所以那里先删一次。这让
-/// 替换在 Windows 上**不是**原子的：删和 rename 之间有一个窗口，目标不
-/// 存在。std 没有提供跨平台的原子替换，要真做得调 `ReplaceFileW`。
+/// **不可退让的一条：替换失败，旧目标原样还在。** 所以这里没有任何「先
+/// 把目标删掉再试一次」的兜底：`rename` 失败就直接把错误交出去，磁盘上
+/// 还是旧内容，临时文件也还在（清不清是调用方的事）。
+///
+/// Windows 走的是同一行代码。std 的 `rename` 文档写的是「目标已存在就
+/// 顶替掉」，实现是 `MoveFileExW(.., MOVEFILE_REPLACE_EXISTING)`，撞上
+/// `ERROR_ACCESS_DENIED`（比如目标是只读文件）再用
+/// `SetFileInformationByHandle` + `FileRenameInfoEx` 重试一次；本库 MSRV
+/// 1.89 前后的 1.85 和 1.98 源码都是这样。**这里以前写着「Windows 上
+/// rename 到已存在的文件会失败」并因此先 `remove_file` 一次，那句话针对
+/// 的是 C 的 `rename()` 和不带 flag 的 `MoveFileW`，对 std 不成立；而先
+/// 删的写法一旦后面的 rename 再失败，旧文件就真没了。**
+///
+/// 仍然成立的边界，别当成「所有文件系统上都原子安全」：
+///
+/// - 目标正被别人以不允许删除的方式打开（Windows 上没带
+///   `FILE_SHARE_DELETE`）时替换会失败。失败即不动旧文件，符合上面那条。
+/// - Windows 上 `FileRenameInfoEx` 要 Windows 10 1607 以上、且文件系统
+///   支持；不支持时走 `MoveFileExW`，那条路上 `target` 不能是目录。
+/// - 「rename 这件事」在断电后是否可见，仍取决于有没有 fsync 父目录——
+///   这里没做，见 crate 文档。
 pub fn replace(temp: &Path, target: &Path) -> io::Result<()> {
-    #[cfg(windows)]
-    {
-        if target.exists() {
-            fs::remove_file(target)?;
-        }
-    }
     fs::rename(temp, target)
 }
 
@@ -238,8 +250,93 @@ mod tests {
         assert_eq!(err.kind(), io::ErrorKind::NotFound, "{err}");
     }
 
+    /// 这条是 X01 的回归：**替换失败，旧目标必须原样还在。**
+    ///
+    /// 临时文件不在（调用方没写出来、或者被谁清掉了）是最容易构造的失败。
+    /// 以前 Windows 分支会先 `remove_file(target)`——那一步成功，后面的
+    /// rename 再失败，旧文件就没了。现在只有一次 rename，失败即什么都没动。
+    #[test]
+    fn a_failed_replace_leaves_the_old_target_and_does_not_eat_it() {
+        let dir = Dir::new("keepold");
+        let target = dir.join("a.txt");
+        fs::write(&target, b"old").expect("原文件");
+
+        let err = replace(&dir.join(".gone"), &target).expect_err("临时文件不存在，应该失败");
+        assert_eq!(err.kind(), io::ErrorKind::NotFound, "{err}");
+        assert!(target.exists(), "旧目标被吃掉了");
+        assert_eq!(fs::read(&target).expect("读"), b"old", "旧内容被动过");
+    }
+
+    /// 只读的目标也要能被替换掉。
+    ///
+    /// 补丁的目标文件带只读属性不算稀奇（Windows 上 `attrib +R`、Unix 上
+    /// 0o444）。以前 Windows 分支要先 `remove_file`，而 Windows 删只读文件
+    /// 会 `ERROR_ACCESS_DENIED`，替换直接失败；现在 std 的 `rename` 撞到
+    /// 这个错误会用 `FileRenameInfoEx` 重试，替换得以完成。Unix 上 rename
+    /// 看的本来就是父目录的权限，目标自己只读没关系。
+    #[test]
+    fn a_read_only_target_still_gets_replaced() {
+        let dir = Dir::new("readonly");
+        let target = dir.join("a.txt");
+        let temp = dir.join(".tmp-a");
+        fs::write(&target, b"old").expect("原文件");
+        let mut perms = fs::metadata(&target).expect("stat").permissions();
+        perms.set_readonly(true);
+        fs::set_permissions(&target, perms).expect("设成只读");
+
+        write_durable(&temp, b"new", None).expect("写临时");
+        let result = replace(&temp, &target);
+
+        // 断言之前先把只读摘掉：万一这条在某个 Windows 文件系统上挂了，
+        // Dir::drop 还得删得掉这个目录——那里删只读文件会 ACCESS_DENIED，
+        // 不然临时目录里就留一份垃圾。Unix 不用，删文件看的是父目录权限。
+        #[cfg(windows)]
+        {
+            #[allow(
+                clippy::permissions_set_readonly_false,
+                reason = "测试自己的临时目录，摘掉只读只是为了能删干净"
+            )]
+            if let Ok(meta) = fs::metadata(&target) {
+                let mut perms = meta.permissions();
+                perms.set_readonly(false);
+                let _ = fs::set_permissions(&target, perms);
+            }
+        }
+
+        result.expect("只读目标也该能替换");
+        assert_eq!(fs::read(&target).expect("读"), b"new");
+    }
+
+    /// 目标被别人打开着、而且不许删（Windows 上没带 `FILE_SHARE_DELETE`）：
+    /// 替换失败，旧内容一个字节都不能变。Unix 上没有这种占用语义——那里
+    /// 打开的是 inode，rename 照样成功——所以这条只在 Windows 跑。
+    #[cfg(windows)]
+    #[test]
+    fn a_target_held_open_without_share_delete_fails_and_keeps_its_content() {
+        use std::os::windows::fs::OpenOptionsExt;
+
+        let dir = Dir::new("locked");
+        let target = dir.join("a.txt");
+        let temp = dir.join(".tmp-a");
+        fs::write(&target, b"old").expect("原文件");
+        write_durable(&temp, b"new", None).expect("写临时");
+
+        // share_mode(0)：别的人既不能读也不能写，更不能删。
+        let held = fs::OpenOptions::new()
+            .read(true)
+            .share_mode(0)
+            .open(&target)
+            .expect("占住目标");
+
+        replace(&temp, &target).expect_err("目标被占住，替换应该失败");
+        drop(held);
+        assert_eq!(fs::read(&target).expect("读"), b"old", "旧内容被动过");
+        assert!(temp.exists(), "临时文件被动了");
+    }
+
     /// 目标是一个目录：rename 一个文件盖到目录上必须失败，而且必须是报错，
-    /// 不能把目录删掉。
+    /// 不能把目录删掉。顺带钉住「失败之后临时文件还在原地」——清理是调用
+    /// 方的事（两个产品的清理编排不一样），这里不替谁删。
     #[test]
     fn replacing_a_directory_fails_and_leaves_it_alone() {
         let dir = Dir::new("targetdir");
@@ -256,5 +353,6 @@ mod tests {
             b"keep me",
             "目录里的文件被动了"
         );
+        assert!(temp.exists(), "临时文件被动了，调用方就没法重试或者回收");
     }
 }

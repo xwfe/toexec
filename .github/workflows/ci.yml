@@ -1,10 +1,14 @@
 # stable 上查格式、Clippy、跑测试；另在 Cargo.toml 声明的 rust-version 上
-# 编译一遍。
+# 编译一遍；再在 Windows 上把测试真跑一遍。
 #
 # 老版本那一遍为什么要有：gld 和 ccnm 按 tag 链接这里，三个仓库的
 # rust-version 统一（v2 计划第 11 节）。只跑 stable 的话，用了比声明更新的
 # std API 照样全绿，要等两个产品的 MSRV 任务，或者有人拿声明的版本装的时候
 # 才炸出来。
+#
+# Windows 那一遍为什么要有：`toexec-fs` 的替换语义在那里跟 Unix 不一样
+# （只读属性、独占打开的文件、`FileRenameInfoEx` 的可用性），而交叉编译只
+# 能证明代码编得过。X01 修的就是这个平台上会丢文件的老实现。
 #
 # 只用 GitHub 自己的 action：两个 crate 都没有依赖，编译几秒钟，用不着缓存，
 # 也就没理由多引一个第三方 action。
@@ -49,3 +53,30 @@ jobs:
           rustup toolchain install "$msrv" --profile minimal
           echo "MSRV=$msrv" >> "$GITHUB_ENV"
       - run: cargo +"$MSRV" check --workspace --all-targets --locked
+
+  windows:
+    runs-on: windows-latest
+    # sed / case 这些在 windows runner 的默认 pwsh 里没有；runner 自带 Git
+    # Bash，用它就跟上面两个 job 写法一致。
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - name: 装 stable
+        run: |
+          rustup toolchain install stable --profile minimal --component clippy
+          rustup default stable
+          rustc --version
+      # 格式不看：跨平台结果一样，上面那个 job 已经查过。Clippy 要看，因为
+      # 有一批 lint 只对 `cfg(windows)` 下的代码生效。
+      - run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - run: cargo test --workspace --locked
+      # 两个产品链接的是 Cargo.toml 声明的那个版本，所以 Windows 的文件替换
+      # 也要在那个版本上真跑过——不然这里只有 Linux 的编译证据。格式校验在
+      # 上面的 msrv job 里做了，这里读不到就让 rustup 自己报错。
+      - name: 在 rust-version 声明的版本上再跑一遍
+        run: |
+          msrv=$(sed -n 's/^rust-version *= *"\([0-9.]*\)".*/\1/p' Cargo.toml)
+          rustup toolchain install "$msrv" --profile minimal
+          cargo +"$msrv" test --workspace --locked

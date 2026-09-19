@@ -57,10 +57,12 @@ use toexec_fs::{replace, write_durable};
 let temp = target.with_extension("tmp");          // 临时文件建在目标同一个目录里
 let mode = std::fs::metadata(&target).ok().map(|m| m.permissions());
 write_durable(&temp, new_bytes, mode.as_ref())?;  // 内容落盘之后才返回
-replace(&temp, &target)?;                         // 一次 rename 顶替
+replace(&temp, &target)?;                         // 一次 rename 顶替；失败了旧内容还在
 ```
 
-完整可运行的例子、每个参数的含义、已知边界（Windows 上的替换不是原子的、没有 fsync 父目录）见 [使用说明](docs/usage.md)。
+`.tmp` 这个固定名字只在"只有你自己写得了这个目录"时够用；目录别人也能写的话得用随机名字加 `create_new`，否则名字会被人提前占住。
+
+完整可运行的例子、每个参数的含义、已知边界（替换失败时旧文件一定还在、没有 fsync 父目录、临时文件的命名和清理归调用方）见 [使用说明](docs/usage.md)。
 
 ## 这里不放什么
 
