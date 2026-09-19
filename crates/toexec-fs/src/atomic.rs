@@ -303,7 +303,12 @@ mod tests {
             }
         }
 
-        result.expect("只读目标也该能替换");
+        if let Err(e) = result {
+            panic!(
+                "只读目标也该能替换，实际 {e}（raw os error {:?}）",
+                e.raw_os_error()
+            );
+        }
         assert_eq!(fs::read(&target).expect("读"), b"new");
     }
 
@@ -328,8 +333,16 @@ mod tests {
             .open(&target)
             .expect("占住目标");
 
-        replace(&temp, &target).expect_err("目标被占住，替换应该失败");
+        let result = replace(&temp, &target);
         drop(held);
+        if let Err(e) = &result {
+            // 失败是预期的，留个痕迹好看是哪个错误码（共享冲突还是拒绝访问）。
+            println!("被占住的目标：{e}（raw os error {:?}）", e.raw_os_error());
+        }
+        assert!(
+            result.is_err(),
+            "目标被独占打开着，替换居然成功了——那 POSIX 语义的 rename 绕过了共享模式，得重新看这条契约"
+        );
         assert_eq!(fs::read(&target).expect("读"), b"old", "旧内容被动过");
         assert!(temp.exists(), "临时文件被动了");
     }

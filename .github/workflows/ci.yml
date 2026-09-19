@@ -71,7 +71,18 @@ jobs:
       # 格式不看：跨平台结果一样，上面那个 job 已经查过。Clippy 要看，因为
       # 有一批 lint 只对 `cfg(windows)` 下的代码生效。
       - run: cargo clippy --workspace --all-targets --locked -- -D warnings
-      - run: cargo test --workspace --locked
+      # 失败时把 panic 那几行塞进 annotation：这个仓库虽然公开，完整日志还是
+      # 要登录 GitHub 才看得到，而 annotation 匿名读得到。不这么干，外面能看
+      # 见的就只有"exit code 101"，连挂的是哪条测试都不知道。
+      # `%0A` 是 Actions 里的换行转义。
+      - name: cargo test
+        run: |
+          if cargo test --workspace --locked 2>&1 | tee test.log; then
+            exit 0
+          fi
+          msg=$(grep -E -A 3 "panicked at|^failures:|FAILED" test.log | head -40 | awk '{printf "%s%%0A", $0}')
+          echo "::error title=cargo test 失败::$msg"
+          exit 1
       # 两个产品链接的是 Cargo.toml 声明的那个版本，所以 Windows 的文件替换
       # 也要在那个版本上真跑过——不然这里只有 Linux 的编译证据。格式校验在
       # 上面的 msrv job 里做了，这里读不到就让 rustup 自己报错。
