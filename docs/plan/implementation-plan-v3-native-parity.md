@@ -117,23 +117,23 @@ gld hub 接 ccnm 远端成员时，透传的是一份**静态白名单**（`remo
 
 ### 4.2 执行面补齐
 
-全部是对现有工具加可选参数或加新工具，不改已有语义：
+全部是对现有工具加可选参数或加新工具，不改已有语义。下面 7 条是 2026-09-17 立项时的设计，**实现出来有出入，逐条落地情况在清单后面；gld 同步时照实现走，不照这份设计走**：
 
 1. **搜索模式**：`search_text` 加输出模式（内容 / 只列文件 / 计数）、跨行匹配、文件类型过滤、可选包含 dotfile。底下本来就是 `rg`，都是现成开关。
 2. **整文件覆盖**：`apply_patch` 加一种操作，覆盖已有文件时必须带 `read_file` 给的版本号。
 3. **一行 shell**：`exec_command` 加一个和 `cmd` 二选一的参数，省得模型自己拼 argv。不因此改任何权限判断——现在模型本来就能写 `["sh","-c",…]`。
-
-1–3 已在 ccnm P37 做完（2026-09-17），和上面写的有三处不同，gld 同步时照实现走：执行用的是 `bash -c` 而不是 `sh -c`，没有 bash 就报错、不退回 sh（Debian 的 sh 是 dash，模型写的是 bash 方言）；调用方的 glob 不再作为 rg 的 `--glob`（rg 里 glob 一命中就不看 `.gitignore`，文件级的也一样），改成文件名部分交给 `--type-add` 缩小范围、整条 glob 由 ccnm 按 rg 规则过滤，`type` 和 `glob` 同给取交集（ccnm P38）；覆盖操作叫 `write`，只替换已存在的文件。依据在 ccnm 的 `docs/research/p37-execution-surface-batch1-2026-09-17.md` 和 `p38-glob-gitignore-2026-09-17.md`。
-
-第 4 项（图片）已在 ccnm P39 做完：工具叫 `view_image`，只发 MCP `image` 块、不缩放、只认 PNG / JPEG / GIF / WebP、上限 3932160 字节。依据是 [media-surface](../../evidence/v3-parity/media-surface/README.md) 的零额度实测——`resource` blob 在 Claude Code 里会被写到 Agent 机器的磁盘上、在 Codex 里变成 base64 文本，所以第 6 项的 PDF 也不能用 blob 发；gld 已有的 `view_image` 如果返回的是别的块形状，同步时要对照这份结果。
-
-第 5 项（notebook）已在 ccnm P40 做完，和上面写的不同：**没有改 `read_file`**（它返回 JSON 文本是冻结契约里的行为，已有人照着那份文本改 notebook），而是新增只读工具 `read_notebook`，`apply_patch` 加 `edit_notebook`（字段照 Claude Code 的 NotebookEdit）。写回用 nbformat 的写法，已用 nbformat 5.11.1 核对。gld 同步时照这个形状。第 6 项（PDF）要 Runtime 上有 poppler，ccnm 开发机没装；**用户 2026-09-18 定暂时不做**，第 3 步到此为止，接第 4 步。
-
-第 7 项（后台进程）已在 ccnm P41 做完，形状和下面第 7 条写的不同：没有照 gld 的 `yield_time_ms` / `write_stdin`，而是 `exec_command` 加 `run_in_background`（名字照 Claude Code，马上返回 `output_ref`，不给 `timeout_ms` 就没有期限）、`read_output` 加 `wait_ms`（等命令结束，结束即返回，上限 600000）、新工具 `stop_command`（进程组先 TERM、2 秒后 KILL）；同一个 server 进程最多 8 个；连接结束时先停掉所有命令再放写锁，客户端取消调用也停掉命令（这两条修的是 ccnm 原有缺陷）。不做 stdin / tty。依据是 [background-exec](../../evidence/v3-parity/background-exec/README.md) 的零额度实测：MCP 没有让 server 叫醒模型的可用通道，所以"等"必须是模型主动调的阻塞工具；Claude Code 交互会话里 MCP 调用超过 120 秒会被 Host 自己转后台。gld 同步时对照 ccnm 的 `docs/research/p41-background-commands-2026-09-18.md` 决定是改形状还是只在 hub 白名单里映射。
 4. **图片**：加 `view_image`（名字和 gld、Codex 的一致），返回 MCP 图片内容块。受 Claude Code 对 MCP 输出的上限约束（默认 25,000 token），上限和要不要缩放实测后定。
 5. **notebook**：`read_file` 遇到 `.ipynb` 按 cell 渲染成带编号的文本；`apply_patch` 加按 cell 改的操作。纯 JSON，不加依赖。
 6. **PDF**：MCP 内容块里没有"文档"这一种，只能转成文本。做法和 `search_text` 依赖 `rg` 一样：Runtime 上有 `pdftotext` 就用，没有就报一个说清楚该装什么的错。
 7. **后台进程**：`exec_command` 加后台运行，返回句柄；`read_output` 能读还在跑的命令；加停止；（可选）喂 stdin。这是最大的一块——要和会话结束时的清场、保留输出的总量上限（ccnm P31）、`exec_sandbox`（P33）、超时语义一起设计。gld 已有的 `yield_time_ms` / `write_stdin` / `kill_session` 是现成参照。
+
+**落地情况**（ccnm 侧除第 6 项外全部做完）：
+
+- **1–3：ccnm P37（2026-09-17），三处和设计不同。**执行用的是 `bash -c` 而不是 `sh -c`，没有 bash 就报错、不退回 sh（Debian 的 sh 是 dash，模型写的是 bash 方言）；调用方的 glob 不再作为 rg 的 `--glob`（rg 里 glob 一命中就不看 `.gitignore`，文件级的也一样），改成文件名部分交给 `--type-add` 缩小范围、整条 glob 由 ccnm 按 rg 规则过滤，`type` 和 `glob` 同给取交集（ccnm P38）；覆盖操作叫 `write`，只替换已存在的文件。依据在 ccnm 的 `docs/research/p37-execution-surface-batch1-2026-09-17.md` 和 `p38-glob-gitignore-2026-09-17.md`。
+- **4 图片：ccnm P39。**工具叫 `view_image`，只发 MCP `image` 块、不缩放、只认 PNG / JPEG / GIF / WebP、上限 3932160 字节。依据是 [media-surface](../../evidence/v3-parity/media-surface/README.md) 的零额度实测——`resource` blob 在 Claude Code 里会被写到 Agent 机器的磁盘上、在 Codex 里变成 base64 文本，所以第 6 项的 PDF 也不能用 blob 发；gld 已有的 `view_image` 如果返回的是别的块形状，同步时要对照这份结果。
+- **5 notebook：ccnm P40，和设计不同。**没有改 `read_file`（它返回 JSON 文本是冻结契约里的行为，已有人照着那份文本改 notebook），而是新增只读工具 `read_notebook`，`apply_patch` 加 `edit_notebook`（字段照 Claude Code 的 NotebookEdit）。写回用 nbformat 的写法，已用 nbformat 5.11.1 核对。gld 同步时照这个形状。
+- **6 PDF：不做。**要 Runtime 上有 poppler，ccnm 开发机没装；**用户 2026-09-18 定暂时不做**，第 3 步到此为止，接第 4 步。
+- **7 后台进程：ccnm P41，形状和设计不同。**没有照 gld 的 `yield_time_ms` / `write_stdin`，而是 `exec_command` 加 `run_in_background`（名字照 Claude Code，马上返回 `output_ref`，不给 `timeout_ms` 就没有期限）、`read_output` 加 `wait_ms`（等命令结束，结束即返回，上限 600000）、新工具 `stop_command`（进程组先 TERM、2 秒后 KILL）；同一个 server 进程最多 8 个；连接结束时先停掉所有命令再放写锁，客户端取消调用也停掉命令（这两条修的是 ccnm 原有缺陷）。不做 stdin / tty。依据是 [background-exec](../../evidence/v3-parity/background-exec/README.md) 的零额度实测：MCP 没有让 server 叫醒模型的可用通道，所以"等"必须是模型主动调的阻塞工具；Claude Code 交互会话里 MCP 调用超过 120 秒会被 Host 自己转后台。gld 同步时对照 ccnm 的 `docs/research/p41-background-commands-2026-09-18.md` 决定是改形状还是只在 hub 白名单里映射。
 
 每做完一个，gld hub 白名单跟着评审加入；gld 自己缺的（PDF、notebook、搜索模式）同步补。
 
@@ -166,6 +166,10 @@ Codex 一侧对应的是放开 `web_search`（在厂商服务端执行）；`mul
 | 3 | 图片、notebook、PDF（4.2 的 4–6） | ccnm，gld 补 PDF / notebook | 0 |
 | 4 | 后台进程（4.2 的 7） | ccnm | 0 |
 | 5 | gld：compact 放回 skills、换 `toexec-skill`、hub 白名单加入 1–4 的新工具 | gld | 0 |
+| 6 | Agent 面放开（4.3） | ccnm | 要真实 CLI；少量模型运行 |
+| 7 | 对照实验：同一批任务，ccnm 路径对比"在 Runtime 上直接跑官方 CLI" | fodelf / 用户终端 | 20–30 次 |
+
+**第 1–5 步已全部完成（2026-09-19）；第 6、7 步没开工**，两步都要真实 CLI 和模型额度，第 6 步还要用户先定第 7 节第 2 条（除 WebSearch 外的 Agent 面默认开还是 opt-in）。
 
 第 5 步在 gld 一侧拆成三块，记在 gld 的 [RFC-0003](https://github.com/xwfe/gld/blob/main/docs/rfc/0003-native-parity-sync.md)：
 
@@ -174,8 +178,6 @@ Codex 一侧对应的是放开 `web_search`（在厂商服务端执行）；`mul
 - **G3 gld 本机执行面**（2026-09-19 完成）：搜索加 `output_mode` / `multiline` / `type` / `include_hidden`（对应上表第 2 步 gld 欠的部分，类型名是 rg 的子集，不认识的类型报错而不是不过滤）；notebook 按 cell 读写（第 3 步）——新工具 `read_notebook`，`apply_patch` 加 `notebook_edits` 参数（gld 收的是文本补丁信封，塞不进结构化 op，所以是并列参数而不是 ccnm 那样的 op；cell 编辑和普通补丁在同一次事务里）。`read_file` 对 `.ipynb` 的既有行为没动。往返用的是和 ccnm 同一份 nbformat 核对过的 fixture。**已知差异**：ccnm 把输出里的图片当 MCP 图片块发出去，gld 的工具结果是单块的，只标注"有一张多大的图"。
 
 **第 5 步到此完成。**gld 一侧 G1/G2/G3 三块都做完了。
-| 6 | Agent 面放开（4.3） | ccnm | 要真实 CLI；少量模型运行 |
-| 7 | 对照实验：同一批任务，ccnm 路径对比"在 Runtime 上直接跑官方 CLI" | fodelf / 用户终端 | 20–30 次 |
 
 阶段编号在各仓库开工时才登记（ccnm 的并行会话经常撞号，提前占号没有意义）。每个阶段照 ccnm 的惯例：先实测、再定契约、再实现；契约新增的部分同步进 `docs/protocol/` 的 fixture 和 schema。
 
