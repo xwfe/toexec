@@ -72,6 +72,7 @@ replace(&temp, &target)?;                         // 一次 rename 顶替；失�
 
 | 我想…… | 看这里 |
 | --- | --- |
+| 查看三仓重构方向评审、关键风险、实施依赖与验收计划 | [跨项目重构评审](docs/plan/2026-09-19-cross-project-refactor-review.md) |
 | 照着例子把三个 crate 用起来，弄清边界和常见坑 | [docs/usage.md](docs/usage.md) |
 | 改这里的代码、发新 tag、和产品仓库本地联调 | [docs/development.md](docs/development.md) |
 | 知道 `evidence/` 里那些实测脚本和结果是干什么的 | [docs/evidence.md](docs/evidence.md) |
