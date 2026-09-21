@@ -138,19 +138,29 @@ A 最多先委派文件分块读取和进程执行，也允许只保留进程/�
 
 ## 4. 目标调用链与责任归属
 
+**现在实际在跑的只有一条：**
+
 ```text
 gld 本地工具 ── gld 策略 ──────────────────────→ 共享 Rust 库
 
 官方 Claude ── MCP ── SSH stdio ────┐
                                     ├─ ccnm Runtime（身份 / root / writer guard）
-Web AI ── gld hub ── 公共 bridge ────┘   ├─ 默认：直接执行 / 共享 Rust 库
-                                        └─ 可选实验：分块读或进程委派
-                                             → 受管 exec-server
-
-官方 Codex ── 原生执行协议 ── ccnm 监督包装 ──→ 受管 exec-server
+Web AI ── gld hub ── 公共 bridge ────┘   └─ 直接执行 / 共享 Rust 库
 ```
 
-共享库减少 gld 与 ccnm 直接路径的代码重复；Codex 原生链单独采用官方执行端。Claude 的实验分支不要求使用与 Codex 原生链相同的进程或后端版本。一个物理 workspace 的 coding 会话仍竞争同一写权，不能不受约束地同时修改同树。
+三种客户端都走这一条。一个物理 workspace 的 coding 会话仍竞争同一写权，不能
+不受约束地同时修改同树。
+
+**另外两条分支都已经关掉了**，下面这张图只为读懂本节后面那张责任表——它有两行
+说的是 exec-server，而 exec-server 现在没有任何一条链在用：
+
+```text
+官方 Codex ── 原生执行协议 ── ccnm 监督包装 ──→ 受管 exec-server   ← 2026-09-17 用户决定封存（ccnm P32）
+Claude 实验：分块读 / 进程委派 ──────────────→ 受管 exec-server   ← V2-P1 结论是维持直接执行，实验线 2026-09-16 结束
+```
+
+**别照着这两条排期。**要复原它们的设计理由去 git 历史和 ccnm P21–P32 的记录里找，
+本节不再维护它们的细节。
 
 gld 本地的安装包、默认依赖、Windows 构建与交互会话均不引入 Codex 二进制/exec 协议。gld hub 只调用 ccnm 公共接口，不关心远端是否选择了实验 backend。
 

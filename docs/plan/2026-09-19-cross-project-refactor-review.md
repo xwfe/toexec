@@ -310,12 +310,25 @@ gld 可以在模型暂时不调用时继续一个已启动进程，但它不会�
 | 条目 | 谁做的 | 结果 |
 | --- | --- | --- |
 | X01 共享库替换 | toexec `7135dc7` 起，tag `toexec-fs-v0.2.1` | 替换失败不再先删掉旧文件；Windows 实测证据在 `evidence/x01-windows-replace/` |
+| X02 版本保护三态 | gld（`70fb4a7` 起，U2 收尾） | `current_file_version` 不再把"读不出属性"和"文件不存在"都变成 `None`：权限不够、I/O 出错、那是个目录，现在都不会让 `expected_versions: null`（这路径应当是空的）的前置条件通过。测试是 `a_path_whose_state_cannot_be_read_is_not_treated_as_absent` |
 | X03 执行资源所有权 | gld（`d947b90`、`dc6532c`、`91f45d8` 等） | 在 gld 收口，只剩 Git common directory 两级协调，**建议挂起**：没有并行 worktree 编排，现在设计没有真实用例可验 |
 | X04 后台任务与空闲回收 | ccnm P42 + gld `85bda77` | ccnm 出权威语义（协议第 6 节：四个时钟、session-bound、取消等待不等于取消命令、终态只有 Runtime 说了算）；gld 用真实二进制跑出组合问题并修三条——前台命令期限超过它的调用预算、空闲回收看不见在跑的后台命令、**连接关得太急会在 Runtime 上留孤儿**。第三条是跑那个测试才查出来的，本评审里没有 |
 | X05 故障清理与写权 | ccnm P43 | 查出并修了一条真缺口：一个停不掉的后代留下时，写权会被交给下一个会话。现在写锁留成 `held` 加一行 `abandoned` 并点名还剩哪个 `output_ref`；marker 记 pid，但 pid 不在从来不是交权的理由 |
 | X06 输入校验与能力 | ccnm P44 | 服务端自己验：有副作用的三个工具（连同嵌套结构）拒绝未声明字段、超界值改为拒绝，只读的照答但写明忽略了什么；`tools/list` 的 `additionalProperties` 与真实解析对上。X10 的能力代次不用另造——`serverInfo.version` 加 `tools/list` 就是 |
 
-**明确没做、留给以后的**：租约显示与 durable Job（要升 `ccnm.workspace-mcp/2` 或显式协商）；进程容器（cgroup / job object / supervisor）——没有它，一个脱离了进程组但不占管道的后代仍然发现不了；MCP 层的能力协商扩展；跨 state home 的共享锁（按本评审第 4 节要求近期不造，只写清边界）。X02、X07–X13 这一轮没动。
+**明确没做、留给以后的**：租约显示与 durable Job（要升 `ccnm.workspace-mcp/2` 或显式协商）；进程容器（cgroup / job object / supervisor）——没有它，一个脱离了进程组但不占管道的后代仍然发现不了；MCP 层的能力协商扩展；跨 state home 的共享锁（按本评审第 4 节要求近期不造，只写清边界）。
+
+**X07–X13 的状态（2026-09-21 复核）**，免得接手的人重新判断一遍：
+
+| 条目 | 状态 |
+| --- | --- |
+| X07 hub 默认化要以项目级授权为前置 | 没做。属于 gld 的 L1，还没开工；现在仍是单项目入口和 hub 并存，没有"先删单项目入口"这种事发生 |
+| X08 skills 解析要有语料、差分和模糊测试 | 没做。`toexec-skill` 的手写解析器还是原样，只有既有单测 |
+| X09 Agent 面恢复必要能力 | 没做，**卡在额度和真实 CLI**：这是 v3 计划第 6 步，要真实 CLI 和模型额度，且要用户先定"除 WebSearch 外默认开还是 opt-in" |
+| X10 源码/构建/能力可核对链 | 部分。`server_info` 已经回工具集和 schema 摘要，但 gld 诊断里的 `build_commit` 仍然是 `null`——要改构建脚本才拿得到运行构建 SHA |
+| X11 跨平台按角色拆 | 没做。现在记的仍是"三客户端 × 三系统"那张表，没有按 gld 本地执行 / gld hub 连接器 / ccnm Runtime / ccnm Agent 四个角色拆开 |
+| X12 计划与证据的维护成本 | **基本做完（2026-09-20/21）**：v1 计划原文删除；v3 的 §4.2 / §5 改成和仓库事实一致；ccnm `status.json` 的 `handoff.next_action` 从 5.2 万字砍到最近四轮并写进规则；本节点名的"v2 第 4 节旧调用图"这次也改了——两条封存的分支单独列出来并注明封存时间和原因。剩下的是长期纪律，不是一次性任务 |
+| X13 完整开发闭环优先于追平工具清单 | 没做。属于 gld 的 L2/L3 |
 
 **最要紧的没验项**：X06 那次收紧对真实 Host 的影响是推理不是证据——没有模型额度、Host 未登录。三仓的验收矩阵里 V06–V09、V12 有了组合证据，V10、V11、V13–V16 仍然没有。
 
