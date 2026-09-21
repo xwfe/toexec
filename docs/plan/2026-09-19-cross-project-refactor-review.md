@@ -325,7 +325,7 @@ gld 可以在模型暂时不调用时继续一个已启动进程，但它不会�
 | X07 hub 默认化要以项目级授权为前置 | 没做。属于 gld 的 L1，还没开工；现在仍是单项目入口和 hub 并存，没有"先删单项目入口"这种事发生 |
 | X08 skills 解析要有语料、差分和模糊测试 | 没做。`toexec-skill` 的手写解析器还是原样，只有既有单测 |
 | X09 Agent 面恢复必要能力 | 没做，**卡在额度和真实 CLI**：这是 v3 计划第 6 步，要真实 CLI 和模型额度，且要用户先定"除 WebSearch 外默认开还是 opt-in" |
-| X10 源码/构建/能力可核对链 | 部分。`server_info` 已经回工具集和 schema 摘要，但 gld 诊断里的 `build_commit` 仍然是 `null`——要改构建脚本才拿得到运行构建 SHA |
+| X10 源码/构建/能力可核对链 | 部分，2026-09-21 又推进一步。`server_info` 回工具集和 schema 摘要；`check_exec_environment` 的 `build_commit` 不再写死 `null`，gld 的 `crates/core/build.rs` 把构建那一刻的 HEAD 嵌进二进制（拿不到仍然是 null，不拿版本号顶替）。**还缺**：所链接共享 crate 的 revision、配置/profile revision、远端能力代次 |
 | X11 跨平台按角色拆 | 没做。现在记的仍是"三客户端 × 三系统"那张表，没有按 gld 本地执行 / gld hub 连接器 / ccnm Runtime / ccnm Agent 四个角色拆开 |
 | X12 计划与证据的维护成本 | **基本做完（2026-09-20/21）**：v1 计划原文删除；v3 的 §4.2 / §5 改成和仓库事实一致；ccnm `status.json` 的 `handoff.next_action` 从 5.2 万字砍到最近四轮并写进规则；本节点名的"v2 第 4 节旧调用图"这次也改了——两条封存的分支单独列出来并注明封存时间和原因。剩下的是长期纪律，不是一次性任务 |
 | X13 完整开发闭环优先于追平工具清单 | 没做。属于 gld 的 L2/L3 |
