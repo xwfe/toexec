@@ -150,8 +150,14 @@ let meta = match front {
     None => Default::default(),
 };
 let description = meta.text("description");            // 多行写法也是一整段
+let hint = meta.string("argument-hint");               // `[issue-number]` 这种列表写法也有文字
 let hidden = meta.flag("disable-model-invocation") == Some(true);
+let user_invocable =                                   // 两个开关的默认值不对称，见下文
+    meta.get("user-invocable").is_none() || meta.flag("user-invocable") == Some(true);
 let names = meta.words("arguments");                   // 列表或 "a b" 字符串都行
+if meta.reading() == frontmatter::Reading::Lenient {
+    // Claude Code 读不了这份 frontmatter，会把它整个当空的；值得告诉作者。
+}
 
 // 2. 用户敲的是 `/deploy staging "two words"`：把参数填进正文。
 let context = args::Context { skill_dir: Some(".claude/skills/deploy"), ..Default::default() };
@@ -167,7 +173,7 @@ for found in inject::find(body) {
 
 | 模块 | 规矩 |
 | --- | --- |
-| `frontmatter` | 键不分 `-` / `_`、不分大小写（官方文档里 `when_to_use` 用下划线、`disable-model-invocation` 用连字符）。读得了：单行值、引号（可跨行）、`>` / `|` 块标量、`- ` 列表、缩进嵌套、`[a, b]` 和 `{k: v}`（可跨行）。读不了就报错：锚点 `&x`、别名 `*x`、标签 `!x`、嵌套的 `[[…]]`、tab 缩进 |
+| `frontmatter` | **读法照 Claude Code 2.1.278**：先严格按 YAML 读；读不了，照宿主的规则给顶层带特殊字符的值加引号、行首 tab 换空格再读；还读不了（宿主此时把整段当空的），用宽松读法读出来，`reading()` 标成 `Lenient`。读得了：单行值、引号（可跨行）、`>` / `|` 块标量、`- ` 列表、缩进嵌套、`[a, b]` 和 `{k: v}`（可跨行、嵌套）。仍然报错的：引号没闭合、转义写错、缩进里的 tab、锚点/别名/标签出现在嵌套的位置、嵌套超过 32 层 |
 | `args` | 对的是 Claude Code 2.1.273 的实际行为，不只是文档：`$N` 和 `$ARGUMENTS[N]` 没给到就**原样留着**；声明过的 `$name` 没给到是空串；`\$0` 转义；一个都没换成而又给了参数，就在末尾补 `ARGUMENTS: …` |
 | `inject` | `` !`cmd` `` 和 ```` ```! ```` 代码块。普通代码块里的不算——文档里举例写一个，不是在要求执行它 |
 
@@ -175,6 +181,10 @@ for found in inject::find(body) {
 
 - **`$1` 没给参数时留着不换，是故意的。** skill 正文里经常有 `awk '{print $1}'` 这种 shell 片段；换成空串，脚本就坏了，而且坏得无声无息。
 - **`inject::find` 只找不跑。** 跑不跑、以谁的身份跑，是产品的安全决定，不是解析细节。ccnm 就不自动执行：一次"读 skill"的调用不该触发项目指定的命令。
+- **一个键写了两遍，后写的赢**，和宿主一样；0.1.0 是先写的赢，`disable-model-invocation` 写两遍时两边读出相反的值。一字不差的键优先于只差大小写或 `-`/`_` 的写法。`duplicates()` 列出这些重名键和行号，拿去提醒作者。
+- **`user-invocable` 写了就只有 true 才算 true。** 宿主把空值、`[]`、认不出的字都当 false，skill 从 `/` 菜单里消失；`disable-model-invocation` 反过来，只有 true 才生效。所以两个开关要分开写：`get(k).is_none() || flag(k) == Some(true)` 和 `flag(k) == Some(true)`。`flag` 认 `yes`/`no`/`on`/`off`/`1`/`0`。
+- **显示用的字段用 `string`，不用 `text`。** 官方例子 `argument-hint: [issue-number]` 在 YAML 里是列表，`text` 给不出文字，`string` 给 `issue-number`（宿主的显示）。`[filename] [format]` 不是合法的 YAML，宿主加引号重读，两个方法都给原文。
+- **`words` 只按空白切**（文档原话 "space-separated"），逗号是名字的一部分，纯数字的名字丢掉——和宿主一样。
 - **frontmatter 读不了时，整个文件的 frontmatter 都拿不到**，不会给你读了一半的结果。`ParseError` 里有行号（frontmatter 里的第几行）和分类，报错怎么措辞由你定。
 - **`hooks:` 这种三层嵌套也读得进来**，哪怕你根本不用它：读不过去的话，带 hooks 的 skill 连名字都拿不到。
 
@@ -184,4 +194,6 @@ for found in inject::find(body) {
 
 ### 拿什么验的
 
-除了单元测试，解析器在一台开发机的真实语料上跑过：`~/.claude` 下 941 个 SKILL.md / 命令 / agent 文件，810 个带 frontmatter 的 skill 和命令全部读得出来；读不了的 2 个是 agent 定义文件，它们的 YAML 本身就不合法（描述里有没缩进的 `<example>` 行）。跨行的引号串和跨行的 `[…]` 就是这样验出来要支持的——Anthropic 官方插件里有。
+拿 Claude Code 自己的解析器做差分（借它内嵌的 Bun 运行时，零额度）：6 个公开仓库（按提交号钉住，能复验）加一台开发机上共 1686 个文件，以及两批各 4000 个按片段拼出的畸形输入，0.2.0 和宿主之间说不清的分歧是 0，剩下的归到 9 个有意不跟的原因。做法、结果和每个原因为什么不跟见 [`evidence/x08-skill-frontmatter/`](../evidence/x08-skill-frontmatter/README.md)。
+
+另外两份测试在 crate 里，`cargo test` 就跑：固定种子的变异模糊测试（不崩、不卡），和 1 MiB 级畸形输入必须线性时间读完——0.1.0 在跨行引号串上是平方级，416 KB 要 10 秒。
