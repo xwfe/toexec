@@ -24,4 +24,4 @@ pub mod args;
 pub mod frontmatter;
 pub mod inject;
 
-pub use frontmatter::{Frontmatter, ParseError, Value};
+pub use frontmatter::{Frontmatter, ParseError, Reading, Value};
