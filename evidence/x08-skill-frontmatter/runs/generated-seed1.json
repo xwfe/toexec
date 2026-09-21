@@ -1,0 +1,593 @@
+{
+ "host": {
+  "bun": "1.4.3",
+  "revision": "8c28b31673fe6725ffd29e154bd1cb45069ae814",
+  "exe": "/opt/homebrew/Caskroom/claude-code@latest/2.1.278/claude",
+  "claude": "/opt/homebrew/Caskroom/claude-code@latest/2.1.278/claude"
+ },
+ "ours": {
+  "toexec": "f0f7548"
+ },
+ "causes": {
+  "host-ignores-we-read-leniently": "宿主两步都读不了、整段丢弃；toexec-skill 宽松读出（Reading::Lenient）",
+  "both-unreadable": "两边都读不了：宿主整段丢弃，toexec-skill 报错并给行号",
+  "host-cuts-at-dashes": "值里有 `---`，宿主的正则在那里截断 frontmatter；toexec-skill 要求 `---` 独占一行",
+  "anchor-tag-alias": "锚点 &x、别名 *x、标签 !x：宿主（Bun.YAML）认，toexec-skill 不认",
+  "normalized-key": "键名大小写或 -/_ 不同、或同一个键写了几遍：toexec-skill 归一化后认，宿主只认原样",
+  "number-spelling": "数字保留原文（1.10、0x1F）；宿主 String(数字) 会改写成 1.1、31",
+  "host-stringifies-map": "映射或布尔当文字用：宿主 String() 得 [object Object] / \"false\"，toexec-skill 给不出文字",
+  "bun-tab-quirk": "行首有 tab：Bun 是否报错取决于前文（前面是引号串或块标量时报），toexec-skill 按 YAML 规则",
+  "bun-crlf-quoted": "CRLF 文件里跨行的引号串：Bun 把换行留成 \\n，YAML 规定折成空格"
+ },
+ "corpora": [
+  {
+   "name": "generated-seed1",
+   "source": {
+    "generated": {
+     "generator": "gen_cases.py",
+     "seed": 1,
+     "count": 4000
+    }
+   },
+   "files": 4000,
+   "kinds": {
+    "skill": 4000
+   },
+   "split": {
+    "differs": 154,
+    "same": 3846
+   },
+   "parse": {
+    "both-reject": 1175,
+    "both-requoted": 490,
+    "both-yaml": 1315,
+    "lenient-host-ignores": 544,
+    "ours-lenient-host-direct": 6,
+    "ours-lenient-host-requoted": 1,
+    "ours-rejects-host-reads": 158,
+    "ours-requoted-host-direct": 154,
+    "ours-yaml-host-failed": 1,
+    "ours-yaml-host-requoted": 2
+   },
+   "tree": {
+    "differs": 160
+   },
+   "field": {
+    "argument_hint": 67,
+    "arguments": 17,
+    "description": 46,
+    "disable_model_invocation": 25,
+    "name": 59,
+    "user_invocable": 237,
+    "when_to_use": 308
+   },
+   "explained": {
+    "both-unreadable": 1175,
+    "anchor-tag-alias": 683,
+    "host-ignores-we-read-leniently": 544,
+    "normalized-key": 391,
+    "host-cuts-at-dashes": 154,
+    "number-spelling": 96,
+    "host-stringifies-map": 64,
+    "bun-tab-quirk": 4,
+    "bun-crlf-quoted": 3
+   },
+   "unexplained": {},
+   "examples": [
+    {
+     "path": "case-1-00002",
+     "kind": "skill",
+     "group": "parse",
+     "category": "both-reject",
+     "cause": "both-unreadable",
+     "detail": "ours Unexpected at line 16; host YAML Parse error: Unexpected token",
+     "front": "Disable-Model-Invocation: it's deploy @me {k}\n  \n  - item\n  key: `tick` PR a-b {k}\n  # indented comment\nwhen-to-use: |2\n  # not a comment\n  PR PR [draft] http://x.io/a deploy tab\there\n\nargument-hint: |2\n\nUser_Invocable: off\narguments: [\n  review,\n  \"x\\x4\",\n]\n\n"
+    },
+    {
+     "path": "case-1-00004",
+     "kind": "skill",
+     "group": "parse",
+     "category": "both-reject",
+     "cause": "both-unreadable",
+     "detail": "ours Unsupported at line 18; host YAML Parse error: Unexpected token",
+     "front": "version: `tick` *star say \"hi\" `tick`\n  review 中文 it's asks\n  \n  # comment\nversion:\n  user-invocable: 50%\n    - item\n  model: 'say \"hi\"'\n  disable_model_invocation:\n    - \ndisable_model_invocation: http://x.io/a &amp tab\there\nlicense: >\n  @me\n  say \"hi\" user\n    user x|y v1.2 user review\n  # indented comment\nname: 12:30\ndisable-model-invocation: &anchor PR\n"
+    },
+    {
+     "path": "case-1-00005",
+     "kind": "skill",
+     "group": "split",
+     "category": "differs",
+     "cause": "host-cuts-at-dashes",
+     "detail": "ours 173 chars vs host 46",
+     "front": "user-invocable: [\"review deploy\", \"50% the\\n\"] --- x\nwhen-to-use: [\n  `tick`,\n  \"x\\x41\",\n]\ndisable-model-invocation: v1.2\n# comment\nwhen_to_use: 50% it's\n  \nwhen_to_use: off\n"
+    },
+    {
+     "path": "case-1-00011",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"[object Object]\"",
+     "front": "name: [50%]\nwhen_to_use:\n  disable_model_invocation: '中文 review PR it''s !bang'\n  disable_model_invocation: http://x.io/a 50% {k} 50% PR a>b\nUser_Invocable: é http://x.io/a `tick` deploy &amp\nmetadata: C# the !bang\n"
+    },
+    {
+     "path": "case-1-00011",
+     "kind": "skill",
+     "group": "field",
+     "category": "user_invocable",
+     "cause": "normalized-key",
+     "detail": "ours false vs host true",
+     "front": "name: [50%]\nwhen_to_use:\n  disable_model_invocation: '中文 review PR it''s !bang'\n  disable_model_invocation: http://x.io/a 50% {k} 50% PR a>b\nUser_Invocable: é http://x.io/a `tick` deploy &amp\nmetadata: C# the !bang\n"
+    },
+    {
+     "path": "case-1-00017",
+     "kind": "skill",
+     "group": "parse",
+     "category": "lenient-host-ignores",
+     "cause": "host-ignores-we-read-leniently",
+     "detail": "",
+     "front": "user-invocable:\n  license: [draft] 50% *star\n"
+    },
+    {
+     "path": "case-1-00020",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "normalized-key",
+     "detail": "ours \"yes\" vs host null",
+     "front": "when-to-use: yes\n\ndisable_model_invocation: .inf\ndisable_model_invocation: .inf\nmetadata: '@me é v1.2 @me say \"hi\" tab\there'\ndisable-model-invocation: 'é @me the the'\n"
+    },
+    {
+     "path": "case-1-00023",
+     "kind": "skill",
+     "group": "parse",
+     "category": "lenient-host-ignores",
+     "cause": "host-ignores-we-read-leniently",
+     "detail": "",
+     "front": "license: 2024-01-02\r\nargument-hint:\r\n  - {k} it's a>b !bang {k} C#\r\n  - [\r\n  - {disable_model_invocation: FALSE, version: 0o17}\r\nwhen-to-use: http://x.io/a @me asks asks v1.2 C#\r\ndescription: @me v1.2\r\n  \r\n  - item\r\ndescription: |-\r\n    user asks asks\r\n\r\n"
+    },
+    {
+     "path": "case-1-00025",
+     "kind": "skill",
+     "group": "field",
+     "category": "description",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"false\"",
+     "front": "description: FALSE\nDisable-Model-Invocation: true\n# comment\n"
+    },
+    {
+     "path": "case-1-00025",
+     "kind": "skill",
+     "group": "field",
+     "category": "disable_model_invocation",
+     "cause": "normalized-key",
+     "detail": "ours true vs host false",
+     "front": "description: FALSE\nDisable-Model-Invocation: true\n# comment\n"
+    },
+    {
+     "path": "case-1-00026",
+     "kind": "skill",
+     "group": "field",
+     "category": "user_invocable",
+     "cause": "normalized-key",
+     "detail": "ours false vs host true",
+     "front": "User_Invocable: 1.2.3\n"
+    },
+    {
+     "path": "case-1-00031",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-requoted-host-direct",
+     "cause": "anchor-tag-alias",
+     "detail": "",
+     "front": "arguments: !!str 1\n"
+    },
+    {
+     "path": "case-1-00031",
+     "kind": "skill",
+     "group": "tree",
+     "category": "differs",
+     "cause": "anchor-tag-alias",
+     "detail": "$.arguments: ours \"!!str 1\" vs host \"1\"",
+     "front": "arguments: !!str 1\n"
+    },
+    {
+     "path": "case-1-00031",
+     "kind": "skill",
+     "group": "field",
+     "category": "arguments",
+     "cause": "anchor-tag-alias",
+     "detail": "ours [\"!!str\"] vs host []",
+     "front": "arguments: !!str 1\n"
+    },
+    {
+     "path": "case-1-00039",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-rejects-host-reads",
+     "cause": "anchor-tag-alias",
+     "detail": "Unsupported at line 5 (host: direct)",
+     "front": "license:\n  - tab\there asks\n\"disable-model-invocation\": 'review a-b'\n\ndisable-model-invocation: &amp say \"hi\"\n  é `tick` é deploy C#\nlicense: True\n"
+    },
+    {
+     "path": "case-1-00047",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"[a>b, null, \\\"a>b\\\\x4\\\", Null, [nested]]\" vs host null",
+     "front": "allowed-tools: 'PR http://x.io/a'\ndescription:\n  - é é\nwhen-to-use: [a>b, null, \"a>b\\x4\", Null, [nested]]\nmetadata: !tag x\n"
+    },
+    {
+     "path": "case-1-00055",
+     "kind": "skill",
+     "group": "split",
+     "category": "differs",
+     "cause": "host-cuts-at-dashes",
+     "detail": "ours 177 chars vs host 152",
+     "front": "disable_model_invocation: http://x.io/a 50% &amp user PR\nallowed-tools: \"a>b review tab\there x|y user\\x4\"\nDisable-Model-Invocation: '`tick` review v1.2' --- x\nUser_Invocable: -2\n"
+    },
+    {
+     "path": "case-1-00057",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-requoted-host-direct",
+     "cause": "anchor-tag-alias",
+     "detail": "",
+     "front": "allowed-tools: !tag x   \nmodel: True\nmodel: True\n"
+    },
+    {
+     "path": "case-1-00057",
+     "kind": "skill",
+     "group": "tree",
+     "category": "differs",
+     "cause": "anchor-tag-alias",
+     "detail": "$.allowed-tools: ours \"!tag x   \" vs host \"x\"",
+     "front": "allowed-tools: !tag x   \nmodel: True\nmodel: True\n"
+    },
+    {
+     "path": "case-1-00065",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "normalized-key",
+     "detail": "ours \"http://x.io/aA\" vs host null",
+     "front": "metadata: false\nwhen-to-use: \"http://x.io/a\\x41\"\n"
+    },
+    {
+     "path": "case-1-00070",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"a-b http://x.io/a x|y `tick`\" vs host null",
+     "front": "disable_model_invocation: !!str 1\narguments: '*star é {k} http://x.io/a asks'\nwhen-to-use: \"a-b http://x.io/a x|y `tick`\\ \"\nUser_Invocable: &anchor tab\there\nversion: [\"C# {k}\\/\", .nan, on, 1e3, [nested]]\n"
+    },
+    {
+     "path": "case-1-00070",
+     "kind": "skill",
+     "group": "field",
+     "category": "user_invocable",
+     "cause": "anchor-tag-alias",
+     "detail": "ours false vs host true",
+     "front": "disable_model_invocation: !!str 1\narguments: '*star é {k} http://x.io/a asks'\nwhen-to-use: \"a-b http://x.io/a x|y `tick`\\ \"\nUser_Invocable: &anchor tab\there\nversion: [\"C# {k}\\/\", .nan, on, 1e3, [nested]]\n"
+    },
+    {
+     "path": "case-1-00076",
+     "kind": "skill",
+     "group": "field",
+     "category": "argument_hint",
+     "cause": "number-spelling",
+     "detail": "ours \",.5,0o17,http://x.io/a http://x.io/a/,tab\\there user *star\" vs host \",0.5,15,http://x.io/a http://x.io/a/,tab\\there user *star\"",
+     "front": "argument-hint:\n  - \n  - [.5, 0o17, \"http://x.io/a http://x.io/a\\/\"]\n  - 'tab\there user *star'\nwhen-to-use: \"@me review\\t\"\nmodel: >\n  # not a comment\n    @me `tick` `tick` *star\nallowed-tools: {disable-model-invocation: 1.2.3, license: 010}\nmetadata:\n  - \"`tick` it's [draft] http://x.io/a [draft] say \\\"hi\\\"\\\"\"\n  - Yes\nDisable-Model-Invocation: ~\n"
+    },
+    {
+     "path": "case-1-00088",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-rejects-host-reads",
+     "cause": "anchor-tag-alias",
+     "detail": "Unsupported at line 5 (host: direct)",
+     "front": "user-invocable: 010\n\"metadata\": it's\nname: n\narguments: \"the [draft]\\/\"\nwhen_to_use: !tag x\nuser-invocable: | # c\n    C#\n    asks @me tab\there review the a-b\n"
+    },
+    {
+     "path": "case-1-00102",
+     "kind": "skill",
+     "group": "tree",
+     "category": "differs",
+     "cause": "bun-crlf-quoted",
+     "detail": "$.metadata: ours \"the @me 50% [draft] it's it's &amp a>b the http://x.io/a é C# a>b\" vs host \"the @me 50%\\n[draft] it's it's &amp a>b the\\nhttp://x.io/a é C# a>b\"",
+     "front": "metadata: \"the @me 50%\r\n  [draft] it's it's &amp a>b the\r\n  http://x.io/a é C# a>b\"\r\nallowed-tools: | # c\r\n  the\r\n"
+    },
+    {
+     "path": "case-1-00109",
+     "kind": "skill",
+     "group": "field",
+     "category": "description",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"&anchor asks\" vs host \"asks\"",
+     "front": "version: 'asks deploy @me 50%'\nmodel: |2\n\ndescription: &anchor asks\n"
+    },
+    {
+     "path": "case-1-00119",
+     "kind": "skill",
+     "group": "field",
+     "category": "name",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"[object Object]\"",
+     "front": "User_Invocable: >1\n  # not a comment\nname:\n  metadata: \"{k} !bang `tick` C#\\t\"\n  disable_model_invocation: \"中文\n    PR a-b a>b\n    tab\there [draft] PR *star\"\nDisable-Model-Invocation: [http://x.io/a !bang, y, no, \"!bang 中文\\x41\"]\n"
+    },
+    {
+     "path": "case-1-00159",
+     "kind": "skill",
+     "group": "field",
+     "category": "arguments",
+     "cause": "anchor-tag-alias",
+     "detail": "ours [\"!tag\", \"x\"] vs host [\"x\"]",
+     "front": "description: off\ndisable-model-invocation: {user-invocable: 010, when-to-use: 1.10, arguments: 1}\narguments: !tag x\n"
+    },
+    {
+     "path": "case-1-00167",
+     "kind": "skill",
+     "group": "field",
+     "category": "name",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"[object Object]\"",
+     "front": "when_to_use: \"user user a-b tab\there\\x41\"\nlicense: `x`\nname:\n  disable-model-invocation: 'v1.2 it''s the'\nargument-hint: http://x.io/a user *star tab\there it's [draft]\n"
+    },
+    {
+     "path": "case-1-00181",
+     "kind": "skill",
+     "group": "field",
+     "category": "name",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"{arguments: no, version: FALSE, disable-model-invocation: .5}\" vs host \"[object Object]\"",
+     "front": "when_to_use:\n  - -2\n  - -2\nmodel: {when_to_use: 2024-01-02}\nname: {arguments: no, version: FALSE, disable-model-invocation: .5}\nargument-hint: !tag x\n"
+    },
+    {
+     "path": "case-1-00181",
+     "kind": "skill",
+     "group": "field",
+     "category": "argument_hint",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"!tag x\" vs host \"x\"",
+     "front": "when_to_use:\n  - -2\n  - -2\nmodel: {when_to_use: 2024-01-02}\nname: {arguments: no, version: FALSE, disable-model-invocation: .5}\nargument-hint: !tag x\n"
+    },
+    {
+     "path": "case-1-00183",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "number-spelling",
+     "detail": "ours \"010\" vs host \"10\"",
+     "front": "metadata: [draft] `tick` v1.2 user 50% http://x.io/a\nwhen_to_use: 010\nallowed-tools: 1_000\n"
+    },
+    {
+     "path": "case-1-00218",
+     "kind": "skill",
+     "group": "field",
+     "category": "argument_hint",
+     "cause": "number-spelling",
+     "detail": "ours \"1e3\" vs host \"1000\"",
+     "front": "arguments: | # c\n\n  # not a comment\n\nuser-invocable: yes\nargument-hint: Null\nargument-hint: 1e3\nwhen_to_use: C#\nwhen-to-use: |2\n\n  # not a comment\n"
+    },
+    {
+     "path": "case-1-00289",
+     "kind": "skill",
+     "group": "field",
+     "category": "argument_hint",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"{user-invocable: 1, description: -2, disable-model-invocation: null}\" vs host \"[object Object]\"",
+     "front": "disable-model-invocation: é\nargument-hint: {user-invocable: 1, description: -2, disable-model-invocation: null}\narguments: !tag x\n"
+    },
+    {
+     "path": "case-1-00318",
+     "kind": "skill",
+     "group": "field",
+     "category": "name",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"0o17\" vs host \"15\"",
+     "front": "version: {when_to_use: 1.10, User_Invocable: y, when_to_use: ~}\nuser-invocable: C#\nname: !bang x|y C#\n  \n  \nname: 0o17\n"
+    },
+    {
+     "path": "case-1-00324",
+     "kind": "skill",
+     "group": "field",
+     "category": "description",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"false\"",
+     "front": "description: false\nDisable-Model-Invocation: 'é @me &amp http://x.io/a the'\n\nmodel: 1e3\nwhen-to-use: a-b a>b\nmetadata: null\nwhen_to_use: >-\n  it's `tick` deploy user\n\n  a-b it's asks\n    v1.2 say \"hi\" &amp http://x.io/a\n"
+    },
+    {
+     "path": "case-1-00337",
+     "kind": "skill",
+     "group": "field",
+     "category": "argument_hint",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"[object Object]\"",
+     "front": "argument-hint:\n  when-to-use: \"50% é\\\\\"\n"
+    },
+    {
+     "path": "case-1-00360",
+     "kind": "skill",
+     "group": "field",
+     "category": "user_invocable",
+     "cause": "anchor-tag-alias",
+     "detail": "ours false vs host true",
+     "front": "User_Invocable: &amp é C# 50% PR\n# comment\nname: &amp v1.2 é\nDisable-Model-Invocation: -2\n"
+    },
+    {
+     "path": "case-1-00379",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"[object Object]\"",
+     "front": "description: 'it''s asks'\nwhen_to_use: {}\nwhen_to_use: {}\n"
+    },
+    {
+     "path": "case-1-00389",
+     "kind": "skill",
+     "group": "field",
+     "category": "disable_model_invocation",
+     "cause": "normalized-key",
+     "detail": "ours true vs host false",
+     "front": "disable_model_invocation: True\nname: http://x.io/a 50% say \"hi\" `tick` *star\n"
+    },
+    {
+     "path": "case-1-00449",
+     "kind": "skill",
+     "group": "field",
+     "category": "description",
+     "cause": "number-spelling",
+     "detail": "ours \"1e3\" vs host \"1000\"",
+     "front": "model: '{k} &amp'\ndescription: 1e3\nmodel: >+\n\n  # not a comment\n\n"
+    },
+    {
+     "path": "case-1-00507",
+     "kind": "skill",
+     "group": "field",
+     "category": "name",
+     "cause": "number-spelling",
+     "detail": "ours \"1e3\" vs host \"1000\"",
+     "front": "disable-model-invocation: é {k} !bang &amp\nname: 1e3\nversion:\n  - \"deploy 中文 v1.2 中文\\\"\"\nlicense:\n  arguments: 中文 user v1.2\n  name: ~\n  metadata: 1.2.3\n"
+    },
+    {
+     "path": "case-1-00575",
+     "kind": "skill",
+     "group": "field",
+     "category": "name",
+     "cause": "number-spelling",
+     "detail": "ours \"1e3\" vs host \"1000\"",
+     "front": "arguments: é PR {k} &amp v1.2 v1.2\nname: 1e3\n\"argument-hint\": 'é the C# http://x.io/a user &amp'\nDisable-Model-Invocation: 'a>b x|y the'\n"
+    },
+    {
+     "path": "case-1-00643",
+     "kind": "skill",
+     "group": "field",
+     "category": "argument_hint",
+     "cause": "host-stringifies-map",
+     "detail": "ours null vs host \"[object Object]\"",
+     "front": "argument-hint:   \n  license: 12:30\nwhen_to_use: |2\n  # not a comment\n"
+    },
+    {
+     "path": "case-1-00645",
+     "kind": "skill",
+     "group": "field",
+     "category": "description",
+     "cause": "number-spelling",
+     "detail": "ours \"1.10\" vs host \"1.1\"",
+     "front": "disable-model-invocation: y\n\nwhen-to-use: \"x|y\\t\"\nwhen-to-use: \"x|y\\t\"\ndescription: 1.10\n\"disable-model-invocation\": 010\n"
+    },
+    {
+     "path": "case-1-00694",
+     "kind": "skill",
+     "group": "field",
+     "category": "when_to_use",
+     "cause": "number-spelling",
+     "detail": "ours \"0o17\" vs host \"15\"",
+     "front": "when_to_use: tab\there !bang asks !bang it's\n# comment\ndescription: \"é !bang a-b a>b 中文 tab\there\"\ndescription: {allowed-tools: 1.2.3}\nwhen_to_use: 'x|y tab\there *star'\nwhen_to_use: 0o17\n"
+    },
+    {
+     "path": "case-1-00734",
+     "kind": "skill",
+     "group": "field",
+     "category": "description",
+     "cause": "anchor-tag-alias",
+     "detail": "ours \"!tag x\" vs host \"x\"",
+     "front": "description: !tag x\n\n"
+    },
+    {
+     "path": "case-1-00952",
+     "kind": "skill",
+     "group": "field",
+     "category": "disable_model_invocation",
+     "cause": "anchor-tag-alias",
+     "detail": "ours true vs host false",
+     "front": "Disable-Model-Invocation: *star 中文 it's a-b a-b\n\"Disable-Model-Invocation\": yes\n"
+    },
+    {
+     "path": "case-1-01285",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-lenient-host-direct",
+     "cause": "anchor-tag-alias",
+     "detail": "",
+     "front": "argument-hint:\n  when_to_use: 0x1F\n  model: '&amp'\n  description: [\"say \\\"hi\\\"\\x41\", \"deploy\\/\", Yes, &amp http://x.io/a]\n"
+    },
+    {
+     "path": "case-1-01326",
+     "kind": "skill",
+     "group": "field",
+     "category": "disable_model_invocation",
+     "cause": "anchor-tag-alias",
+     "detail": "ours true vs host false",
+     "front": "user-invocable: @x\nwhen-to-use: !tag x\nDisable-Model-Invocation: on\nversion: 12:30\n"
+    },
+    {
+     "path": "case-1-01366",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-lenient-host-requoted",
+     "cause": "anchor-tag-alias",
+     "detail": "YAML Parse error: Unresolved alias",
+     "front": "disable_model_invocation:\n  - [\"C#\\x41\", \"v1.2 say \\\"hi\\\"\\\"\", &amp, [nested]]\nuser-invocable: http://x.io/a review é [draft] é user\n\ndescription: \"50% PR say \\\"hi\\\" the\\n\"\nlicense: the\n  \nUser_Invocable: [x|y tab\there, *star, \"{k}\\n\", user tab\there]\n"
+    },
+    {
+     "path": "case-1-02179",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-yaml-host-requoted",
+     "cause": "bun-tab-quirk",
+     "detail": "YAML Parse error: Tab characters cannot be used as indentation",
+     "front": "disable_model_invocation: [1.10, Yes, 010, \"C#\\\\\", [nested]]\ndescription: \"é it's review http://x.io/a [draft] `tick`\\/\"\ndescription: 'asks `tick` `tick` @me a-b'\n\t\ndescription: it's `tick` say \"hi\" &amp\n"
+    },
+    {
+     "path": "case-1-02264",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-lenient-host-direct",
+     "cause": "anchor-tag-alias",
+     "detail": "",
+     "front": "\"when-to-use\": [1.10, FALSE, &amp, \"a-b PR\\/\"]\ndisable-model-invocation: C# x|y *star v1.2 C# v1.2   \n  - item\n  # comment\n"
+    },
+    {
+     "path": "case-1-02453",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-yaml-host-requoted",
+     "cause": "bun-tab-quirk",
+     "detail": "YAML Parse error: Tab characters cannot be used as indentation",
+     "front": "\"disable-model-invocation\": say \"hi\" user it's &amp 50%\nargument-hint: '*star {k} say \"hi\"'\nargument-hint: é\n\"when_to_use\": >1\n\t\n  # not a comment\n"
+    },
+    {
+     "path": "case-1-02453",
+     "kind": "skill",
+     "group": "tree",
+     "category": "differs",
+     "cause": "bun-tab-quirk",
+     "detail": "$.when_to_use: ours \"\\n # not a comment\\n\" vs host \" \\n # not a comment\\n\"",
+     "front": "\"disable-model-invocation\": say \"hi\" user it's &amp 50%\nargument-hint: '*star {k} say \"hi\"'\nargument-hint: é\n\"when_to_use\": >1\n\t\n  # not a comment\n"
+    },
+    {
+     "path": "case-1-02530",
+     "kind": "skill",
+     "group": "tree",
+     "category": "differs",
+     "cause": "bun-crlf-quoted",
+     "detail": "$.User_Invocable: ours \"a>b C# tab\\there 中文 deploy 50% *star C# {k} !bang\" vs host \"a>b C# tab\\there 中文\\ndeploy 50% *star C#\\n{k} !bang\"",
+     "front": "argument-hint: | # c\r\n\r\n    the\r\nuser-invocable: a-b *star\r\narguments:\r\n  - \"a>b `tick` user\\x41\"\r\nuser-invocable: 1.10\r\nUser_Invocable: \"a>b C# tab\there 中文\r\n  deploy 50% *star C#\r\n  {k} !bang\"\r\n"
+    },
+    {
+     "path": "case-1-03730",
+     "kind": "skill",
+     "group": "parse",
+     "category": "ours-yaml-host-failed",
+     "cause": "bun-tab-quirk",
+     "detail": "YAML Parse error: Unexpected token",
+     "front": "allowed-tools: | # c\n\n  v1.2 http://x.io/a `tick`\narguments: yes\narguments: \"tab\there 50% tab\there 50% *star say \\\"hi\\\"\\/\"\n\t  # indented comment\n"
+    }
+   ]
+  }
+ ]
+}

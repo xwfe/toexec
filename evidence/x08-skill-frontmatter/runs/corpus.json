@@ -1,0 +1,215 @@
+{
+ "host": {
+  "bun": "1.4.3",
+  "revision": "8c28b31673fe6725ffd29e154bd1cb45069ae814",
+  "exe": "/opt/homebrew/Caskroom/claude-code@latest/2.1.278/claude",
+  "claude": "/opt/homebrew/Caskroom/claude-code@latest/2.1.278/claude"
+ },
+ "ours": {
+  "toexec": "f0f7548"
+ },
+ "causes": {
+  "host-ignores-we-read-leniently": "宿主两步都读不了、整段丢弃；toexec-skill 宽松读出（Reading::Lenient）",
+  "both-unreadable": "两边都读不了：宿主整段丢弃，toexec-skill 报错并给行号",
+  "host-cuts-at-dashes": "值里有 `---`，宿主的正则在那里截断 frontmatter；toexec-skill 要求 `---` 独占一行",
+  "anchor-tag-alias": "锚点 &x、别名 *x、标签 !x：宿主（Bun.YAML）认，toexec-skill 不认",
+  "normalized-key": "键名大小写或 -/_ 不同、或同一个键写了几遍：toexec-skill 归一化后认，宿主只认原样",
+  "number-spelling": "数字保留原文（1.10、0x1F）；宿主 String(数字) 会改写成 1.1、31",
+  "host-stringifies-map": "映射或布尔当文字用：宿主 String() 得 [object Object] / \"false\"，toexec-skill 给不出文字",
+  "bun-tab-quirk": "行首有 tab：Bun 是否报错取决于前文（前面是引号串或块标量时报），toexec-skill 按 YAML 规则",
+  "bun-crlf-quoted": "CRLF 文件里跨行的引号串：Bun 把换行留成 \\n，YAML 规定折成空格"
+ },
+ "corpora": [
+  {
+   "name": "anthropics/skills",
+   "source": {
+    "repo": "https://github.com/anthropics/skills.git",
+    "commit": "34040c9c568585f6929bedeaad110ad08f079624"
+   },
+   "files": 23,
+   "kinds": {
+    "agent": 3,
+    "skill": 20
+   },
+   "split": {
+    "no-frontmatter": 3,
+    "same": 20
+   },
+   "parse": {
+    "both-yaml": 20
+   },
+   "tree": {},
+   "field": {},
+   "explained": {},
+   "unexplained": {},
+   "examples": []
+  },
+  {
+   "name": "anthropics/claude-plugins-official",
+   "source": {
+    "repo": "https://github.com/anthropics/claude-plugins-official.git",
+    "commit": "c447c3207a425bc4e2a0d068435f64b0477ae981"
+   },
+   "files": 96,
+   "kinds": {
+    "agent": 35,
+    "command": 30,
+    "skill": 31
+   },
+   "split": {
+    "no-frontmatter": 3,
+    "same": 93
+   },
+   "parse": {
+    "both-requoted": 1,
+    "both-yaml": 92
+   },
+   "tree": {},
+   "field": {},
+   "explained": {},
+   "unexplained": {},
+   "examples": []
+  },
+  {
+   "name": "anthropics/claude-code",
+   "source": {
+    "repo": "https://github.com/anthropics/claude-code.git",
+    "commit": "8187baaaafb3a9ada02d3d6fb4e8d68587aef6b0"
+   },
+   "files": 43,
+   "kinds": {
+    "agent": 15,
+    "command": 18,
+    "skill": 10
+   },
+   "split": {
+    "same": 43
+   },
+   "parse": {
+    "both-reject": 4,
+    "both-requoted": 6,
+    "both-yaml": 33
+   },
+   "tree": {},
+   "field": {},
+   "explained": {
+    "both-unreadable": 4
+   },
+   "unexplained": {},
+   "examples": [
+    {
+     "path": "plugins/plugin-dev/agents/agent-creator.md",
+     "kind": "agent",
+     "group": "parse",
+     "category": "both-reject",
+     "cause": "both-unreadable",
+     "detail": "ours Unexpected at line 4; host YAML Parse error: Unexpected token"
+    },
+    {
+     "path": "plugins/plugin-dev/agents/plugin-validator.md",
+     "kind": "agent",
+     "group": "parse",
+     "category": "both-reject",
+     "cause": "both-unreadable",
+     "detail": "ours Unexpected at line 4; host YAML Parse error: Unexpected token"
+    }
+   ]
+  },
+  {
+   "name": "openai/skills",
+   "source": {
+    "repo": "https://github.com/openai/skills.git",
+    "commit": "49f948faa9258a0c61caceaf225e179651397431"
+   },
+   "files": 44,
+   "kinds": {
+    "skill": 44
+   },
+   "split": {
+    "same": 44
+   },
+   "parse": {
+    "both-yaml": 44
+   },
+   "tree": {},
+   "field": {},
+   "explained": {},
+   "unexplained": {},
+   "examples": []
+  },
+  {
+   "name": "obra/superpowers",
+   "source": {
+    "repo": "https://github.com/obra/superpowers.git",
+    "commit": "5bf4e78011075bcfc0dc295f0724994cd123ee71"
+   },
+   "files": 15,
+   "kinds": {
+    "skill": 15
+   },
+   "split": {
+    "same": 15
+   },
+   "parse": {
+    "both-yaml": 15
+   },
+   "tree": {},
+   "field": {},
+   "explained": {},
+   "unexplained": {},
+   "examples": []
+  },
+  {
+   "name": "wshobson/agents",
+   "source": {
+    "repo": "https://github.com/wshobson/agents.git",
+    "commit": "4236bb91f8395b0435f1d8b8baf9e8e4c69a8620"
+   },
+   "files": 490,
+   "kinds": {
+    "agent": 202,
+    "command": 105,
+    "skill": 183
+   },
+   "split": {
+    "no-frontmatter": 41,
+    "same": 449
+   },
+   "parse": {
+    "both-yaml": 449
+   },
+   "tree": {},
+   "field": {},
+   "explained": {},
+   "unexplained": {},
+   "examples": []
+  },
+  {
+   "name": "local-claude-home",
+   "source": {
+    "private": true
+   },
+   "files": 975,
+   "kinds": {
+    "agent": 173,
+    "command": 171,
+    "skill": 631
+   },
+   "split": {
+    "no-frontmatter": 129,
+    "same": 846
+   },
+   "parse": {
+    "both-reject": 2,
+    "both-requoted": 2,
+    "both-yaml": 842
+   },
+   "tree": {},
+   "field": {},
+   "explained": {
+    "both-unreadable": 2
+   },
+   "unexplained": {}
+  }
+ ]
+}

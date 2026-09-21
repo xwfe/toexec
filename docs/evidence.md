@@ -19,6 +19,7 @@
 | [`v2-p/`](../evidence/v2-p/README.md) | V2-P Claude 实验线 | Claude 经 exec-server 执行有没有净收益。结论：没有，维持直接执行（[结果](plan/v2-p1-claude-trial-result.md)） |
 | `v2-p/p33-sandbox/` | ccnm P33 | 用 `codex sandbox` 包住日常项目操作（构建、测试、`git commit`、下依赖）之后哪些还能做、慢多少，macOS 和 Linux 容器各一份 |
 | [`v3-parity/skills-surface/`](../evidence/v3-parity/skills-surface/README.md) | [v3 方案](plan/implementation-plan-v3-native-parity.md)、ccnm P36 | 把项目 skills 交给模型有三条通道（工具 description、MCP prompts、MCP 官方 skills 扩展），Claude Code 和 Codex 各自真的支持哪条。零额度 |
+| [`x08-skill-frontmatter/`](../evidence/x08-skill-frontmatter/README.md) | 跨仓评审 X08、`toexec-skill` 0.2.0 | 同一个 SKILL.md，`toexec-skill` 和 Claude Code 自己的解析器（借它内嵌的 Bun 1.4.3）读得一样吗。结论：6 个公开仓库 + 本机共 1686 个文件、两批各 4000 个生成的畸形输入，修完后说不清的分歧为 0，剩下的归到 9 个有意不跟的原因。零额度 |
 | [`x01-windows-replace/`](../evidence/x01-windows-replace/README.md) | 跨仓评审 X01 | `toexec-fs::replace` 在 Windows 上替换失败时旧文件还在不在。结论：老实现的先删后 rename 真会丢文件，现在一次 rename；只读目标替换不了（两种情况都不动旧文件）。零额度 |
 
 ## `v2-c/`：Codex 原生 exec-server 链
