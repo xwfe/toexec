@@ -1,6 +1,6 @@
 # 实施方案 v4：gld / ccnm 用上两台机器上已经装好的 skills 和 MCP server
 
-日期：2026-09-22。状态：**第 1–3 步做完**（skills；gld 转本机 MCP server；ccnm 转项目那台机器上的 MCP server），第 4 步没开工。产品进度仍由各自仓库记录（ccnm 的 `docs/plan/status.json`、gld 的 RFC）；这里只放跨仓的决定和顺序。
+日期：2026-09-22。状态：**四步都做完**（skills；gld 转本机 MCP server；ccnm 转项目那台机器上的 MCP server；ccnm 转 Agent 机器上的 MCP server）。产品进度仍由各自仓库记录（ccnm 的 `docs/plan/status.json`、gld 的 RFC）；这里只放跨仓的决定和顺序。
 
 承接 [v3 方案](implementation-plan-v3-native-parity.md)：v3 让 gld / ccnm 自己的工具对齐原生能力，外加**项目里**的 skills。v4 回答下一个问题——**用户已经在两台机器上装好的 skills 和 MCP server，怎么也用上**。
 
@@ -17,7 +17,7 @@
 | 1 | 两台机器上装好的 skills | 只读、风险最低，用户点名先做 | **做完**（ccnm P48，gld 同步） |
 | 2 | gld 聚合本机装好的 MCP server，经它一个入口交给 ChatGPT 这类 Web AI | Web AI 用上本机 MCP 的唯一办法 | **做完**（gld RFC-0006） |
 | 3 | ccnm 在 Runtime 上代理 MCP server（含项目自带的 `.mcp.json`） | 数据库这类只能在项目旁边跑的 server | **做完**（ccnm P49，gld hub 同步；共用代码成了 `toexec-mcp` 0.1.0） |
-| 4 | ccnm 会话接 Agent 上装好的 MCP server | 技术上最简单、风险最大：Filesystem、desktop-commander 这类一接进来就绕过"项目只能经 Runtime 碰到"的保证 | 没开工 |
+| 4 | ccnm 会话接 Agent 上装好的 MCP server | 风险最大：Filesystem、desktop-commander 这类一接进来就绕过"项目只能经 Runtime 碰到"的保证 | **做完**（ccnm P50；`toexec-mcp` 0.2.0 加了 `kept`、`sse`，gld 同步改用） |
 
 "默认"按产品分：**ccnm 默认全开**（用户定）；gld 可能挂在公网隧道上，skills 维持 gld 现有的默认，第 2 步的 MCP 转发**默认一个都不开、按名字开**（原来写的"默认只放网络类"实测做不到，见 3.3）。
 
@@ -85,6 +85,30 @@ context7 在开发机上是 `npx` 起的本机进程，配置里和 Filesystem �
 - **默认全开**（用户定），但过的门和 `exec_command` 一样：只有能写的会话有这个工具，执行门和 Runtime 凭据检查在起 server 之前，工作区配了 OS 沙箱就套沙箱（没网络），环境按命令的规矩清理。配置里给 server 的 token 照传；Agent 的登录变量不传，`${VAR}` 也查不到像凭据的名字。会话结束时先停 server 再放写锁。开关是 Runtime 自己的 `[runtime_mcp]`（`enabled`、`project`、`hidden`）。
 - **gld hub**：多一个静态的 `remote_call_mcp_tool`（coding 会话里），原来担心的"白名单是静态的、要动态透传"不成问题——远端的工具面就这一个固定的工具。远端没有可转的 server 时 ccnm 不列它，hub 报"那边没东西可转"，不报"升级 ccnm"。
 
-## 5. 第 4 步只记开放问题
+## 5. 第 4 步：ccnm 转 Agent 机器上的 MCP server
 
-- 第 4 步：哪些 server 算"只走网络"（context7、exa、deepwiki、mcp-time），哪些碰本机（Filesystem、desktop-commander、playwright、Puppeteer、frida、idapro），默认怎么定。
+实测在 [`evidence/v4-mcp/agent-mcp/`](../../evidence/v4-mcp/agent-mcp/README.md)，ccnm 的设计和删除清单在 ccnm 的 P50 记录。
+
+### 5.1 为什么不是"写进原生客户端的配置"这条最简单的路
+
+先量了（零额度）：直接写进 Claude Code / Codex 的 MCP 配置，工具调得通，但**大结果会丢**——Claude Code 2.1.278 把超过约 50 000 字符的结果存到 Agent 磁盘、只给模型 2 KB 预览要它用 `Read` 读，受管会话没有 `Read`；Codex（指定模型时）只留 12 KB，Code Mode 留 40 KB。而且每个 server 的全部工具都会进每一次请求。所以和第 3 步一样，由 ccnm 转：P48 起就在 Agent 上的那个小服务（`ccnm internal agent-skills`，到模型那里是 `mcp__ccnm_agent__*`）多两个工具，`call_mcp_tool`（和第 3 步同名同用法）和 `read_mcp_result`（长结果留在内存里按段读）。一次调用的步骤和第 3 步是同一份代码。
+
+### 5.2 默认给哪些
+
+3.3 预告的问题落在这里：从配置分不出谁只联网。按"别的机器上的地址 / 这台机器上跑的"分，这是从配置上唯一分得清的一刀：
+
+- **别的机器上的 HTTP 地址**（exa、DeepWiki）默认给——用户定的"默认全开"加上方案里"只放网络类"。
+- **这台机器上跑的**（`command` 起的程序、`127.0.0.1` 上的服务：context7、Filesystem、desktop-commander、playwright……）默认不给，Agent 自己的 `[agent_mcp] local` 点名才给。
+- workspace 在 Runtime 上还有一票：`agent_tools` 多了一个值 `mcp_servers`，默认开，去掉就不给。放在 Runtime 上的理由和 P46 的 `web_fetch` 一样：远端 server 收得到模型发给它的东西，exa 还带抓网页的工具。**这和 `web_fetch` 默认关是矛盾的**，文档照实写了，要收紧就去掉 `mcp_servers`。
+
+### 5.3 HTTP 怎么连
+
+ccnm 没有 HTTP 客户端（第 3 步刻意没带），而第 4 步默认给的恰好全是 HTTP 的。用 Agent 上系统自带的 `curl`：TLS、HTTP/2、代理变量都是它的，ccnm 不多一套 TLS 依赖。地址和请求头写进只有本账号能读的临时文件交给 `curl -K`，不上命令行（exa 的 key 就在地址里）。拆 SSE 那一段和 gld 同一份（`toexec-mcp` 的 `sse`）。实测真实 DeepWiki 经它读全 407 KB。
+
+### 5.4 附带修掉的两处
+
+量第 4 步时顺带发现，**已有的** ccnm 工具在两个客户端里也会丢东西：Claude Code 那条 5 万字符的线，ccnm 的 `read_file` / `load_skill` 一页（最多 64 KiB）会撞上；Codex 指定模型时那条 12 KB 的线，ccnm 几乎每个工具的一页都会撞上——第 3 步说"`call_mcp_tool` 32 KiB 一段、不会丢"只在 Claude 上成立。ccnm 给这几个工具声明了 `maxResultSizeChars`、给 Codex 会话加了 `tool_output_token_limit=20000`，实测都生效（0.154.0 上也是）。
+
+### 5.5 共用代码
+
+`toexec-mcp` 0.2.0 加了两块：`kept`（长结果留在内存里按段读，gld 第 2 步那份）和 `sse`（拆 SSE 回复，gld 第 2 步那份）。gld 删掉自己的、改用它们；ccnm 的 Agent 端也用。第 3 步里"一次调用的步骤"那段在 ccnm 内部抽成了两台机器共用，没进 toexec——gld 的工具形状不一样（三个工具），共用不上。

@@ -215,7 +215,7 @@ let text = dir::read_text(&real, 256 * 1024)?;          // 普通文件、不超
 
 ## toexec-mcp：把装好的 MCP server 转给别的客户端
 
-gld 转的是它所在机器上装的（给 ChatGPT 这类只能连一个地址的客户端），ccnm 转的是项目那台机器上的（给受管会话，外加项目自己的 `.mcp.json`）。两边共用这里的读配置、握手调用、子进程通道、连接池和结果整理；**进程怎么起、怎么杀、HTTP 通道、模型看到的工具叫什么、错误怎么写、大结果留在哪**，是产品自己的。
+gld 转的是它所在机器上装的（给 ChatGPT 这类只能连一个地址的客户端）；ccnm 转两台机器上的：项目那台的（给受管会话，外加项目自己的 `.mcp.json`），和 Agent 那台的（P50，经它在 Agent 上的小服务）。三处共用这里的读配置、握手调用、子进程通道、连接池、结果整理，0.2.0 起还有长结果分段读（`kept`）和拆 SSE 回复（`sse`）；**进程怎么起、怎么杀、HTTP 请求怎么发、模型看到的工具叫什么、错误怎么写、大结果留在哪**，是产品自己的。
 
 ### 怎么用
 
@@ -260,7 +260,22 @@ let result = pool.with(server, "caller-id", &Mine, toexec_mcp::pool::CALL_TIMEOU
 //    文字超过上限就整段给你（你先交一段、把全文留着让模型接着读）。
 let shaped = toexec_mcp::shape::shape(&result, &toexec_mcp::shape::Limits {
     inline_bytes: 64 * 1024, max_media_bytes: 5 * 1024 * 1024 });
+
+// 5. 全文留在内存里（0.2.0）：put 给引用，模型拿引用和位置来读下一段。
+use toexec_mcp::kept::{self, Kept};
+let store = Kept::new(kept::Limits {
+    keep_for: std::time::Duration::from_secs(600), max_item: 16 << 20, max_total: 64 << 20 });
+if let Some(whole) = shaped.long {
+    let end = toexec_mcp::shape::part_end(&whole, 0, 32 * 1024);
+    let first = whole[..end].to_string();
+    let stored = store.put("caller-id", whole);   // stored.kept < stored.size：后面的丢了，要照实说
+    // 模型下次带着 stored.reference 和 end 来：
+    let text = store.get("caller-id", &stored.reference).unwrap();
+    let (start, next_end) = kept::page(&text, end, 32 * 1024).unwrap();
+}
 ```
+
+HTTP 的 server（streamable HTTP）：每条消息一次 POST，回复是一个 JSON 或一段 SSE。发请求是产品的事——gld 用 reqwest，ccnm 用系统的 `curl`（不想为此带一套 TLS）——拆 SSE 用 `toexec_mcp::sse`：`awaited_id(line)` 取要等的那条请求的 id，`event_end` / `event_data` 一个个切出事件，`answers(data, id)` 为真就可以不再读这条流（server 可能让它一直开着）。
 
 ### 容易踩的几处
 
@@ -268,9 +283,10 @@ let shaped = toexec_mcp::shape::shape(&result, &toexec_mcp::shape::Limits {
 - **`Stop` 的 `exited` 为真时，子进程已经被收尸，它的 pid 可能已经归了别人。** 这时去杀它的进程组有误伤的可能——gld 照样 `killpg`（组号在短时间内被别的组领头进程复用的概率很小，而 `npx` 留下的 `node` 是真问题），ccnm 不杀（它的规矩是不对收过尸的 pid 发信号）。两边答案不同，所以这一步交给产品。
 - **连接池按 `format!("{:?}", server.transport)` 认"配置变了"**：命令、参数、环境变量、地址任何一样改了，旧连接作废、下次重开。
 - **超时和"连接坏了"**：`Error::breaks_connection()` 为真的错误（超时、断开、协议错）会让池子丢掉这条连接；`Refused`（server 回了 JSON-RPC error，比如参数不对）和 `Busy`（同一条连接上另一个调用还没完）不丢。`Timeout` / `Closed` 的 `during == "tools/call"` 时，那次调用做没做成是未知的——告诉模型的时候要说清楚，别让它盲目重试。
-- **老的 HTTP+SSE 传输（`type: "sse"`）读得出来、连不了**；streamable HTTP 通道要 HTTP 客户端和异步运行时，这里不背，产品自己实现 `Transport`（gld 的 `machine_mcp/http.rs` 可以抄：要带 User-Agent，否则 Cloudflare 后面的 server 回 403；本机地址别走代理）。
+- **老的 HTTP+SSE 传输（`type: "sse"`）读得出来、连不了**；streamable HTTP 的请求要 HTTP 客户端，这里不背，产品自己实现 `Transport`（可以抄 gld 的 `machine_mcp/http.rs` 或 ccnm 的 `mcp/curl.rs`：要带 User-Agent，否则 Cloudflare 后面的 server 回 403；本机地址别走代理；exa 的 key 在地址里，别把地址放到别的用户 `ps` 看得见的命令行上）。
+- **`Kept` 按 `owner` 分**：别人的引用和不存在的一样。一个会话一个服务进程（ccnm 的 Agent 端）时 owner 传空串就行；一个服务多个调用方（gld）时传调用方主体。
 
 ### 拿什么验的
 
-crate 里 30 条测试（`cargo test -p toexec-mcp`，子进程那几条用 `sh`）。真实世界的数据——本机 29 个装好的 server 说哪个协议版本、工具表多大、一次结果能多大——见 [`evidence/v4-mcp/machine-mcp/`](../evidence/v4-mcp/machine-mcp/README.md)；两个产品接上之后真实 Claude Code / Codex 调得通，见 [`evidence/v4-mcp/runtime-relay/`](../evidence/v4-mcp/runtime-relay/README.md)。
+crate 里 38 条测试（`cargo test -p toexec-mcp`，子进程那几条用 `sh`）。真实世界的数据——本机 29 个装好的 server 说哪个协议版本、工具表多大、一次结果能多大——见 [`evidence/v4-mcp/machine-mcp/`](../evidence/v4-mcp/machine-mcp/README.md)；两个产品接上之后真实 Claude Code / Codex 调得通，见 [`evidence/v4-mcp/runtime-relay/`](../evidence/v4-mcp/runtime-relay/README.md)（项目那台机器）和 [`evidence/v4-mcp/agent-mcp/`](../evidence/v4-mcp/agent-mcp/README.md)（Agent 那台机器，含真实 DeepWiki 经 `curl` 读全 407 KB）。
 

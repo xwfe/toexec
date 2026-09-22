@@ -22,6 +22,7 @@
 | [`v3-parity/machine-skills/`](../evidence/v3-parity/machine-skills/README.md) | [v4 方案](plan/implementation-plan-v4-machine-skills-mcp.md)第 1 步、ccnm P48 | ccnm 受管会话里原生会不会列出 Agent 机器上装的 skills、放开原生 `Skill` 会漏出什么、同名谁赢；再拿真实 ccnm 接真实 Claude Code / Codex 验一遍。零额度 |
 | [`v4-mcp/machine-mcp/`](../evidence/v4-mcp/machine-mcp/README.md) | v4 方案第 2 步、gld RFC-0006 | 本机装好的 MCP server 说哪个协议版本、工具表多大、一次结果能有多大（deepwiki 839 KB），以及经 gld 转过去之后分段读不读得全。真起 server、真连远端，不用模型额度 |
 | [`v4-mcp/runtime-relay/`](../evidence/v4-mcp/runtime-relay/README.md) | v4 方案第 3 步、ccnm P49 | 真实 Claude Code / Codex 经真实的 ccnm Runtime 服务调到项目 `.mcp.json` 里声明的 server：工具认不认、允许表放不放、嵌套参数、大结果接 `read_output`。零额度 |
+| [`v4-mcp/agent-mcp/`](../evidence/v4-mcp/agent-mcp/README.md) | v4 方案第 4 步、ccnm P50 | Agent 上装的 server 直接交给 Claude Code / Codex 会怎样（大结果：Claude 存盘只给 2 KB 预览，Codex 只留 12 KB）、两家从多大开始截、能不能调；再拿真实 ccnm 的 Agent 端服务接真实 Claude Code / Codex，外加真实 DeepWiki 经 `curl` 读全 407 KB。零额度 |
 | [`x08-skill-frontmatter/`](../evidence/x08-skill-frontmatter/README.md) | 跨仓评审 X08、`toexec-skill` 0.2.0 | 同一个 SKILL.md，`toexec-skill` 和 Claude Code 自己的解析器（借它内嵌的 Bun 1.4.3）读得一样吗。结论：6 个公开仓库 + 本机共 1686 个文件、两批各 4000 个生成的畸形输入，修完后说不清的分歧为 0，剩下的归到 9 个有意不跟的原因。零额度 |
 | [`x01-windows-replace/`](../evidence/x01-windows-replace/README.md) | 跨仓评审 X01 | `toexec-fs::replace` 在 Windows 上替换失败时旧文件还在不在。结论：老实现的先删后 rename 真会丢文件，现在一次 rename；只读目标替换不了（两种情况都不动旧文件）。零额度 |
 
