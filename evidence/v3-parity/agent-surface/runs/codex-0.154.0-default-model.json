@@ -1,0 +1,77 @@
+{
+  "host": "codex-cli 0.154.0",
+  "runs": [
+    {
+      "web_search": "disabled",
+      "code_mode": true,
+      "model": "gpt-6-astra",
+      "rc": 0,
+      "tools": [
+        "functions{exec,wait,request_user_input,request_user_input_async}",
+        "clock{sleep}"
+      ],
+      "web_tools": [],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "cached",
+      "code_mode": true,
+      "model": "gpt-6-astra",
+      "rc": 0,
+      "tools": [
+        "functions{exec,wait,request_user_input,request_user_input_async}",
+        "clock{sleep}"
+      ],
+      "web_tools": [],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "live",
+      "code_mode": true,
+      "model": "gpt-6-astra",
+      "rc": 0,
+      "tools": [
+        "functions{exec,wait,request_user_input,request_user_input_async}",
+        "clock{sleep}"
+      ],
+      "web_tools": [],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "disabled",
+      "code_mode": false,
+      "model": "gpt-6-astra",
+      "rc": 0,
+      "tools": [
+        "functions{exec,wait,request_user_input,request_user_input_async}",
+        "clock{sleep}"
+      ],
+      "web_tools": [],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "cached",
+      "code_mode": false,
+      "model": "gpt-6-astra",
+      "rc": 0,
+      "tools": [
+        "functions{exec,wait,request_user_input,request_user_input_async}",
+        "clock{sleep}"
+      ],
+      "web_tools": [],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "live",
+      "code_mode": false,
+      "model": "gpt-6-astra",
+      "rc": 0,
+      "tools": [
+        "functions{exec,wait,request_user_input,request_user_input_async}",
+        "clock{sleep}"
+      ],
+      "web_tools": [],
+      "stderr_tail": ""
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "host": "codex-cli 0.154.0",
+  "runs": [
+    {
+      "web_search": "disabled",
+      "code_mode": true,
+      "model": "gpt-5.1-codex",
+      "rc": 0,
+      "tools": [
+        "exec",
+        "wait",
+        "request_user_input"
+      ],
+      "web_tools": [],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "cached",
+      "code_mode": true,
+      "model": "gpt-5.1-codex",
+      "rc": 0,
+      "tools": [
+        "exec",
+        "wait",
+        "request_user_input",
+        "web_search"
+      ],
+      "web_tools": [
+        {
+          "type": "web_search",
+          "external_web_access": false
+        }
+      ],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "live",
+      "code_mode": true,
+      "model": "gpt-5.1-codex",
+      "rc": 0,
+      "tools": [
+        "exec",
+        "wait",
+        "request_user_input",
+        "web_search"
+      ],
+      "web_tools": [
+        {
+          "type": "web_search",
+          "external_web_access": true
+        }
+      ],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "disabled",
+      "code_mode": false,
+      "model": "gpt-5.1-codex",
+      "rc": 0,
+      "tools": [
+        "list_mcp_resources",
+        "list_mcp_resource_templates",
+        "read_mcp_resource",
+        "request_user_input",
+        "mcp__ccnm{apply_patch,read_file}"
+      ],
+      "web_tools": [
+        {
+          "type": "function",
+          "name": "list_mcp_resources",
+          "description": "Lists resources provided by MCP servers. Resources allow servers to share data that provides context to language models, such as files, database schemas, or application-specific information. Prefer resources over web search when possible.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "cursor": {
+                "type": "string",
+                "description": "Opaque cursor from a previous list_mcp_resources call; omit for the first page."
+              },
+              "server": {
+                "type": "string",
+                "description": "MCP server name. Omit to list resources from every configured server."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "list_mcp_resource_templates",
+          "description": "Lists resource templates provided by MCP servers. Parameterized resource templates allow servers to share data that takes parameters and provides context to language models, such as files, database schemas, or application-specific information. Prefer resource templates over web search when possible.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "cursor": {
+                "type": "string",
+                "description": "Opaque cursor from a previous list_mcp_resource_templates call; omit for the first page."
+              },
+              "server": {
+                "type": "string",
+                "description": "MCP server name. Omit to list resource templates from every configured server."
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      ],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "cached",
+      "code_mode": false,
+      "model": "gpt-5.1-codex",
+      "rc": 0,
+      "tools": [
+        "list_mcp_resources",
+        "list_mcp_resource_templates",
+        "read_mcp_resource",
+        "request_user_input",
+        "mcp__ccnm{apply_patch,read_file}",
+        "web_search"
+      ],
+      "web_tools": [
+        {
+          "type": "function",
+          "name": "list_mcp_resources",
+          "description": "Lists resources provided by MCP servers. Resources allow servers to share data that provides context to language models, such as files, database schemas, or application-specific information. Prefer resources over web search when possible.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "cursor": {
+                "type": "string",
+                "description": "Opaque cursor from a previous list_mcp_resources call; omit for the first page."
+              },
+              "server": {
+                "type": "string",
+                "description": "MCP server name. Omit to list resources from every configured server."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "list_mcp_resource_templates",
+          "description": "Lists resource templates provided by MCP servers. Parameterized resource templates allow servers to share data that takes parameters and provides context to language models, such as files, database schemas, or application-specific information. Prefer resource templates over web search when possible.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "cursor": {
+                "type": "string",
+                "description": "Opaque cursor from a previous list_mcp_resource_templates call; omit for the first page."
+              },
+              "server": {
+                "type": "string",
+                "description": "MCP server name. Omit to list resource templates from every configured server."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "web_search",
+          "external_web_access": false
+        }
+      ],
+      "stderr_tail": ""
+    },
+    {
+      "web_search": "live",
+      "code_mode": false,
+      "model": "gpt-5.1-codex",
+      "rc": 0,
+      "tools": [
+        "list_mcp_resources",
+        "list_mcp_resource_templates",
+        "read_mcp_resource",
+        "request_user_input",
+        "mcp__ccnm{apply_patch,read_file}",
+        "web_search"
+      ],
+      "web_tools": [
+        {
+          "type": "function",
+          "name": "list_mcp_resources",
+          "description": "Lists resources provided by MCP servers. Resources allow servers to share data that provides context to language models, such as files, database schemas, or application-specific information. Prefer resources over web search when possible.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "cursor": {
+                "type": "string",
+                "description": "Opaque cursor from a previous list_mcp_resources call; omit for the first page."
+              },
+              "server": {
+                "type": "string",
+                "description": "MCP server name. Omit to list resources from every configured server."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "function",
+          "name": "list_mcp_resource_templates",
+          "description": "Lists resource templates provided by MCP servers. Parameterized resource templates allow servers to share data that takes parameters and provides context to language models, such as files, database schemas, or application-specific information. Prefer resource templates over web search when possible.",
+          "strict": false,
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "cursor": {
+                "type": "string",
+                "description": "Opaque cursor from a previous list_mcp_resource_templates call; omit for the first page."
+              },
+              "server": {
+                "type": "string",
+                "description": "MCP server name. Omit to list resource templates from every configured server."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        {
+          "type": "web_search",
+          "external_web_access": true
+        }
+      ],
+      "stderr_tail": ""
+    }
+  ]
+}
