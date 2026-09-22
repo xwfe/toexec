@@ -1,0 +1,379 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.154.0"
+  },
+  "runs": [
+    {
+      "scenario": "denied",
+      "tools_flag": "WebSearch",
+      "allow_extra": [],
+      "deny": [
+        "Read",
+        "Edit",
+        "Write",
+        "Grep",
+        "Glob",
+        "Bash",
+        "NotebookEdit",
+        "Skill"
+      ],
+      "rc": 0,
+      "model_requests": 1,
+      "tools_seen": [
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file"
+      ],
+      "listing": {
+        "PROBE-CLAUDE-HOME-DESC": [],
+        "PROBE-AGENTS-HOME-DESC": []
+      },
+      "skill_tool_schema": null,
+      "results": {},
+      "stderr": ""
+    },
+    {
+      "scenario": "skill",
+      "tools_flag": "WebSearch,Skill",
+      "allow_extra": [
+        "Skill"
+      ],
+      "deny": [
+        "Read",
+        "Edit",
+        "Write",
+        "Grep",
+        "Glob",
+        "Bash",
+        "NotebookEdit"
+      ],
+      "rc": 0,
+      "model_requests": 4,
+      "tools_seen": [
+        "Skill",
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file"
+      ],
+      "listing": {
+        "PROBE-CLAUDE-HOME-DESC": [
+          "messages[1]"
+        ],
+        "PROBE-AGENTS-HOME-DESC": []
+      },
+      "skill_tool_schema": {
+        "name": "Skill",
+        "description": "Invoke a skill.\n\nA skill is a packaged set of instructions the user or project has set up for a particular kind of task (deploy steps, a review checklist, a repo-specific workflow). Available skills appear in a system-reminder listing with one-line descriptions. When the task at hand is one a listed skill covers, call this tool first — the skill's instructions load into the turn for you to follow in place of your default approach; some skills instead run in a subagent and return the finished result. A skill that runs in the background returns only the agent's name — its result arrives later as a task notification, so don't wait on it or invoke it again in the meantime. Users may also ask for one by name (`/<name>`, or \"slash command\"); that's a request to invoke it.\n\n- `skill`: exact name from the listing, no leading slash. Plugin skills use `plugin:skill`. Directory-scoped skills are listed with a path prefix (`apps/web:deploy`); when both scoped and unscoped variants of a name exist, pick the one whose directory contains the files you're working on (most specific wins; unscoped otherwise).\n- `args`: optional arguments to pass through.\n\nOnly names from the listing (or that the user typed explicitly) are valid. Built-in CLI commands (`/help`, `/clear`, …) aren't skills. If a `<command-name>` block is already present this turn, the skill is loaded — follow it directly rather than calling again.\n",
+        "input_schema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "skill": {
+              "description": "The name of a skill from the available-skills list. Do not guess names.",
+              "type": "string"
+            },
+            "args": {
+              "description": "Optional arguments for the skill",
+              "type": "string"
+            }
+          },
+          "required": [
+            "skill"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "text": "Launching skill: probe-claude-home"
+        },
+        "toolu_probe_1": {
+          "is_error": true,
+          "text": "<tool_use_error>Unknown skill: probe-agents-home</tool_use_error>"
+        },
+        "toolu_probe_2": {
+          "is_error": true,
+          "text": "<tool_use_error>Error: No such tool available: Read. Read is disabled for this session, in subagents as well as here.</tool_use_error>"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "scoped_read",
+      "abs": {
+        "tools_flag": "WebSearch,Skill,Read",
+        "allow_extra": [
+          "Skill",
+          "Read(/<out>/scoped_read/abs/home/.claude/skills/**)"
+        ],
+        "deny": [
+          "Edit",
+          "Write",
+          "Grep",
+          "Glob",
+          "Bash",
+          "NotebookEdit"
+        ],
+        "rc": 0,
+        "model_requests": 7,
+        "tools_seen": [
+          "Read",
+          "Skill",
+          "WebSearch",
+          "mcp__ccnm__apply_patch",
+          "mcp__ccnm__read_file"
+        ],
+        "listing": {
+          "PROBE-CLAUDE-HOME-DESC": [
+            "messages[1]"
+          ],
+          "PROBE-AGENTS-HOME-DESC": []
+        },
+        "skill_tool_schema": {
+          "name": "Skill",
+          "description": "Invoke a skill.\n\nA skill is a packaged set of instructions the user or project has set up for a particular kind of task (deploy steps, a review checklist, a repo-specific workflow). Available skills appear in a system-reminder listing with one-line descriptions. When the task at hand is one a listed skill covers, call this tool first — the skill's instructions load into the turn for you to follow in place of your default approach; some skills instead run in a subagent and return the finished result. A skill that runs in the background returns only the agent's name — its result arrives later as a task notification, so don't wait on it or invoke it again in the meantime. Users may also ask for one by name (`/<name>`, or \"slash command\"); that's a request to invoke it.\n\n- `skill`: exact name from the listing, no leading slash. Plugin skills use `plugin:skill`. Directory-scoped skills are listed with a path prefix (`apps/web:deploy`); when both scoped and unscoped variants of a name exist, pick the one whose directory contains the files you're working on (most specific wins; unscoped otherwise).\n- `args`: optional arguments to pass through.\n\nOnly names from the listing (or that the user typed explicitly) are valid. Built-in CLI commands (`/help`, `/clear`, …) aren't skills. If a `<command-name>` block is already present this turn, the skill is loaded — follow it directly rather than calling again.\n",
+          "input_schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "skill": {
+                "description": "The name of a skill from the available-skills list. Do not guess names.",
+                "type": "string"
+              },
+              "args": {
+                "description": "Optional arguments for the skill",
+                "type": "string"
+              }
+            },
+            "required": [
+              "skill"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "results": {
+          "toolu_probe_0": {
+            "is_error": false,
+            "text": "Launching skill: probe-claude-home"
+          },
+          "toolu_probe_1": {
+            "is_error": false,
+            "text": "1\tATTACHMENT-REFERENCE\n2\t"
+          },
+          "toolu_probe_2": {
+            "is_error": true,
+            "text": "Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. Tell the user what was blocked and why you needed it, then continue with the parts of the task that do not require approval. What required approval: Claude requested permissions to read from <out>…"
+          },
+          "toolu_probe_3": {
+            "is_error": false,
+            "text": "1\tSTATE-SECRET\n2\t"
+          },
+          "toolu_probe_4": {
+            "is_error": true,
+            "text": "Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. Tell the user what was blocked and why you needed it, then continue with the parts of the task that do not require approval. What required approval: Claude requested permissions to read from <out>…"
+          },
+          "toolu_probe_5": {
+            "is_error": true,
+            "text": "Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. Tell the user what was blocked and why you needed it, then continue with the parts of the task that do not require approval. What required approval: Claude requested permissions to read from /etc/hosts, but you haven't granted"
+          }
+        },
+        "stderr": "",
+        "reads": [
+          "skill attachment (claude)",
+          "skill attachment (agents)",
+          "cwd = session state",
+          "home file",
+          "/etc/hosts"
+        ]
+      },
+      "tilde": {
+        "tools_flag": "WebSearch,Skill,Read",
+        "allow_extra": [
+          "Skill",
+          "Read(~/.claude/skills/**)"
+        ],
+        "deny": [
+          "Edit",
+          "Write",
+          "Grep",
+          "Glob",
+          "Bash",
+          "NotebookEdit"
+        ],
+        "rc": 0,
+        "model_requests": 7,
+        "tools_seen": [
+          "Read",
+          "Skill",
+          "WebSearch",
+          "mcp__ccnm__apply_patch",
+          "mcp__ccnm__read_file"
+        ],
+        "listing": {
+          "PROBE-CLAUDE-HOME-DESC": [
+            "messages[1]"
+          ],
+          "PROBE-AGENTS-HOME-DESC": []
+        },
+        "skill_tool_schema": {
+          "name": "Skill",
+          "description": "Invoke a skill.\n\nA skill is a packaged set of instructions the user or project has set up for a particular kind of task (deploy steps, a review checklist, a repo-specific workflow). Available skills appear in a system-reminder listing with one-line descriptions. When the task at hand is one a listed skill covers, call this tool first — the skill's instructions load into the turn for you to follow in place of your default approach; some skills instead run in a subagent and return the finished result. A skill that runs in the background returns only the agent's name — its result arrives later as a task notification, so don't wait on it or invoke it again in the meantime. Users may also ask for one by name (`/<name>`, or \"slash command\"); that's a request to invoke it.\n\n- `skill`: exact name from the listing, no leading slash. Plugin skills use `plugin:skill`. Directory-scoped skills are listed with a path prefix (`apps/web:deploy`); when both scoped and unscoped variants of a name exist, pick the one whose directory contains the files you're working on (most specific wins; unscoped otherwise).\n- `args`: optional arguments to pass through.\n\nOnly names from the listing (or that the user typed explicitly) are valid. Built-in CLI commands (`/help`, `/clear`, …) aren't skills. If a `<command-name>` block is already present this turn, the skill is loaded — follow it directly rather than calling again.\n",
+          "input_schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {
+              "skill": {
+                "description": "The name of a skill from the available-skills list. Do not guess names.",
+                "type": "string"
+              },
+              "args": {
+                "description": "Optional arguments for the skill",
+                "type": "string"
+              }
+            },
+            "required": [
+              "skill"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "results": {
+          "toolu_probe_0": {
+            "is_error": false,
+            "text": "Launching skill: probe-claude-home"
+          },
+          "toolu_probe_1": {
+            "is_error": false,
+            "text": "1\tATTACHMENT-REFERENCE\n2\t"
+          },
+          "toolu_probe_2": {
+            "is_error": true,
+            "text": "Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. Tell the user what was blocked and why you needed it, then continue with the parts of the task that do not require approval. What required approval: Claude requested permissions to read from <out>…"
+          },
+          "toolu_probe_3": {
+            "is_error": false,
+            "text": "1\tSTATE-SECRET\n2\t"
+          },
+          "toolu_probe_4": {
+            "is_error": true,
+            "text": "Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. Tell the user what was blocked and why you needed it, then continue with the parts of the task that do not require approval. What required approval: Claude requested permissions to read from <out>…"
+          },
+          "toolu_probe_5": {
+            "is_error": true,
+            "text": "Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was denied automatically. The action was NOT performed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. Tell the user what was blocked and why you needed it, then continue with the parts of the task that do not require approval. What required approval: Claude requested permissions to read from /etc/hosts, but you haven't granted"
+          }
+        },
+        "stderr": "",
+        "reads": [
+          "skill attachment (claude)",
+          "skill attachment (agents)",
+          "cwd = session state",
+          "home file",
+          "/etc/hosts"
+        ]
+      }
+    },
+    {
+      "scenario": "precedence",
+      "tools_flag": "WebSearch,Skill",
+      "allow_extra": [
+        "Skill"
+      ],
+      "deny": [
+        "Read",
+        "Edit",
+        "Write",
+        "Grep",
+        "Glob",
+        "Bash",
+        "NotebookEdit"
+      ],
+      "rc": 0,
+      "model_requests": 1,
+      "tools_seen": [
+        "Skill",
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file"
+      ],
+      "listing": {
+        "PROBE-CLAUDE-HOME-DESC": [
+          "messages[1]"
+        ],
+        "PROBE-AGENTS-HOME-DESC": []
+      },
+      "skill_tool_schema": {
+        "name": "Skill",
+        "description": "Invoke a skill.\n\nA skill is a packaged set of instructions the user or project has set up for a particular kind of task (deploy steps, a review checklist, a repo-specific workflow). Available skills appear in a system-reminder listing with one-line descriptions. When the task at hand is one a listed skill covers, call this tool first — the skill's instructions load into the turn for you to follow in place of your default approach; some skills instead run in a subagent and return the finished result. A skill that runs in the background returns only the agent's name — its result arrives later as a task notification, so don't wait on it or invoke it again in the meantime. Users may also ask for one by name (`/<name>`, or \"slash command\"); that's a request to invoke it.\n\n- `skill`: exact name from the listing, no leading slash. Plugin skills use `plugin:skill`. Directory-scoped skills are listed with a path prefix (`apps/web:deploy`); when both scoped and unscoped variants of a name exist, pick the one whose directory contains the files you're working on (most specific wins; unscoped otherwise).\n- `args`: optional arguments to pass through.\n\nOnly names from the listing (or that the user typed explicitly) are valid. Built-in CLI commands (`/help`, `/clear`, …) aren't skills. If a `<command-name>` block is already present this turn, the skill is loaded — follow it directly rather than calling again.\n",
+        "input_schema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "skill": {
+              "description": "The name of a skill from the available-skills list. Do not guess names.",
+              "type": "string"
+            },
+            "args": {
+              "description": "Optional arguments for the skill",
+              "type": "string"
+            }
+          },
+          "required": [
+            "skill"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "results": {},
+      "stderr": "",
+      "dup": {
+        "DUP-FROM-PERSONAL": [
+          "messages[1]"
+        ],
+        "DUP-FROM-PROJECT": [],
+        "PROJECT-ONLY-DESC": [
+          "messages[1]"
+        ]
+      }
+    },
+    {
+      "scenario": "codex",
+      "extra": [],
+      "rc": 0,
+      "model": "gpt-6-astra",
+      "model_requests": 1,
+      "listing": {
+        "PROBE-CLAUDE-HOME-DESC": [],
+        "PROBE-AGENTS-HOME-DESC": [
+          "input[2]:message/developer"
+        ],
+        "PROBE-CODEX-HOME-DESC": [
+          "input[2]:message/developer"
+        ],
+        "<skills_instructions>": [
+          "input[2]:message/developer"
+        ]
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex_off",
+      "extra": [
+        "-c",
+        "skills.include_instructions=false"
+      ],
+      "rc": 0,
+      "model": "gpt-6-astra",
+      "model_requests": 1,
+      "listing": {
+        "PROBE-CLAUDE-HOME-DESC": [],
+        "PROBE-AGENTS-HOME-DESC": [],
+        "PROBE-CODEX-HOME-DESC": [],
+        "<skills_instructions>": []
+      },
+      "stderr": ""
+    }
+  ]
+}

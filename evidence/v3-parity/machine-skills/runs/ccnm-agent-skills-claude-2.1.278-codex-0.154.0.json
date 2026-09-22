@@ -1,0 +1,62 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.154.0",
+    "ccnm": "ccnm 0.8.0"
+  },
+  "runs": [
+    {
+      "scenario": "claude",
+      "rc": 0,
+      "tools_seen": [
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file",
+        "mcp__ccnm_agent__load_skill"
+      ],
+      "description_tail": "eturns the full list.\n\nInstalled here:\n- probe-agents-home: PROBE-AGENTS-HOME-DESC use when probing\n- probe-claude-home: PROBE-CLAUDE-HOME-DESC use when probing",
+      "calls": [
+        {},
+        {
+          "name": "probe-agents-home"
+        },
+        {
+          "name": "probe-agents-home",
+          "file": "reference.md"
+        },
+        {
+          "name": "probe-agents-home",
+          "file": ".env"
+        }
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"2 skill(s). Load one with load_skill and its name.\\n\\nInstalled here:\\n- probe-agents-home: PROBE-AGENTS-HOME-DESC use when probing\\n  [<out>/claude/home/.agents/skills/probe-agents-home/SKILL.md]\\n- probe-claude-home: PROBE-CLAUDE-HOME-DESC use when probing\\n  [<out>/claude/home/.claude/skills/probe-claude-home/SKILL.md]\\n\"}]"
+        },
+        "toolu_probe_1": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"[skill probe-agents-home -- <out>/claude/home/.agents/skills/probe-agents-home/SKILL.md, 154 bytes; ${CLAUDE_SKILL_DIR} is <out>/claude/home/.agents/skills/probe-agents-home]\\n[installed on the machine you run on, not on the project machine: its files are not in the workspace. Read one with this tool's file argument; to run a script against the project, write it into the works"
+        },
+        "toolu_probe_2": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"[skill probe-agents-home -- reference.md in <out>/claude/home/.agents/skills/probe-agents-home, 21 bytes, 1 line(s); lines 1-1]\\nATTACHMENT-REFERENCE\\n\"}]"
+        },
+        "toolu_probe_3": {
+          "is_error": true,
+          "text": "CCNM_E_POLICY: .env is a hidden file: only files inside the skill's own directory, and never ones whose name starts with a dot (they often hold a script's secrets), are read"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex",
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespace_called": "mcp__ccnm_agent",
+      "skills_instructions_in_request": false,
+      "function_call_output": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0046 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"[skill probe-agents-home -- reference.md in <out>/codex/home/.agents/skills/probe-agents-home, 21 bytes, 1 line(s); lines 1-1]\\nATTACHMENT-REFERENCE\\n\"}]",
+      "stderr": ""
+    }
+  ]
+}
