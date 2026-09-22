@@ -151,6 +151,18 @@ gld hub 接 ccnm 远端成员时，透传的是一份**静态白名单**（`remo
 
 Codex 一侧对应的是放开 `web_search`（在厂商服务端执行）；`multi_agent`、`skill_search` 放不放开，同样实测之后定；本地 `view_image` 和三个执行类特性保持关闭，由 ccnm 的远端工具顶替。
 
+**实测结果和落地（2026-09-22，ccnm P46，零额度）**。脚本和结果在本仓 [`evidence/v3-parity/agent-surface/`](../../evidence/v3-parity/agent-surface/README.md)，ccnm 的决定写在它的 P46 记录里。上面那张清单逐条：
+
+- **工具名**（Claude Code 2.1.278）：子代理是 `Agent`，待办是 `TaskCreate` / `TaskGet` / `TaskList` / `TaskUpdate`，`TaskStop` 停后台子代理。`TodoWrite`、`Task`、`AskUserQuestion`、`EnterPlanMode`、`ExitPlanMode`、`ToolSearch` 在 print 模式下 `--tools` 不认，**被悄悄忽略、不报错**。
+- **子代理继承**：子代理的工具表和主会话完全一样，没有 Read / Bash。几个子代理同时调 `apply_patch` 的串行化**没测**（要真实模型）。
+- **ToolSearch**：白名单里没有它，ccnm 的工具照旧全量加载（强开工具搜索也一样）；有它的话全进延迟加载池。所以永远不列。
+- **计划模式和 `readOnlyHint`**：print 模式下计划模式工具不存在，**没测**交互模式。
+- **Skill**：没放开，反而进了拒绝表——它读的是 Agent 机器的 skill，项目自己的由 ccnm 的 `load_skill` 在 Runtime 上提供。`NotebookEdit` 同理。
+- **清单外多查出的一条**：print 模式没人答权限提示，`WebSearch`、`WebFetch` 不写进 settings 的允许表会被自动拒绝。
+- **Codex**：`web_search = "cached"` 在指定 `gpt-5.1-codex` 时加上托管搜索工具、Code Mode 不排除它；**CLI 默认模型下三种取值的请求一字不差**，原因没查明。`multi_agent` 没放开（没量过子代理会不会继承关掉的 feature），`skill_search` 同样保持关闭。
+
+落地形状：Runtime 上的 workspace 字段 `agent_tools`，默认 `["web_search"]`，可加 `web_fetch`、`subagents`、`tasks`，`[]` 全关。
+
 ### 4.4 其余项目资产
 
 - **斜杠命令**：并入 4.1，同一套发现和 `prompts`。
@@ -166,10 +178,10 @@ Codex 一侧对应的是放开 `web_search`（在厂商服务端执行）；`mul
 | 3 | 图片、notebook、PDF（4.2 的 4–6） | ccnm，gld 补 PDF / notebook | 0 |
 | 4 | 后台进程（4.2 的 7） | ccnm | 0 |
 | 5 | gld：compact 放回 skills、换 `toexec-skill`、hub 白名单加入 1–4 的新工具 | gld | 0 |
-| 6 | Agent 面放开（4.3） | ccnm | 要真实 CLI；少量模型运行 |
+| 6 | Agent 面放开（4.3） | ccnm P46 | 零额度部分已做；真实模型轮要少量额度 |
 | 7 | 对照实验：同一批任务，ccnm 路径对比"在 Runtime 上直接跑官方 CLI" | fodelf / 用户终端 | 20–30 次 |
 
-**第 1–5 步已全部完成（2026-09-19）；第 6、7 步没开工**，两步都要真实 CLI 和模型额度，第 6 步还要用户先定第 7 节第 2 条（除 WebSearch 外的 Agent 面默认开还是 opt-in）。
+**第 1–5 步已全部完成（2026-09-19）。第 6 步不花额度的部分完成（2026-09-22，ccnm P46）**：用户定了第 7 节第 2 条，工具名、子代理继承、ToolSearch、权限都用假模型接口量过，开关已实现。**还没做的**：第 6 步的真实模型轮（模型会不会用搜索、子代理真实跑起来的开销和并发写）和第 7 步对照实验，都要模型额度，要单独授权。
 
 第 5 步在 gld 一侧拆成三块，记在 gld 的 [RFC-0003](https://github.com/xwfe/gld/blob/main/docs/rfc/0003-native-parity-sync.md)：
 
@@ -194,5 +206,5 @@ Codex 一侧对应的是放开 `web_search`（在厂商服务端执行）；`mul
 都不挡第 1–5 步，轮到第 6 步之前定即可：
 
 1. **WebFetch 放不放开。已定（2026-09-17，用户）：WebSearch 默认放开，WebFetch 做成 opt-in。** 理由：WebFetch 是从跑 CLI 的机器——也就是持有 AI 凭据的那台——直接出网抓网页，能碰到那台机器的内网；WebSearch 在厂商服务端执行，没有这个问题。同时定了顺序：先把第 5 节第 2–4 步的执行面补齐，再做第 6 步。
-2. **其余 Agent 面（子代理、todo、提问、计划模式等）放开是默认行为还是按 workspace opt-in。** WebSearch 已按上一条默认放开，不在此列。它改变的是受管会话一直以来"只有七个工具"的承诺。建议：opt-in 一个版本，对照实验没问题后再改默认。
+2. **其余 Agent 面（子代理、todo、提问、计划模式等）放开是默认行为还是按 workspace opt-in。已定（2026-09-22，用户）："默认开启 websearch，其他 Agent 功能是合理开关，按照你的建议设置"。** 按建议落成：WebFetch、子代理、待办清单都是 workspace opt-in（ccnm 的 `agent_tools`）；提问和计划模式在 print 模式下不存在（实测 `--tools` 不认），不做开关。对照实验之后要不要改默认值，到时再定。
 3. **`` !`命令` `` 注入**：第一版不自动执行（4.1）。如果实际项目的 skill 大量依赖它，再讨论加一个和 `allow_unattended_exec` 同级的开关。
