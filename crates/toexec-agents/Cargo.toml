@@ -1,0 +1,14 @@
+[package]
+name = "toexec-agents"
+description = "gld 与 ccnm 共用的 ~/.agents/mcp.json 读取：按工具、按 skill 收窄暴露面"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# 另外三个 crate 故意零依赖，这个例外：要读的是 JSON，而 gld 和 ccnm 本来就
+# 链接同一版 serde_json（两边 Cargo.lock 都是 1.0.151），用它不给产品添新包；
+# 手写一个 JSON 解析器反而多一份要维护的代码。报错照 toexec-skill 的做法只给
+# 分类和位置，所以 serde_json 自己的报错措辞不会变成产品的对外行为。
+[dependencies]
+serde_json = "1"
