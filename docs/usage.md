@@ -212,3 +212,65 @@ let text = dir::read_text(&real, 256 * 1024)?;          // 普通文件、不超
 拿 Claude Code 自己的解析器做差分（借它内嵌的 Bun 运行时，零额度）：6 个公开仓库（按提交号钉住，能复验）加一台开发机上共 1686 个文件，以及两批各 4000 个按片段拼出的畸形输入，0.2.0 和宿主之间说不清的分歧是 0，剩下的归到 9 个有意不跟的原因。做法、结果和每个原因为什么不跟见 [`evidence/x08-skill-frontmatter/`](../evidence/x08-skill-frontmatter/README.md)。
 
 另外两份测试在 crate 里，`cargo test` 就跑：固定种子的变异模糊测试（不崩、不卡），和 1 MiB 级畸形输入必须线性时间读完——0.1.0 在跨行引号串上是平方级，416 KB 要 10 秒。
+
+## toexec-mcp：把装好的 MCP server 转给别的客户端
+
+gld 转的是它所在机器上装的（给 ChatGPT 这类只能连一个地址的客户端），ccnm 转的是项目那台机器上的（给受管会话，外加项目自己的 `.mcp.json`）。两边共用这里的读配置、握手调用、子进程通道、连接池和结果整理；**进程怎么起、怎么杀、HTTP 通道、模型看到的工具叫什么、错误怎么写、大结果留在哪**，是产品自己的。
+
+### 怎么用
+
+```rust
+use std::process::{Command, Stdio};
+use toexec_mcp::child::{ChildTransport, Stop};
+use toexec_mcp::installed::{self, Places, Server, Transport as Config};
+use toexec_mcp::{Error, Open, Pool, Transport};
+
+// 1. 装了哪些：user 级两个文件，要项目的再 with_project。同名时先列的赢
+//    （项目的 > ~/.claude.json > Codex）。`${VAR}` 用你给的函数查。
+let places = Places::new(&home, codex_home.as_deref()).with_project(&root);
+let found = installed::read(&places, &|name| std::env::var(name).ok());
+for problem in &found.problems { /* 文件坏了、某一条写错了：告诉人 */ }
+
+// 2. 怎么起：你自己的决定——环境、沙箱、进程组、怎么杀。
+struct Mine;
+impl Open for Mine {
+    fn open(&self, server: &Server) -> Result<Box<dyn Transport>, Error> {
+        let Config::Stdio { command, args, env, .. } = &server.transport else {
+            return Err(Error::Start("only stdio here".into()));
+        };
+        let child = Command::new(command).args(args).envs(env)
+            .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::piped())
+            .spawn().map_err(|e| Error::Start(e.to_string()))?;
+        let stop: Stop = Box::new(|child, exited| { if !exited { let _ = child.kill(); } });
+        Ok(Box::new(ChildTransport::new(child, stop)?))
+    }
+    fn me(&self) -> (&str, &str) { ("my-product", "1.0") }
+}
+
+// 3. 调：连接按 server + 调用方分，用到才开；坏了的下次重开。
+let pool = std::sync::Arc::new(Pool::new());
+Pool::sweep(&pool, std::time::Duration::from_secs(60)); // 闲 5 分钟的后台收掉
+let server = found.find("context7").unwrap();
+let result = pool.with(server, "caller-id", &Mine, toexec_mcp::pool::CALL_TIMEOUT, |live| {
+    live.client.call_tool("resolve-library-id", serde_json::json!({"libraryName": "react"}),
+                          toexec_mcp::pool::CALL_TIMEOUT)
+})?;
+
+// 4. 交给模型之前整理：重复的 structuredContent 去掉，太大的图换成一句话，
+//    文字超过上限就整段给你（你先交一段、把全文留着让模型接着读）。
+let shaped = toexec_mcp::shape::shape(&result, &toexec_mcp::shape::Limits {
+    inline_bytes: 64 * 1024, max_media_bytes: 5 * 1024 * 1024 });
+```
+
+### 容易踩的几处
+
+- **`ChildTransport` 只接管道都接好的子进程**，没接好的它当场按你的 `Stop` 收掉并报错。
+- **`Stop` 的 `exited` 为真时，子进程已经被收尸，它的 pid 可能已经归了别人。** 这时去杀它的进程组有误伤的可能——gld 照样 `killpg`（组号在短时间内被别的组领头进程复用的概率很小，而 `npx` 留下的 `node` 是真问题），ccnm 不杀（它的规矩是不对收过尸的 pid 发信号）。两边答案不同，所以这一步交给产品。
+- **连接池按 `format!("{:?}", server.transport)` 认"配置变了"**：命令、参数、环境变量、地址任何一样改了，旧连接作废、下次重开。
+- **超时和"连接坏了"**：`Error::breaks_connection()` 为真的错误（超时、断开、协议错）会让池子丢掉这条连接；`Refused`（server 回了 JSON-RPC error，比如参数不对）和 `Busy`（同一条连接上另一个调用还没完）不丢。`Timeout` / `Closed` 的 `during == "tools/call"` 时，那次调用做没做成是未知的——告诉模型的时候要说清楚，别让它盲目重试。
+- **老的 HTTP+SSE 传输（`type: "sse"`）读得出来、连不了**；streamable HTTP 通道要 HTTP 客户端和异步运行时，这里不背，产品自己实现 `Transport`（gld 的 `machine_mcp/http.rs` 可以抄：要带 User-Agent，否则 Cloudflare 后面的 server 回 403；本机地址别走代理）。
+
+### 拿什么验的
+
+crate 里 30 条测试（`cargo test -p toexec-mcp`，子进程那几条用 `sh`）。真实世界的数据——本机 29 个装好的 server 说哪个协议版本、工具表多大、一次结果能多大——见 [`evidence/v4-mcp/machine-mcp/`](../evidence/v4-mcp/machine-mcp/README.md)；两个产品接上之后真实 Claude Code / Codex 调得通，见 [`evidence/v4-mcp/runtime-relay/`](../evidence/v4-mcp/runtime-relay/README.md)。
+
