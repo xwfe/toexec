@@ -1,0 +1,148 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.155.1",
+    "ccnm": "ccnm 0.8.0"
+  },
+  "runs": [
+    {
+      "scenario": "claude",
+      "rc": 0,
+      "ccnm_tools_seen": [
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__call_mcp_tool",
+        "mcp__ccnm__exec_command",
+        "mcp__ccnm__list_files",
+        "mcp__ccnm__load_skill",
+        "mcp__ccnm__read_file",
+        "mcp__ccnm__read_notebook",
+        "mcp__ccnm__read_output",
+        "mcp__ccnm__search_text",
+        "mcp__ccnm__stop_command",
+        "mcp__ccnm__view_image",
+        "mcp__ccnm__workspace_info"
+      ],
+      "description_tail": " long result continues with read_output. Servers here: fake.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "arguments": {
+            "additionalProperties": true,
+            "default": null,
+            "description": "The tool's own arguments, as its input schema says.",
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "server": {
+            "default": null,
+            "description": "A server from this tool's description. Without it: the servers.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tool": {
+            "default": null,
+            "description": "One of that server's tools. Without it: its tools and their input\nschemas.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "additionalProperties": false
+      },
+      "sent": [
+        {
+          "tool": "mcp__ccnm__call_mcp_tool",
+          "input": {}
+        },
+        {
+          "tool": "mcp__ccnm__call_mcp_tool",
+          "input": {
+            "server": "fake"
+          }
+        },
+        {
+          "tool": "mcp__ccnm__call_mcp_tool",
+          "input": {
+            "server": "fake",
+            "tool": "echo",
+            "arguments": {
+              "q": 1,
+              "nested": {
+                "a": [
+                  1,
+                  2
+                ]
+              }
+            }
+          }
+        },
+        {
+          "tool": "mcp__ccnm__call_mcp_tool",
+          "input": {
+            "server": "fake",
+            "tool": "big"
+          }
+        },
+        {
+          "tool": "mcp__ccnm__read_output",
+          "input": {
+            "output_ref": "r-a2f86143dfdb4ab3",
+            "offset": 32760,
+            "limit": 32768
+          }
+        }
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"MCP servers on the runtime machine for this workspace (the project's .mcp.json first):\\n- fake (.mcp.json): not started\\nCall call_mcp_tool with server=<name> to see its tools and their input schemas (that starts it), then with tool and arguments to call one.\"}]"
+        },
+        "toolu_probe_1": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"[MCP server fake (fake 1.0): 4 tool(s)]\\n[its instructions]\\nKeep calls small.\\n[{\\\"description\\\":\\\"Echo the arguments back.\\\",\\\"inputSchema\\\":{\\\"type\\\":\\\"object\\\"},\\\"name\\\":\\\"echo\\\"},{\\\"description\\\":\\\"A lot of text.\\\",\\\"inputSchema\\\":{\\\"type\\\":\\\"object\\\"},\\\"name\\\":\\\"big\\\"},{\\\"description\\\":\\\"Two variables it can see.\\\",\\\"inputSchema\\\":{\\\"type\\\":\\\"object\\\"},\\\"name\\\":\\\"whoami\\\"},{\\\"description\\\":\\\"Its own process id.\\\",\\\"inputSchema\\\":{\\\"type\\\":\\\"object\\\"},\\\"name\\\":\\\"pid\\\"}]\\nCall one with call_mcp_tool server=fake tool=<name> arguments={...}.\"}]"
+        },
+        "toolu_probe_2": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"{\\\"nested\\\": {\\\"a\\\": [1, 2]}, \\\"q\\\": 1}\"}]"
+        },
+        "toolu_probe_3": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"line 00000 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00001 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00002 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00003 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00004 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00005 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00006 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00007 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00008 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00009 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00010 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        },
+        "toolu_probe_4": {
+          "is_error": false,
+          "text": "[{\"type\": \"text\", \"text\": \"line 00630 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00631 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00632 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00633 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00634 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00635 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00636 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00637 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00638 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00639 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00640 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex",
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "ccnm_tools_seen": [
+        "apply_patch",
+        "call_mcp_tool",
+        "exec_command",
+        "list_files",
+        "load_skill",
+        "read_file",
+        "read_notebook",
+        "read_output",
+        "search_text",
+        "stop_command",
+        "view_image",
+        "workspace_info"
+      ],
+      "namespace_called": "mcp__ccnm",
+      "function_call_output": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0314 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"{\\\"nested\\\": {\\\"a\\\": [1, 2]}, \\\"q\\\": 1}\"}]",
+      "stderr": ""
+    }
+  ]
+}
