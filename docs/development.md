@@ -39,6 +39,8 @@ CI（`.github/workflows/ci.yml`）跑的就是这四条。最后一条用根 `Ca
 4. 去产品仓库把 `Cargo.toml` 里对应那一行的 `tag` 改成新的，跑产品自己的全量测试。
 5. 更新 [README](../README.md) 的 crate 表里的"当前 tag"。
 
+**一个 crate 依赖同仓的另一个时用 path**（现在只有 `toexec-mcp` → `toexec-text`）。后果是产品的 `Cargo.lock` 里会有两份 `toexec-text`：一份是产品自己钉的 `toexec-text-v…` tag，一份是 `toexec-mcp-v…` 那个 tag 下的。两份是同一套代码时只是多编一次；`toexec-text` 发了新版，产品升自己那一行不会顺带改 `toexec-mcp` 里那份，要等 `toexec-mcp` 也发一版。它们之间不交换类型，所以两份不会互相打架。
+
 **已经推送的 tag 不要移动或重打。** 产品的 `Cargo.lock` 里记着 tag 指向的提交，tag 挪了之后，别人 `cargo update` 会悄悄拿到不同的代码。发错了就再发一个新版本号。
 
 仓库里还有一个 `wk-text-v0.1.0`：这个仓库 2026-09-16 之前叫 workspace-kernel，那是改名前的 tag（当时 crate 叫 `wk-text`，实现文件 `line.rs` 和 `toexec-text-v0.1.0` 一字不差）。现在没有人引用它，留着只是因为已推送的 tag 不删。
