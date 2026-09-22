@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/toexec-text", "crates/toexec-fs", "crates/toexec-skill", "crates/toexec-agents"]
+members = ["crates/toexec-text", "crates/toexec-fs", "crates/toexec-skill"]
 
 [workspace.package]
 # 故意没有 version：一个 crate 管一件事，也各自发版。共享一个版本号会让

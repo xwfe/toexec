@@ -197,39 +197,3 @@ for found in inject::find(body) {
 拿 Claude Code 自己的解析器做差分（借它内嵌的 Bun 运行时，零额度）：6 个公开仓库（按提交号钉住，能复验）加一台开发机上共 1686 个文件，以及两批各 4000 个按片段拼出的畸形输入，0.2.0 和宿主之间说不清的分歧是 0，剩下的归到 9 个有意不跟的原因。做法、结果和每个原因为什么不跟见 [`evidence/x08-skill-frontmatter/`](../evidence/x08-skill-frontmatter/README.md)。
 
 另外两份测试在 crate 里，`cargo test` 就跑：固定种子的变异模糊测试（不崩、不卡），和 1 MiB 级畸形输入必须线性时间读完——0.1.0 在跨行引号串上是平方级，416 KB 要 10 秒。
-
-## toexec-agents：`~/.agents/mcp.json` 说某个工具、某个 skill 给不给
-
-文件格式、四档的含义和为什么这样定见 [RFC-0001](rfc/0001-agents-exposure-policy.md)。这里只讲代码怎么接。
-
-### 怎么用
-
-```rust
-use toexec_agents::{path_in, Policy, SkillLevel};
-
-// 1. 读。文件不存在得到空规则；写坏了是 Err，别退回"不收窄"。
-let policy = Policy::load(&path_in(&home))?;
-let rules = policy.for_server("gld");          // 条目名固定是产品名
-
-// 2. 工具：先按产品自己的规则得出上限，再问这里。列表和调用两处都要问。
-let exposed: Vec<&str> = own_tools.iter().copied().filter(|t| rules.tool_allowed(t)).collect();
-
-// 3. skill：产品条目里写的优先，其次顶层，都没写是 On。和 frontmatter 取更严的那个。
-let from_frontmatter = if disable_model_invocation { SkillLevel::UserInvocableOnly } else { SkillLevel::On };
-let level = rules.skill_level(&name).min(from_frontmatter);
-if level.listed() { /* 进目录；level.described() 为假时只放名字 */ }
-
-// 4. doctor：写错的工具名要报出来——写错在 disabledTools 里等于想关的还开着。
-let typos = rules.unknown_tools(&ALL_TOOL_NAMES);
-```
-
-### 容易踩的几处
-
-- **坏文件不能当成空文件。** `load` 只在"文件不存在"时给空规则；JSON 写坏、类型不对、档位拼错都返回错误，位置写成 `mcpServers.gld.disabledTools[1]` 或行列号。产品应当拒绝服务并把这句话给用户看，而不是忽略它——忽略等于把用户想关的工具又打开了。
-- **被关的工具调用时也要拒。** 客户端可能缓存着旧的工具表，或者模型照记忆直接按名字调。
-- **`min` 是"取更严的"。** 档位从严到宽排（`Off < UserInvocableOnly < NameOnly < On`），所以写 `"on"` 放不开 frontmatter 说只给用户的 skill。
-- **别的键一律不看**：`mcpServers.context7.command`、顶层的其他键都被忽略，这一版不启动也不代理别的 server。但 `mcpServers` 下的每个条目都必须是对象。
-
-### 这个 crate 不管的事
-
-去哪个 HOME 找文件、多久重读一次、报错怎么措辞、被关掉的工具调用时回什么。
