@@ -1,0 +1,238 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.155.1"
+  },
+  "runs": [
+    {
+      "scenario": "claude_allowed",
+      "allow_extra": [
+        "mcp__fake",
+        "mcp__web"
+      ],
+      "rc": 0,
+      "tools_seen": [
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file",
+        "mcp__fake__big",
+        "mcp__fake__echo",
+        "mcp__fake__huge",
+        "mcp__fake__pid",
+        "mcp__web__big",
+        "mcp__web__echo",
+        "mcp__web__huge",
+        "mcp__web__pid"
+      ],
+      "calls": [
+        "mcp__fake__echo",
+        "mcp__web__echo",
+        "mcp__fake__big",
+        "mcp__fake__huge",
+        "mcp__web__huge"
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "bytes": 33,
+          "head": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "tail": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}"
+        },
+        "toolu_probe_1": {
+          "is_error": false,
+          "bytes": 33,
+          "head": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "tail": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}"
+        },
+        "toolu_probe_2": {
+          "is_error": false,
+          "bytes": 2451,
+          "head": "<persisted-output>\nOutput too large (51.8KB). Full output saved to: <tmp>",
+          "tail": "xxx\\nline 00030 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00031 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00032 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00033 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00034 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00035 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\nline 00036 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\n\n...\n</persisted-output>"
+        },
+        "toolu_probe_3": {
+          "is_error": false,
+          "bytes": 2452,
+          "head": "<persisted-output>\nOutput too large (398.5KB). Full output saved to: <tmp>/-Users-bing-xdw-ccnm/b3f6edff-9d3c-4b33-a6d3-7711a19f2149/scratchpa",
+          "tail": "00031 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00032 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00033 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00034 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00035 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00036 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00037 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00038 yyyyyyyyyyyyy\n...\n</persisted-output>"
+        },
+        "toolu_probe_4": {
+          "is_error": false,
+          "bytes": 2452,
+          "head": "<persisted-output>\nOutput too large (398.5KB). Full output saved to: <tmp>/-Users-bing-xdw-ccnm/b3f6edff-9d3c-4b33-a6d3-7711a19f2149/scratchpa",
+          "tail": "00031 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00032 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00033 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00034 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00035 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00036 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00037 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00038 yyyyyyyyyyyyy\n...\n</persisted-output>"
+        }
+      },
+      "permission_denials": [],
+      "stderr": ""
+    },
+    {
+      "scenario": "claude_unlisted",
+      "allow_extra": [],
+      "rc": 0,
+      "tools_seen": [
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file",
+        "mcp__fake__big",
+        "mcp__fake__echo",
+        "mcp__fake__huge",
+        "mcp__fake__pid",
+        "mcp__web__big",
+        "mcp__web__echo",
+        "mcp__web__huge",
+        "mcp__web__pid"
+      ],
+      "calls": [
+        "mcp__fake__echo"
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": true,
+          "bytes": 611,
+          "head": "Permission for this tool use was denied. It requires approval, and this session has no approval surface — nobody can answer a permission prompt here — so it was",
+          "tail": "rmed; do not claim it succeeded, and do not retry it: this action, and anything else that requires approval, will be denied the same way for the rest of this session. Tell the user what was blocked and why you needed it, then continue with the parts of the task that do not require approval. What required approval: Claude requested permissions to use mcp__fake__echo, but you haven't granted it yet."
+        }
+      },
+      "permission_denials": [
+        {
+          "tool_name": "mcp__fake__echo",
+          "tool_use_id": "toolu_probe_0",
+          "tool_input": {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        }
+      ],
+      "stderr": ""
+    },
+    {
+      "scenario": "claude_sizes",
+      "allow_extra": [
+        "mcp__fake",
+        "mcp__web"
+      ],
+      "rc": 0,
+      "tools_seen": [
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file",
+        "mcp__fake__big",
+        "mcp__fake__echo",
+        "mcp__fake__huge",
+        "mcp__fake__pid",
+        "mcp__fake__sized",
+        "mcp__web__big",
+        "mcp__web__echo",
+        "mcp__web__huge",
+        "mcp__web__pid",
+        "mcp__web__sized"
+      ],
+      "calls": [
+        "mcp__fake__sized",
+        "mcp__fake__sized",
+        "mcp__fake__sized",
+        "mcp__fake__sized",
+        "mcp__fake__sized"
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "bytes": 30000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000463 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000464 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000465 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000466 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000467 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000468 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+        },
+        "toolu_probe_1": {
+          "is_error": false,
+          "bytes": 40000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzz\n0000619 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000620 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000621 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000622 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000623 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000624 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n"
+        },
+        "toolu_probe_2": {
+          "is_error": false,
+          "bytes": 45000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzz\n0000697 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000698 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000699 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000700 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000701 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000702 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000703 "
+        },
+        "toolu_probe_3": {
+          "is_error": false,
+          "bytes": 48000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzz\n0000744 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000745 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000746 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000747 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000748 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000749 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n"
+        },
+        "toolu_probe_4": {
+          "is_error": false,
+          "bytes": 50000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "0000775 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000776 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000777 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000778 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000779 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000780 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000781 zzzzzzzz"
+        }
+      },
+      "permission_denials": [],
+      "stderr": ""
+    },
+    {
+      "scenario": "claude_meta",
+      "allow_extra": [
+        "mcp__fake",
+        "mcp__web"
+      ],
+      "rc": 0,
+      "tools_seen": [
+        "WebSearch",
+        "mcp__ccnm__apply_patch",
+        "mcp__ccnm__read_file",
+        "mcp__fake__big",
+        "mcp__fake__echo",
+        "mcp__fake__huge",
+        "mcp__fake__pid",
+        "mcp__fake__sized",
+        "mcp__fake__sized_meta",
+        "mcp__web__big",
+        "mcp__web__echo",
+        "mcp__web__huge",
+        "mcp__web__pid",
+        "mcp__web__sized",
+        "mcp__web__sized_meta"
+      ],
+      "calls": [
+        "mcp__fake__sized_meta",
+        "mcp__fake__sized_meta",
+        "mcp__fake__sized_meta",
+        "mcp__fake__sized"
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "bytes": 52000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000807 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000808 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000809 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000810 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000811 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000812 zzzzzzzzzzzzzzzzzzzzzzzz"
+        },
+        "toolu_probe_1": {
+          "is_error": false,
+          "bytes": 100000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0001557 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0001558 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0001559 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0001560 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0001561 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0001562 zzzzzzzzzzzzzzzzzzzzzzzz"
+        },
+        "toolu_probe_2": {
+          "is_error": false,
+          "bytes": 150000,
+          "head": "0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000001 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0000002 zzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0002338 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0002339 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0002340 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0002341 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0002342 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\n0002343 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+        },
+        "toolu_probe_3": {
+          "is_error": false,
+          "bytes": 2445,
+          "head": "<persisted-output>\nOutput too large (51.6KB). Full output saved to: <tmp>",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000025 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000026 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000027 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000028 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000029 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000030 zzz\n...\n</persisted-output>"
+        }
+      },
+      "permission_denials": [],
+      "stderr": ""
+    }
+  ]
+}

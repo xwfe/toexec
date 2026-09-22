@@ -1,0 +1,164 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.154.0",
+    "ccnm": "ccnm 0.8.0"
+  },
+  "runs": [
+    {
+      "scenario": "ccnm_codex",
+      "extra": [
+        "-c",
+        "tool_output_token_limit=20000"
+      ],
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespaces": {
+        "mcp__ccnm": [
+          "apply_patch",
+          "read_file"
+        ],
+        "mcp__ccnm_agent": [
+          "call_mcp_tool",
+          "load_skill",
+          "read_mcp_result"
+        ]
+      },
+      "calls": [
+        {
+          "server": "fake",
+          "tool": "echo",
+          "arguments": {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        },
+        {
+          "server": "fake",
+          "tool": "big"
+        }
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 66,
+          "head": "Wall time: 0.0549 seconds\nOutput:{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "tail": "Wall time: 0.0549 seconds\nOutput:{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "big_rows": 0,
+          "truncated_marker": false
+        },
+        "call_1": {
+          "bytes": 32923,
+          "head": "Wall time: 0.0032 seconds\nOutput:line 00000 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00001 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00002 xxxxxxxxxxxx",
+          "tail": "xxxxxxxxx\nline 00625 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00626 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00627 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00628 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00629 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n[the result is 52000 bytes; this is bytes 0-32760. Read on with read_mcp_result ref=rd198097f1 offset=32760. Kept for 30 minutes.]",
+          "big_rows": 629,
+          "truncated_marker": false
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "ccnm_codex_nolimit",
+      "extra": [],
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespaces": {
+        "mcp__ccnm": [
+          "apply_patch",
+          "read_file"
+        ],
+        "mcp__ccnm_agent": [
+          "call_mcp_tool",
+          "load_skill",
+          "read_mcp_result"
+        ]
+      },
+      "calls": [
+        {
+          "server": "fake",
+          "tool": "echo",
+          "arguments": {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        },
+        {
+          "server": "fake",
+          "tool": "big"
+        }
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 66,
+          "head": "Wall time: 0.0401 seconds\nOutput:{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "tail": "Wall time: 0.0401 seconds\nOutput:{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "big_rows": 0,
+          "truncated_marker": false
+        },
+        "call_1": {
+          "bytes": 12047,
+          "head": "Wall time: 0.0032 seconds\nOutput:line 00000 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00001 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00002 xxxxxxxxxxxx",
+          "tail": "xxxxxxxxx\nline 00623 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00624 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00625 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00626 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00627 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00628 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00629 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n[omitted 1 text items ...]",
+          "big_rows": 229,
+          "truncated_marker": true
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "ccnm_codex_code_mode",
+      "extra": [
+        "-c",
+        "tool_output_token_limit=20000"
+      ],
+      "rc": 0,
+      "model": "gpt-6-astra",
+      "namespaces": {},
+      "calls": [
+        {
+          "server": "fake",
+          "tool": "echo",
+          "arguments": {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        },
+        {
+          "server": "fake",
+          "tool": "big"
+        }
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 80,
+          "head": "Script completed\nWall time 0.1 seconds\nOutput:\n{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "tail": "Script completed\nWall time 0.1 seconds\nOutput:\n{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "big_rows": 0,
+          "truncated_marker": false
+        },
+        "call_1": {
+          "bytes": 32937,
+          "head": "Script completed\nWall time 0.0 seconds\nOutput:\nline 00000 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00001 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 0000",
+          "tail": "xxxxxxxxx\nline 00625 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00626 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00627 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00628 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00629 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n[the result is 52000 bytes; this is bytes 0-32760. Read on with read_mcp_result ref=rb41e63a31 offset=32760. Kept for 30 minutes.]",
+          "big_rows": 630,
+          "truncated_marker": false
+        }
+      },
+      "stderr": ""
+    }
+  ]
+}

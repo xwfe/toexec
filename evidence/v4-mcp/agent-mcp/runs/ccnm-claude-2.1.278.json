@@ -1,0 +1,119 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.155.1",
+    "ccnm": "ccnm 0.8.0"
+  },
+  "runs": [
+    {
+      "scenario": "ccnm_claude",
+      "rc": 0,
+      "agent_tools_seen": [
+        "mcp__ccnm_agent__call_mcp_tool",
+        "mcp__ccnm_agent__load_skill",
+        "mcp__ccnm_agent__read_mcp_result"
+      ],
+      "call_description_tail": "ead_mcp_result. Servers here: fake, web.",
+      "sent": [
+        {
+          "tool": "mcp__ccnm_agent__call_mcp_tool",
+          "input": {}
+        },
+        {
+          "tool": "mcp__ccnm_agent__call_mcp_tool",
+          "input": {
+            "server": "fake"
+          }
+        },
+        {
+          "tool": "mcp__ccnm_agent__call_mcp_tool",
+          "input": {
+            "server": "fake",
+            "tool": "echo",
+            "arguments": {
+              "q": 1,
+              "nested": {
+                "a": [
+                  1,
+                  2
+                ]
+              }
+            }
+          }
+        },
+        {
+          "tool": "mcp__ccnm_agent__call_mcp_tool",
+          "input": {
+            "server": "web",
+            "tool": "echo",
+            "arguments": {
+              "q": 1,
+              "nested": {
+                "a": [
+                  1,
+                  2
+                ]
+              }
+            }
+          }
+        },
+        {
+          "tool": "mcp__ccnm_agent__call_mcp_tool",
+          "input": {
+            "server": "fake",
+            "tool": "big"
+          }
+        },
+        {
+          "tool": "mcp__ccnm_agent__read_mcp_result",
+          "input": {
+            "ref": "re3152c191",
+            "offset": 32760
+          }
+        }
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "bytes": 301,
+          "head": "MCP servers installed on the machine you run on (not the project machine):\n- fake (~/.claude.json): not started\n- web (~/.claude.json): not started\nCall call_mc",
+          "tail": "MCP servers installed on the machine you run on (not the project machine):\n- fake (~/.claude.json): not started\n- web (~/.claude.json): not started\nCall call_mcp_tool with server=<name> to see its tools and their input schemas (that starts or connects to it), then with tool and arguments to call one."
+        },
+        "toolu_probe_1": {
+          "is_error": false,
+          "bytes": 763,
+          "head": "[MCP server fake (fake-agent 1.0): 6 tool(s)]\n[{\"description\":\"Echo the arguments back.\",\"inputSchema\":{\"type\":\"object\"},\"name\":\"echo\"},{\"description\":\"52 000 b",
+          "tail": "pe\":\"object\"},\"name\":\"pid\"},{\"description\":\"Exactly `bytes` bytes of text.\",\"inputSchema\":{\"properties\":{\"bytes\":{\"type\":\"integer\"}},\"type\":\"object\"},\"name\":\"sized\"},{\"description\":\"Same, declaring a larger result size to Claude Code.\",\"inputSchema\":{\"properties\":{\"bytes\":{\"type\":\"integer\"}},\"type\":\"object\"},\"name\":\"sized_meta\"}]\nCall one with call_mcp_tool server=fake tool=<name> arguments={...}."
+        },
+        "toolu_probe_2": {
+          "is_error": false,
+          "bytes": 33,
+          "head": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "tail": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}"
+        },
+        "toolu_probe_3": {
+          "is_error": false,
+          "bytes": 33,
+          "head": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}",
+          "tail": "{\"nested\": {\"a\": [1, 2]}, \"q\": 1}"
+        },
+        "toolu_probe_4": {
+          "is_error": false,
+          "bytes": 32891,
+          "head": "line 00000 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00001 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00002 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline",
+          "tail": "xxxxxxxx\nline 00625 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00626 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00627 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00628 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00629 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n[the result is 52000 bytes; this is bytes 0-32760. Read on with read_mcp_result ref=re3152c191 offset=32760. Kept for 30 minutes.]"
+        },
+        "toolu_probe_5": {
+          "is_error": false,
+          "bytes": 19286,
+          "head": "line 00630 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00631 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00632 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline",
+          "tail": " xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00994 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00995 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00996 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00997 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00998 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nline 00999 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\n[bytes 32760-52000 of 52000; that is the end]"
+        }
+      },
+      "big_reassembled_bytes": 52000,
+      "big_reassembled_equal": true,
+      "permission_denials": [],
+      "stderr": ""
+    }
+  ]
+}

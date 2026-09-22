@@ -1,0 +1,465 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.155.1"
+  },
+  "runs": [
+    {
+      "scenario": "codex_inline",
+      "approve": false,
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespaces": {
+        "mcp__ccnm": [
+          "apply_patch",
+          "read_file"
+        ],
+        "mcp__fake": [
+          "big",
+          "echo",
+          "huge",
+          "pid"
+        ],
+        "mcp__web": [
+          "big",
+          "echo",
+          "huge",
+          "pid"
+        ]
+      },
+      "calls": [
+        [
+          "mcp__fake",
+          "echo",
+          {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        [
+          "mcp__web",
+          "echo",
+          {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        [
+          "mcp__fake",
+          "huge",
+          {}
+        ]
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 167,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0051 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"MCP tool call requires approval, but approval policy is n",
+          "tail": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0051 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"MCP tool call requires approval, but approval policy is never\"}]"
+        },
+        "call_1": {
+          "bytes": 167,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0002 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"MCP tool call requires approval, but approval policy is n",
+          "tail": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0002 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"MCP tool call requires approval, but approval policy is never\"}]"
+        },
+        "call_2": {
+          "bytes": 167,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0002 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"MCP tool call requires approval, but approval policy is n",
+          "tail": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0002 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"MCP tool call requires approval, but approval policy is never\"}]"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex_approve",
+      "approve": true,
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespaces": {
+        "mcp__ccnm": [
+          "apply_patch",
+          "read_file"
+        ],
+        "mcp__fake": [
+          "big",
+          "echo",
+          "huge",
+          "pid"
+        ],
+        "mcp__web": [
+          "big",
+          "echo",
+          "huge",
+          "pid"
+        ]
+      },
+      "calls": [
+        [
+          "mcp__fake",
+          "echo",
+          {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        [
+          "mcp__web",
+          "echo",
+          {
+            "q": 1,
+            "nested": {
+              "a": [
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        [
+          "mcp__fake",
+          "huge",
+          {}
+        ]
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 145,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0008 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"{\\\"nested\\\": {\\\"a\\\": [1, 2]}, \\\"q\\\": 1}\"}]",
+          "tail": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0008 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"{\\\"nested\\\": {\\\"a\\\": [1, 2]}, \\\"q\\\": 1}\"}]"
+        },
+        "call_1": {
+          "bytes": 145,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0069 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"{\\\"nested\\\": {\\\"a\\\": [1, 2]}, \\\"q\\\": 1}\"}]",
+          "tail": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0069 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"{\\\"nested\\\": {\\\"a\\\": [1, 2]}, \\\"q\\\": 1}\"}]"
+        },
+        "call_2": {
+          "bytes": 12333,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0044 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"row 00000 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 00",
+          "tail": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 07993 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 07994 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 07995 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 07996 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 07997 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 07998 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\nrow 07999 yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy\\n\"}]"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex_sizes",
+      "approve": true,
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespaces": {
+        "mcp__ccnm": [
+          "apply_patch",
+          "read_file"
+        ],
+        "mcp__fake": [
+          "big",
+          "echo",
+          "huge",
+          "pid",
+          "sized"
+        ],
+        "mcp__web": [
+          "big",
+          "echo",
+          "huge",
+          "pid",
+          "sized"
+        ]
+      },
+      "calls": [
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 8192
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 10240
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 12288
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 16384
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 32768
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 52000
+          }
+        ]
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 8426,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0028 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000122 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000123 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000124 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000125 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000126 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000127 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_1": {
+          "bytes": 10506,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0005 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000154 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000155 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000156 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000157 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000158 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000159 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_2": {
+          "bytes": 12281,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0004 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000186 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000187 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000188 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000189 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000190 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000191 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_3": {
+          "bytes": 12281,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0005 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000250 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000251 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000252 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000253 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000254 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000255 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_4": {
+          "bytes": 12281,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0010 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000506 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000507 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000508 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000509 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000510 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000511 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_5": {
+          "bytes": 12280,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0012 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000807 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000808 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000809 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000810 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000811 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000812 zzzzzzzzzzzzzzzzzzzzzzzz\"}]"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex_sizes_limit",
+      "extra": [
+        "-c",
+        "tool_output_token_limit=20000"
+      ],
+      "approve": true,
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespaces": {
+        "mcp__ccnm": [
+          "apply_patch",
+          "read_file"
+        ],
+        "mcp__fake": [
+          "big",
+          "echo",
+          "huge",
+          "pid",
+          "sized"
+        ],
+        "mcp__web": [
+          "big",
+          "echo",
+          "huge",
+          "pid",
+          "sized"
+        ]
+      },
+      "calls": [
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 8192
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 10240
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 12288
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 16384
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 32768
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 52000
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 65536
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 79000
+          }
+        ],
+        [
+          "mcp__fake",
+          "sized",
+          {
+            "bytes": 81000
+          }
+        ]
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 8426,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0101 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000122 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000123 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000124 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000125 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000126 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000127 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_1": {
+          "bytes": 10506,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0004 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000154 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000155 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000156 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000157 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000158 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000159 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_2": {
+          "bytes": 12586,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0005 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000186 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000187 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000188 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000189 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000190 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000191 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_3": {
+          "bytes": 16746,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0007 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000250 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000251 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000252 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000253 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000254 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000255 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_4": {
+          "bytes": 33386,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0009 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000506 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000507 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000508 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000509 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000510 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000511 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_5": {
+          "bytes": 52918,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0009 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000807 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000808 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000809 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000810 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000811 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000812 zzzzzzzzzzzzzzzzzzzzzzzz\"}]"
+        },
+        "call_6": {
+          "bytes": 66666,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0010 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0001018 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001019 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001020 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001021 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001022 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001023 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_7": {
+          "bytes": 80340,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0012 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001229 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001230 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001231 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001232 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001233 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001234 zzzzzzzzzzzzzzzz\"}]"
+        },
+        "call_8": {
+          "bytes": 82371,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Wall time: 0.0012 seconds\\nOutput:\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001260 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001261 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001262 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001263 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001264 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001265 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\"}]"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex_code_mode",
+      "extra": [],
+      "rc": 0,
+      "model": "gpt-6-astra",
+      "sizes": [
+        16384,
+        32768,
+        65536
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 16762,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Script completed\\nWall time 0.1 seconds\\nOutput:\\n\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000250 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000251 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000252 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000253 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000254 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000255 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_1": {
+          "bytes": 33402,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Script completed\\nWall time 0.0 seconds\\nOutput:\\n\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000506 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000507 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000508 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000509 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000510 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000511 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_2": {
+          "bytes": 40859,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Script completed\\nWall time 0.0 seconds\\nOutput:\\n\"}, {\"type\": \"input_text\", \"text\": \"Warning: truncated output (original token",
+          "tail": "zzzzz\\n0001018 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001019 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001020 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001021 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001022 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001023 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        }
+      },
+      "stderr": ""
+    },
+    {
+      "scenario": "codex_code_mode_limit",
+      "extra": [
+        "-c",
+        "tool_output_token_limit=20000"
+      ],
+      "rc": 0,
+      "model": "gpt-6-astra",
+      "sizes": [
+        16384,
+        32768,
+        65536
+      ],
+      "outputs": {
+        "call_0": {
+          "bytes": 16762,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Script completed\\nWall time 0.0 seconds\\nOutput:\\n\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000250 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000251 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000252 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000253 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000254 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000255 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_1": {
+          "bytes": 33402,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Script completed\\nWall time 0.0 seconds\\nOutput:\\n\"}, {\"type\": \"input_text\", \"text\": \"0000000 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+          "tail": "zzzzz\\n0000506 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000507 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000508 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000509 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000510 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0000511 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        },
+        "call_2": {
+          "bytes": 40859,
+          "head": "[{\"type\": \"input_text\", \"text\": \"Script completed\\nWall time 0.0 seconds\\nOutput:\\n\"}, {\"type\": \"input_text\", \"text\": \"Warning: truncated output (original token",
+          "tail": "zzzzz\\n0001018 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001019 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001020 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001021 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001022 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n0001023 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz\\n\"}]"
+        }
+      },
+      "stderr": ""
+    }
+  ]
+}
