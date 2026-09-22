@@ -1,0 +1,62 @@
+{
+  "what": "一次真实模型的受管会话（ccnm run ccnm --print），Runtime 是开发机 macOS，Agent 是 fodelf（macOS）；fodelf 的 ~/.claude.json 临时只装了 DeepWiki（HTTP），验完删掉",
+  "prompt": "GitHub 上 modelcontextprotocol/rust-sdk 这个仓库的 wiki 是怎么介绍 `#[tool_router]` 宏的？别去翻本机上的源码。用两三句话告诉我，再说一下你是从哪儿查到的。",
+  "hosts": {
+    "ccnm": "0.9.0（ccnm f2baec7，两台同一个构建）",
+    "claude": "2.1.272 (Claude Code)，fodelf"
+  },
+  "session_stdout": {
+    "num_turns": 4,
+    "total_cost_usd": 0.2280265,
+    "permission_denials": [],
+    "modelUsage": {
+      "claude-opus-5[1m]": {
+        "inputTokens": 6,
+        "outputTokens": 1441
+      },
+      "claude-haiku-4-5-20251001": {
+        "inputTokens": 973,
+        "outputTokens": 16
+      }
+    }
+  },
+  "ccnm_run_summary": "claude exited 0 in 38.6 s; 4 turns in 36.2 s (api 17.5 s); $0.23; 0 permission denials",
+  "allowed_tools_in_session_settings": [
+    "mcp__ccnm__workspace_info",
+    "mcp__ccnm__read_file",
+    "mcp__ccnm__list_files",
+    "mcp__ccnm__search_text",
+    "mcp__ccnm__apply_patch",
+    "mcp__ccnm__exec_command",
+    "mcp__ccnm__read_output",
+    "mcp__ccnm__load_skill",
+    "mcp__ccnm__view_image",
+    "mcp__ccnm__read_notebook",
+    "mcp__ccnm__stop_command",
+    "mcp__ccnm__call_mcp_tool",
+    "mcp__ccnm_agent__load_skill",
+    "mcp__ccnm_agent__call_mcp_tool",
+    "mcp__ccnm_agent__read_mcp_result",
+    "WebSearch"
+  ],
+  "process_samples": {
+    "note": "poll_tree.py 每 0.25 秒一次；payload 和临时目录路径已去掉。两台机器的时钟时区不同（差一小时）",
+    "agent_fodelf_descendants_of_ccnm_agent": [
+      "23:05:37 ccnm internal agent-skills --payload …",
+      "23:05:42 curl -K <TMPDIR>/ccnm-curl-<pid>-0/request",
+      "23:05:43 curl -K <TMPDIR>/ccnm-curl-<pid>-0/request",
+      "23:05:45 curl -K <TMPDIR>/ccnm-curl-<pid>-0/request",
+      "23:05:49 curl -K <TMPDIR>/ccnm-curl-<pid>-0/request",
+      "23:05:51 curl -K <TMPDIR>/ccnm-curl-<pid>-0/request"
+    ],
+    "runtime_devmachine_descendants_of_mcp_serve": [
+      "00:05:37 ccnm internal mcp-serve --payload …",
+      "00:05:37 (id)"
+    ]
+  },
+  "after_session": {
+    "ccnm_agent_and_curl_processes": "none",
+    "leftover_curl_dir": "ccnm-curl-<pid>-0 with request (384 bytes) and empty stderr — the defect ccnm 828e1f5 fixes"
+  },
+  "answer_excerpt": "照 wiki 的说法，`#[tool_router]` 要加在服务端结构体的 `impl` 块上。它会自动生成一个 `tool_router()` 构造函数……主要对应的是 5.2 \"Tool Definition with Macros\" 这一页，本机源码一行没碰。"
+}

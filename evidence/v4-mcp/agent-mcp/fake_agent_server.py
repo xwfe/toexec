@@ -2,7 +2,7 @@
 
 `python3 fake_agent_server.py` 走 stdio；`python3 fake_agent_server.py --http <端口文件>`
 在 127.0.0.1 的随机端口上走 streamable HTTP（只回 JSON，不开 SSE），把端口写进那个文件。
-两种都说 2025-06-18。四个工具：
+两种都说 2025-06-18。工具：
 
 - echo：原样回 arguments；
 - big：52 000 字节（1000 行，每行 52 字节），和 ccnm P49 的测试同一个大小；
@@ -10,7 +10,8 @@
   MCP 输出上限；
 - pid：回自己的进程号；
 - sized：回 `bytes` 个字节（每行 64 字节，行号打头），用来找客户端从多大开始截；
-- sized_meta：同上，工具定义里带 `_meta["anthropic/maxResultSizeChars"] = 200000`。
+- sized_meta：同上，工具定义里带 `_meta["anthropic/maxResultSizeChars"] = 200000`；
+- env：自己拿到的环境变量名，和 `PROBE_` 开头的那几个的值（只放测试自己造的假值）。
 """
 
 import json
@@ -29,6 +30,8 @@ TOOLS = [
     {"name": "sized_meta", "description": "Same, declaring a larger result size to Claude Code.",
      "inputSchema": {"type": "object", "properties": {"bytes": {"type": "integer"}}},
      "_meta": {"anthropic/maxResultSizeChars": 200000}},
+    {"name": "env", "description": "The names of its environment variables.",
+     "inputSchema": {"type": "object"}},
 ]
 
 
@@ -64,6 +67,10 @@ def answer(message):
             result = text(str(os.getpid()))
         elif name in ("sized", "sized_meta"):
             result = text(sized(int(arguments.get("bytes", 0))))
+        elif name == "env":
+            result = text(json.dumps({"names": sorted(os.environ),
+                                      "probe": {k: v for k, v in os.environ.items()
+                                                if k.startswith("PROBE_")}}))
         else:
             result = {**text("no such tool"), "isError": True}
     elif method == "ping":

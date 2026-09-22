@@ -1,0 +1,32 @@
+{
+  "ccnm": "ccnm 0.9.0",
+  "url": "https://mcp.deepwiki.com/mcp",
+  "proxy_vars_passed": [],
+  "tools": [
+    "call_mcp_tool",
+    "load_skill",
+    "read_mcp_result"
+  ],
+  "list": {
+    "is_error": false,
+    "seconds": 2.06,
+    "first_line": "[MCP server deepwiki (DeepWiki 2.14.3): 3 tool(s)]"
+  },
+  "read_wiki_structure": {
+    "is_error": false,
+    "seconds": 1.22,
+    "text_bytes": 1197,
+    "blocks": 1
+  },
+  "read_wiki_contents": {
+    "is_error": false,
+    "seconds_first_part": 43.57,
+    "first_part_bytes": 32732,
+    "note": "[the result is 406840 bytes; this is bytes 0-32732. Read on with read_mcp_result ref=r659f087e1 offset=32732. Kept for 30 minutes.]",
+    "declared_bytes": 406840,
+    "reassembled_bytes": 406840,
+    "pages": 13,
+    "structured_content_dropped": true
+  },
+  "ccnm_agent_exit": 0
+}

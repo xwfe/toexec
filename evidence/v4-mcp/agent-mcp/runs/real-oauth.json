@@ -1,0 +1,73 @@
+{
+  "ccnm": "ccnm 0.8.0",
+  "curl": "curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.68.1",
+  "proxy_vars_passed": [
+    "HTTPS_PROXY",
+    "HTTP_PROXY"
+  ],
+  "listing": "MCP servers installed on the machine you run on (not the project machine):\n- atlassian (~/.claude.json): not started\n- github (~/.claude.json): not started\n- linear (~/.claude.json): not started\n- notion (~/.claude.json): not started\n- sentry (~/.claude.json): not started\n- stripe (~/.claude.json): not started\nCall call_mcp_tool with server=<name> to see its tools and their input schemas (that starts or connects to it), then with tool and arguments to call one.",
+  "servers": {
+    "notion": {
+      "url": "https://mcp.notion.com/mcp",
+      "bare": {
+        "status": 401,
+        "www_authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.notion.com/.well-known/oauth-protected-resource/mcp\", error=\"invali",
+        "curl_error": null
+      },
+      "ccnm_is_error": true,
+      "ccnm_said": "CCNM_E_DEPENDENCY: MCP server notion did not start: the server answered HTTP 401: it wants a login (OAuth) this relay cannot perform, or its key in the config is wrong"
+    },
+    "linear": {
+      "url": "https://mcp.linear.app/mcp",
+      "bare": {
+        "status": 401,
+        "www_authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.linear.app/.well-known/oauth-protected-resource/mcp\", scope=\"read w",
+        "curl_error": null
+      },
+      "ccnm_is_error": true,
+      "ccnm_said": "CCNM_E_DEPENDENCY: MCP server linear did not start: the server answered HTTP 401: it wants a login (OAuth) this relay cannot perform, or its key in the config is wrong"
+    },
+    "sentry": {
+      "url": "https://mcp.sentry.dev/mcp",
+      "bare": {
+        "status": 401,
+        "www_authenticate": "Bearer realm=\"OAuth\", resource_metadata=\"https://mcp.sentry.dev/.well-known/oauth-protected-resource/mcp\"",
+        "curl_error": null
+      },
+      "ccnm_is_error": true,
+      "ccnm_said": "CCNM_E_DEPENDENCY: MCP server sentry did not start: the server answered HTTP 401: it wants a login (OAuth) this relay cannot perform, or its key in the config is wrong"
+    },
+    "github": {
+      "url": "https://api.githubcopilot.com/mcp/",
+      "bare": {
+        "status": 401,
+        "www_authenticate": "Bearer error=\"invalid_request\", error_description=\"No access token was provided in this request\", resource_metadata=\"htt",
+        "curl_error": null
+      },
+      "ccnm_is_error": true,
+      "ccnm_said": "CCNM_E_DEPENDENCY: MCP server github did not start: the server answered HTTP 401: it wants a login (OAuth) this relay cannot perform, or its key in the config is wrong"
+    },
+    "atlassian": {
+      "url": "https://mcp.atlassian.com/v1/mcp",
+      "bare": {
+        "status": 401,
+        "www_authenticate": "Bearer realm=\"OAuth\", error=\"invalid_token\", error_description=\"Missing or invalid access token\"",
+        "curl_error": null
+      },
+      "ccnm_is_error": true,
+      "ccnm_said": "CCNM_E_DEPENDENCY: MCP server atlassian did not start: the server answered HTTP 401: it wants a login (OAuth) this relay cannot perform, or its key in the config is wrong"
+    },
+    "stripe": {
+      "url": "https://mcp.stripe.com",
+      "bare": {
+        "status": 401,
+        "www_authenticate": "Bearer resource_metadata=\"https://mcp.stripe.com/.well-known/oauth-protected-resource\"",
+        "curl_error": null
+      },
+      "ccnm_is_error": true,
+      "ccnm_said": "CCNM_E_DEPENDENCY: MCP server stripe did not start: the server answered HTTP 401: it wants a login (OAuth) this relay cannot perform, or its key in the config is wrong"
+    }
+  },
+  "listing_after": "MCP servers installed on the machine you run on (not the project machine):\n- atlassian (~/.claude.json): not started\n- github (~/.claude.json): not started\n- linear (~/.claude.json): not started\n- notion (~/.claude.json): not started\n- sentry (~/.claude.json): not started\n- stripe (~/.claude.json): not started\nCall call_mcp_tool with server=<name> to see its tools and their input schemas (that starts or connects to it), then with tool and arguments to call one.",
+  "ccnm_agent_exit": 0
+}

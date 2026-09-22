@@ -115,6 +115,8 @@ def main():
         "declared_bytes": size, "reassembled_bytes": len(whole.encode()), "pages": pages,
         "structured_content_dropped": not any(c.get("type") == "resource" for c in contents["content"]),
     }
+    if contents.get("isError"):
+        record["read_wiki_contents"]["said"] = first[:400]
     client.close()
     shutil.rmtree(home)
     record["ccnm_agent_exit"] = client.proc.returncode

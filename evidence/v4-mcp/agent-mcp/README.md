@@ -39,9 +39,24 @@
 
 `runs/real-deepwiki.json`。本机开着 HTTPS 代理（环境变量照常交给 ccnm，它再交给 `curl`）。列工具 1.8 秒（`DeepWiki 2.14.3`，3 个工具），`read_wiki_structure` 0.9 秒；`read_wiki_contents`（`modelcontextprotocol/rust-sdk`）原始回复 839 KB，ccnm 去掉和正文重复的 `structuredContent` 后是 406 840 字节，第一段 32 732 字节，**分 13 段读完，拼回来 406 840 字节**。和第 2 步经 gld 读到的是同一个大小。跑完临时目录（`curl` 的请求文件、测试 HOME）都不在了。
 
+## 2026-09-23 补测
+
+第一版"没测到的"那四条，加上 Codex 会话里 `${VAR}` 缺变量的样子，推送之后逐条补了。ccnm 那边的结论和修复写在它的 P50 记录"2026-09-23 补验"一节，这里只放脚本和结果。
+
+| 补的是什么 | 脚本 | 结果 | 记录 |
+| --- | --- | --- | --- |
+| 真实模型、受管会话经 SSH 的整条路 | 不是零额度的，没有脚本：两台装 ccnm 0.9.0，fodelf 的 `~/.claude.json` 临时只装 DeepWiki，`ccnm run ccnm --print '<问题>'`；两台各跑一个 `poll_tree.py` 记 `ccnm_agent` / `mcp-serve` 的子孙进程 | Claude Code 2.1.272（`claude-opus-5[1m]`）没被提示就用了 Agent 上的 DeepWiki：4 轮 $0.23，fodelf 上 `ccnm_agent` 起了 5 个 `curl`，Runtime 那边一个 server 都没起。会话结束后 `curl` 的私有目录留在了 Agent 的 `$TMPDIR` 里（下面那行） | `runs/real-session-2026-09-23.json` |
+| 会话结束时 Claude Code 怎么收 MCP server | `claude_exit_signals.py`（`[PROBE_CLAUDE=…]`） | 2.1.272 和 2.1.278 一样：SIGINT，100 ms 后 SIGTERM，SIGINT 之后约 0.4–0.5 秒强杀，**stdin 从头到尾不关**。所以等"客户端关 stdin"再清理的东西一次都走不到 | `runs/claude-exit-signals-2.1.278.json`、`runs/claude-exit-signals-2.1.272-fodelf.json` |
+| 会话结束留下什么 | `run_agent_mcp.py … ccnm_claude_exit` | 修之前（请求目录跟连接走）留下一个 `ccnm-curl-<pid>-0`；ccnm `828e1f5` 改成请求结束就删之后不留，本机 2.1.278 和 fodelf 的 2.1.272 都是。`ccnm_agent` 起的 stdio server 两种情况下都跟着没了（stdin 断了自己退） | `runs/ccnm-claude-exit-2.1.278.json`、`runs/ccnm-claude-exit-2.1.272-fodelf.json` |
+| 要 OAuth 的 server | `real_oauth.py`：Notion、Linear、Sentry、GitHub、Atlassian、Stripe 六个公开地址，不带凭据 | 都回 401 加 `WWW-Authenticate: Bearer …`；ccnm 报 `the server answered HTTP 401: it wants a login (OAuth) this relay cannot perform, or its key in the config is wrong`。清单里照样写 `not started` | `runs/real-oauth.json`（macOS，curl 8.7.1）、`runs/real-oauth-linux.json` |
+| Linux 上的 `curl` | hpsrv（Debian 13 / x86_64，curl 8.14.1 + OpenSSL 3.5.7），`ccrun` 身份，本机交叉编的 musl 静态版 ccnm 0.9.0；`real_remote.py`、`real_oauth.py`、`real_timeout.py`，另加 ccnm 仓库的 `tests/test_agent_mcp.py` | 中立客户端 4 条全过；DeepWiki 406 840 字节分 13 段读全，和 macOS 一样；OAuth 同上。那台下载只有约 16–19 KB/s（不经 ccnm 直接 curl 839 KB 要 45–52 秒），第一次撞了调用默认的 60 秒上限；`real_timeout.py` 用 `tool_timeout_sec = 10` 复现出原话，下一次调用自己重连成功 | `runs/real-deepwiki-linux.json`、`runs/real-oauth-linux.json`、`runs/real-deepwiki-timeout-linux.json` |
+| Codex 会话里 `${VAR}` 缺变量 | `run_agent_mcp.py … ccnm_env_codex ccnm_env_claude`（`fake_agent_server.py` 多了一个 `env` 工具，回自己拿到的变量名） | Codex 0.154.0 和 0.155.1 交给 `ccnm_agent` 的只有 `HOME`、`PATH`、`LC_CTYPE`、`__CF_USER_TEXT_ENCODING`；用到 `${PROBE_TOKEN}` 的 stdio `env`、HTTP 地址、Codex 的 `bearer_token_env_var` 三种都写 `not relayed: its config uses PROBE_TOKEN, which this session's server does not have`，点名调用报 `CCNM_E_CONFIG`；`${PROBE_TOKEN:-none}`、`${HOME}` 照常。测试直接起的 Claude 交全部环境（对照） | `runs/ccnm-env-codex-0.154.0.json`、`runs/ccnm-env-codex-0.155.1.json`、`runs/ccnm-env-claude-2.1.278.json` |
+
+`real-oauth.json` 和三份 `ccnm-env-*` 是修复前的构建（ccnm `fa95ebf`，报 0.8.0）跑的，修复只动了请求文件留多久，不影响这些结果；Linux 那三份是修复后的 0.9.0。
+
 ## 没测到的
 
-- 真实模型会不会主动用这两个工具。
-- 受管会话经 SSH 的那条路（这里 ccnm 自己那一半是冒充的，Agent 端服务是真的）。
-- 要 OAuth 登录的远端 server：这台机器上没有，只有 ccnm 单元测试里的假 401。
-- Linux 上的 `curl`。
+- Codex 当 Agent 的受管会话经 SSH（fodelf 没装 Codex），以及 Codex 里的真实模型。
+- 真实模型碰上超过 32 KiB 的结果会不会照着说明用 `read_mcp_result` 读下去。
+- `[agent_mcp] local` 点名的本机程序类 server 在真机上。
+- Windows。

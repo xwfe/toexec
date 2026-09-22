@@ -1,0 +1,64 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.155.1",
+    "ccnm": "ccnm 0.8.0"
+  },
+  "runs": [
+    {
+      "scenario": "ccnm_env_codex",
+      "extra": [
+        "-c",
+        "tool_output_token_limit=20000"
+      ],
+      "client_env": [
+        "CODEX_HOME",
+        "HOME",
+        "PATH",
+        "PROBE_TOKEN"
+      ],
+      "rc": 0,
+      "model": "gpt-5.1-codex",
+      "namespaces": {
+        "mcp__ccnm": [
+          "apply_patch",
+          "read_file"
+        ],
+        "mcp__ccnm_agent": [
+          "call_mcp_tool",
+          "load_skill",
+          "read_mcp_result"
+        ]
+      },
+      "calls": [
+        {},
+        {
+          "server": "inherit",
+          "tool": "env"
+        },
+        {
+          "server": "keyed",
+          "tool": "env"
+        },
+        {
+          "server": "codex_bearer"
+        }
+      ],
+      "outputs": {
+        "call_0": {
+          "text": "Wall time: 0.0057 seconds\nOutput:MCP servers installed on the machine you run on (not the project machine):\n- codex_bearer (~/.codex/config.toml): not relayed: its config uses PROBE_TOKEN, which this session's server does not have\n- defaulted (~/.claude.json): not started\n- home_ref (~/.claude.json): not started\n- inherit (~/.claude.json): not started\n- keyed (~/.claude.json): not relayed: its config uses PROBE_TOKEN, which this session's server does not have\n- remote_keyed (~/.claude.json): not relayed: its config uses PROBE_TOKEN, which this session's server does not have\nCall call_mcp_tool with server=<name> to see its tools and their input schemas (that starts or connects to it), then with tool and arguments to call one."
+        },
+        "call_1": {
+          "text": "Wall time: 0.0409 seconds\nOutput:{\"names\": [\"HOME\", \"LC_CTYPE\", \"PATH\", \"__CF_USER_TEXT_ENCODING\"], \"probe\": {}}"
+        },
+        "call_2": {
+          "text": "Wall time: 0.0011 seconds\nOutput:CCNM_E_CONFIG: MCP server keyed is not relayed: its config uses PROBE_TOKEN, which this session's server does not have"
+        },
+        "call_3": {
+          "text": "Wall time: 0.0013 seconds\nOutput:CCNM_E_CONFIG: MCP server codex_bearer is not relayed: its config uses PROBE_TOKEN, which this session's server does not have"
+        }
+      },
+      "stderr": ""
+    }
+  ]
+}

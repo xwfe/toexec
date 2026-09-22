@@ -1,0 +1,20 @@
+{
+  "hosts": {
+    "claude": "2.1.272 (Claude Code)",
+    "codex": "",
+    "ccnm": "ccnm 0.9.0"
+  },
+  "runs": [
+    {
+      "scenario": "ccnm_claude_exit",
+      "rc": 0,
+      "calls_ok": [
+        true,
+        true
+      ],
+      "curl_dirs_left": [],
+      "fake_servers_left": 0,
+      "stderr": ""
+    }
+  ]
+}

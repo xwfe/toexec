@@ -1,0 +1,13 @@
+{
+  "claude": "2.1.272 (Claude Code)",
+  "rc": 0,
+  "claude_seconds": 1.23,
+  "events": [
+    "  0.000 started",
+    "  0.071 signal SIGINT",
+    "  0.172 signal SIGTERM"
+  ],
+  "heartbeats": 4,
+  "last_heartbeat": "0.480",
+  "exited_on_its_own": false
+}

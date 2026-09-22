@@ -1,0 +1,15 @@
+{
+  "ccnm": "ccnm 0.9.0",
+  "tool_timeout_sec": 10,
+  "read_wiki_contents": {
+    "seconds": 13.6,
+    "is_error": true,
+    "said": "CCNM_E_DEPENDENCY: MCP server deepwiki: the server did not answer tools/call within 10s. Whether the call did its work is unknown; the server is stopped and the next call starts it again, so look before repeating anything that changes state"
+  },
+  "next_call": {
+    "seconds": 3.6,
+    "is_error": false,
+    "text_bytes": 1197
+  },
+  "ccnm_agent_exit": 0
+}

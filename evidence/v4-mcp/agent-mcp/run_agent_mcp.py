@@ -35,6 +35,11 @@ Codex 场景（指定 gpt-5.1-codex，工具在请求顶层）：
                    echo、big，看第一段 32 KiB 是不是完整到了模型面前
   ccnm_codex_nolimit  同上，不加 tool_output_token_limit：对照
   ccnm_codex_code_mode 不写 --model（Code Mode）：模型在 exec 的 JS 里调 call_mcp_tool 再 text() 出来
+  ccnm_env_codex   Agent 的配置用 ${PROBE_TOKEN}（stdio 的 env、HTTP 地址、Codex 的 bearer_token_env_var），
+                   Codex 自己的环境里有这个变量：Codex 交给 ccnm_agent 哪些变量、缺的 server 报成什么样
+  ccnm_env_claude  同一份配置，Claude 对照
+  ccnm_claude_exit 起一个 stdio 的 fake、经 curl 连一次 web，然后 Claude 退出：会话结束后临时目录里
+                   有没有留下 ccnm-curl-*、fake 进程还在不在
 
 用法：[CCNM_BIN=…] python3 run_agent_mcp.py <新输出目录，放仓库外> [场景…]
 """
@@ -457,15 +462,183 @@ def ccnm_claude(out):
             "stderr": proc.stderr.decode(errors="replace")[-400:]}
 
 
-def ccnm_codex_run(out, extra, model_name):
+def leftovers():
+    """两个临时目录里 ccnm-curl-* 的名字，和还活着的 fake_agent_server 进程号。"""
+    import tempfile
+    dirs = set()
+    for base in {Path("/tmp"), Path(tempfile.gettempdir()),
+                 Path(subprocess.run(["getconf", "DARWIN_USER_TEMP_DIR"], capture_output=True,
+                                     text=True).stdout.strip() or "/tmp")}:
+        dirs |= {str(p) for p in base.glob("ccnm-curl-*")}
+    procs = subprocess.run(["pgrep", "-f", str(FAKE)], capture_output=True, text=True).stdout.split()
+    return dirs, set(procs)
+
+
+def ccnm_claude_exit(out):
+    """会话结束时留下什么：ccnm_agent 起了一个 stdio 的 fake、经 curl 连了 web，然后 Claude 退出。
+    Claude Code 退出时对 MCP server 发 SIGINT、SIGTERM、SIGKILL，不关 stdin。"""
+    out.mkdir(parents=True)
+    home, state = out / "home", out / "state"
+    home.mkdir()
+    state.mkdir()
+    web, url = web_server(out)
+    argv = agent_argv(agent_home(out, url))
+    tool = "mcp__ccnm_agent__call_mcp_tool"
+    plan = [{"server": "fake", "tool": "echo", "arguments": NESTED},
+            {"server": "web", "tool": "echo", "arguments": NESTED}]
+    before = leftovers()
+    try:
+        (state / "mcp.json").write_text(json.dumps({"mcpServers": {
+            "ccnm": {"type": "stdio", "command": sys.executable, "args": [str(TINY)]},
+            "ccnm_agent": {"type": "stdio", "command": argv[0], "args": argv[1:]}}}))
+        (state / "settings.json").write_text(json.dumps({"permissions": {
+            "allow": ["mcp__ccnm__read_file", *[f"mcp__ccnm_agent__{t}" for t in AGENT_TOOLS]],
+            "deny": DENY_BASE + ["Skill"]}}))
+
+        def script(n, req):
+            if tool not in [t.get("name") for t in req.get("tools") or []]:
+                return [{"type": "text", "text": "side ok"}], "end_turn"
+            done = sum(1 for m in req.get("messages", []) if isinstance(m.get("content"), list)
+                       for part in m["content"] if part.get("type") == "tool_result")
+            if done >= len(plan):
+                return [{"type": "text", "text": "all done"}], "end_turn"
+            return [{"type": "tool_use", "id": f"toolu_probe_{done}", "name": tool,
+                     "input": plan[done]}], "tool_use"
+
+        profile = out / "no-egress.sb"
+        profile.write_text(SANDBOX_PROFILE)
+        model = Model(out, script)
+        cmd = ["sandbox-exec", "-f", str(profile), CLAUDE, "--tools", "",
+               "--mcp-config", str(state / "mcp.json"), "--strict-mcp-config",
+               "--settings", str(state / "settings.json"), "--setting-sources", "user,project,local",
+               "--permission-mode", "acceptEdits", "--session-id", str(uuid.uuid4()),
+               "--print", "--output-format", "json", "--permission-prompts", "none",
+               "--no-session-persistence"]
+        env = {"HOME": str(home), "PATH": os.environ["PATH"],
+               "ANTHROPIC_BASE_URL": f"http://127.0.0.1:{model.port}",
+               "ANTHROPIC_API_KEY": "sk-ant-probe-not-a-real-key",
+               "DISABLE_TELEMETRY": "1", "DISABLE_ERROR_REPORTING": "1", "DISABLE_AUTOUPDATER": "1",
+               "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"}
+        proc = subprocess.run(cmd, cwd=state, env=env, input=b"do the probe task",
+                              capture_output=True, timeout=300)
+        time.sleep(3)
+    finally:
+        web.kill()
+    after = leftovers()
+    results = result_texts(requests(out))
+    return {"scenario": "ccnm_claude_exit", "rc": proc.returncode,
+            "calls_ok": [not r["is_error"] for r in results.values()],
+            "curl_dirs_left": sorted(Path(d).name for d in after[0] - before[0]),
+            "fake_servers_left": len(after[1] - before[1]),
+            "stderr": proc.stderr.decode(errors="replace")[-400:]}
+
+
+PROBE_ENV = {"PROBE_TOKEN": "probe-token-value"}
+ENV_CALLS = [{}, {"server": "inherit", "tool": "env"}, {"server": "keyed", "tool": "env"},
+             {"server": "codex_bearer"}]
+
+
+def env_home(out, url):
+    """配置里用 ${PROBE_TOKEN} 的几个 server；客户端进程自己的环境里有这个变量。
+    inherit 不引用任何变量，调它的 env 看 ccnm_agent 从客户端拿到了哪些变量。"""
+    home = out / "agent-home"
+    (home / ".codex").mkdir(parents=True)
+    fake = {"command": sys.executable, "args": [str(FAKE)]}
+    (home / ".claude.json").write_text(json.dumps({"mcpServers": {
+        "inherit": fake,
+        "keyed": {**fake, "env": {"PROBE_KEY": "${PROBE_TOKEN}"}},
+        "defaulted": {**fake, "env": {"PROBE_KEY": "${PROBE_TOKEN:-none}"}},
+        "home_ref": {**fake, "env": {"PROBE_HOME": "${HOME}"}},
+        "remote_keyed": {"type": "http", "url": "https://mcp.example.invalid/mcp?key=${PROBE_TOKEN}"}}}))
+    (home / ".codex" / "config.toml").write_text(
+        '[mcp_servers.codex_bearer]\nurl = "https://mcp2.example.invalid/mcp"\n'
+        'bearer_token_env_var = "PROBE_TOKEN"\n')
+    return home.resolve()
+
+
+def env_argv(home):
+    body = {"protocol": 1, "home": str(home), "session": "agent-mcp-env-probe",
+            "mcp": {"local": ["inherit", "keyed", "defaulted", "home_ref"]}}
+    raw = base64.urlsafe_b64encode(json.dumps(body).encode()).decode().rstrip("=")
+    return [CCNM, "internal", "agent-skills", "--payload", raw]
+
+
+def ccnm_env_claude(out):
+    """对照：Claude Code 把自己的环境整个交给 MCP server。"""
+    out.mkdir(parents=True)
+    home, state = out / "home", out / "state"
+    home.mkdir()
+    state.mkdir()
+    argv = env_argv(env_home(out, None))
+    tool = "mcp__ccnm_agent__call_mcp_tool"
+    (state / "mcp.json").write_text(json.dumps({"mcpServers": {
+        "ccnm": {"type": "stdio", "command": sys.executable, "args": [str(TINY)]},
+        "ccnm_agent": {"type": "stdio", "command": argv[0], "args": argv[1:]}}}))
+    (state / "settings.json").write_text(json.dumps({"permissions": {
+        "allow": ["mcp__ccnm__read_file", "mcp__ccnm__apply_patch",
+                  *[f"mcp__ccnm_agent__{t}" for t in AGENT_TOOLS]],
+        "deny": DENY_BASE + ["Skill"]}}))
+
+    def script(n, req):
+        if tool not in [t.get("name") for t in req.get("tools") or []]:
+            return [{"type": "text", "text": "side ok"}], "end_turn"
+        done = sum(1 for m in req.get("messages", []) if isinstance(m.get("content"), list)
+                   for part in m["content"] if part.get("type") == "tool_result")
+        if done >= len(ENV_CALLS):
+            return [{"type": "text", "text": "all done"}], "end_turn"
+        return [{"type": "tool_use", "id": f"toolu_probe_{done}", "name": tool,
+                 "input": ENV_CALLS[done]}], "tool_use"
+
+    profile = out / "no-egress.sb"
+    profile.write_text(SANDBOX_PROFILE)
+    model = Model(out, script)
+    cmd = ["sandbox-exec", "-f", str(profile), CLAUDE, "--tools", "",
+           "--mcp-config", str(state / "mcp.json"), "--strict-mcp-config",
+           "--settings", str(state / "settings.json"), "--setting-sources", "user,project,local",
+           "--permission-mode", "acceptEdits", "--session-id", str(uuid.uuid4()),
+           "--print", "--output-format", "json", "--permission-prompts", "none",
+           "--no-session-persistence"]
+    env = {"HOME": str(home), "PATH": os.environ["PATH"], **PROBE_ENV,
+           "ANTHROPIC_BASE_URL": f"http://127.0.0.1:{model.port}",
+           "ANTHROPIC_API_KEY": "sk-ant-probe-not-a-real-key",
+           "DISABLE_TELEMETRY": "1", "DISABLE_ERROR_REPORTING": "1", "DISABLE_AUTOUPDATER": "1",
+           "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1"}
+    proc = subprocess.run(cmd, cwd=state, env=env, input=b"do the probe task",
+                          capture_output=True, timeout=300)
+    results = {}
+    for req in requests(out):
+        for m in req.get("messages", []):
+            for part in m.get("content") if isinstance(m.get("content"), list) else []:
+                if part.get("type") == "tool_result":
+                    content = part.get("content")
+                    results[part["tool_use_id"]] = {
+                        "is_error": bool(part.get("is_error")),
+                        "text": "\n".join(c.get("text", "") for c in content
+                                          if c.get("type") == "text")
+                        if isinstance(content, list) else content}
+    return {"scenario": "ccnm_env_claude", "rc": proc.returncode, "client_env": sorted(env),
+            "calls": ENV_CALLS, "results": results,
+            "stderr": proc.stderr.decode(errors="replace")[-400:]}
+
+
+def ccnm_env_codex(out):
+    """Codex 只把一部分环境交给 MCP server：配置里引用的变量它没交过来时，模型看到什么。"""
+    run = ccnm_codex_run(out, ["-c", "tool_output_token_limit=20000"], "gpt-5.1-codex",
+                         home_of=env_home, argv_of=env_argv, calls=ENV_CALLS, env_extra=PROBE_ENV,
+                         whole=True)
+    return {"scenario": "ccnm_env_codex", **run}
+
+
+def ccnm_codex_run(out, extra, model_name, home_of=None, argv_of=None, calls=None,
+                   env_extra=None, whole=False):
     out.mkdir(parents=True)
     home, work, codex_home = out / "home", out / "work", out / "codex-home"
     for d in (home, work, codex_home):
         d.mkdir()
     web, url = web_server(out)
-    argv = agent_argv(agent_home(out, url))
-    calls = [{"server": "fake", "tool": "echo", "arguments": NESTED},
-             {"server": "fake", "tool": "big"}]
+    argv = (argv_of or agent_argv)((home_of or agent_home)(out, url))
+    calls = calls or [{"server": "fake", "tool": "echo", "arguments": NESTED},
+                      {"server": "fake", "tool": "big"}]
 
     def respond(n, request):
         if model_name is None:
@@ -517,7 +690,8 @@ def ccnm_codex_run(out, extra, model_name):
             "-c", 'mcp_servers.ccnm_agent.default_tools_approval_mode="approve"',
             "-c", f"mcp_servers.ccnm_agent.enabled_tools={json.dumps(AGENT_TOOLS)}", "-"]
     (out / "no-egress.sb").write_text(SANDBOX_PROFILE)
-    env = {"HOME": str(home), "CODEX_HOME": str(codex_home), "PATH": os.environ["PATH"]}
+    env = {"HOME": str(home), "CODEX_HOME": str(codex_home), "PATH": os.environ["PATH"],
+           **(env_extra or {})}
     try:
         proc = subprocess.run(cmd, cwd=work, env=env, input=b"go", capture_output=True, timeout=180)
     finally:
@@ -531,13 +705,17 @@ def ccnm_codex_run(out, extra, model_name):
                 output = item.get("output")
                 text = output if isinstance(output, str) else \
                     "".join(x.get("text", "") for x in output if isinstance(x, dict))
+                if whole:
+                    outputs[item.get("call_id")] = {"text": text}
+                    continue
                 rows = sum(1 for line in text.splitlines() if line.startswith("line "))
                 outputs[item.get("call_id")] = {**summarize(text), "big_rows": rows,
                                                 "truncated_marker": "truncated" in text}
     first = reqs[0] if reqs else {}
     spaces = {t.get("name"): sorted(x.get("name") for x in t.get("tools", []))
               for t in first.get("tools", []) if t.get("type") == "namespace"}
-    return {"extra": list(extra), "rc": proc.returncode, "model": first.get("model"),
+    return {"extra": list(extra), "client_env": sorted(env), "rc": proc.returncode,
+            "model": first.get("model"),
             "namespaces": spaces, "calls": calls, "outputs": outputs,
             "stderr": proc.stderr.decode(errors="replace")[-600:]}
 

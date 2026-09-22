@@ -1,0 +1,57 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.154.0",
+    "ccnm": "ccnm 0.8.0"
+  },
+  "runs": [
+    {
+      "scenario": "ccnm_env_claude",
+      "rc": 0,
+      "client_env": [
+        "ANTHROPIC_API_KEY",
+        "ANTHROPIC_BASE_URL",
+        "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
+        "DISABLE_AUTOUPDATER",
+        "DISABLE_ERROR_REPORTING",
+        "DISABLE_TELEMETRY",
+        "HOME",
+        "PATH",
+        "PROBE_TOKEN"
+      ],
+      "calls": [
+        {},
+        {
+          "server": "inherit",
+          "tool": "env"
+        },
+        {
+          "server": "keyed",
+          "tool": "env"
+        },
+        {
+          "server": "codex_bearer"
+        }
+      ],
+      "results": {
+        "toolu_probe_0": {
+          "is_error": false,
+          "text": "MCP servers installed on the machine you run on (not the project machine):\n- codex_bearer (~/.codex/config.toml): not started\n- defaulted (~/.claude.json): not started\n- home_ref (~/.claude.json): not started\n- inherit (~/.claude.json): not started\n- keyed (~/.claude.json): not started\n- remote_keyed (~/.claude.json): not started\nCall call_mcp_tool with server=<name> to see its tools and their input schemas (that starts or connects to it), then with tool and arguments to call one."
+        },
+        "toolu_probe_1": {
+          "is_error": false,
+          "text": "{\"names\": [\"AI_AGENT\", \"CLAUDECODE\", \"COREPACK_ENABLE_AUTO_PIN\", \"DISABLE_AUTOUPDATER\", \"DISABLE_ERROR_REPORTING\", \"DISABLE_TELEMETRY\", \"HOME\", \"LC_CTYPE\", \"NoDefaultCurrentDirectoryInExePath\", \"PATH\", \"PROBE_TOKEN\", \"__CF_USER_TEXT_ENCODING\"], \"probe\": {\"PROBE_TOKEN\": \"probe-token-value\"}}"
+        },
+        "toolu_probe_2": {
+          "is_error": false,
+          "text": "{\"names\": [\"AI_AGENT\", \"CLAUDECODE\", \"COREPACK_ENABLE_AUTO_PIN\", \"DISABLE_AUTOUPDATER\", \"DISABLE_ERROR_REPORTING\", \"DISABLE_TELEMETRY\", \"HOME\", \"LC_CTYPE\", \"NoDefaultCurrentDirectoryInExePath\", \"PATH\", \"PROBE_KEY\", \"PROBE_TOKEN\", \"__CF_USER_TEXT_ENCODING\"], \"probe\": {\"PROBE_KEY\": \"probe-token-value\", \"PROBE_TOKEN\": \"probe-token-value\"}}"
+        },
+        "toolu_probe_3": {
+          "is_error": true,
+          "text": "CCNM_E_DEPENDENCY: MCP server codex_bearer did not start: cannot reach https://mcp2.example.invalid/mcp: curl: (6) Could not resolve host: mcp2.example.invalid"
+        }
+      },
+      "stderr": ""
+    }
+  ]
+}

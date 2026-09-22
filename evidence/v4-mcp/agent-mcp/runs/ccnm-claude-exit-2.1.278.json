@@ -1,0 +1,34 @@
+{
+  "hosts": {
+    "claude": "2.1.278 (Claude Code)",
+    "codex": "codex-cli 0.155.1"
+  },
+  "runs": [
+    {
+      "scenario": "ccnm_claude_exit",
+      "rc": 0,
+      "calls_ok": [
+        true,
+        true
+      ],
+      "curl_dirs_left": [
+        "ccnm-curl-20525-0"
+      ],
+      "fake_servers_left": 0,
+      "stderr": "",
+      "build": "0.9.0 at f2baec7 (per-connection directory)"
+    },
+    {
+      "scenario": "ccnm_claude_exit",
+      "rc": 0,
+      "calls_ok": [
+        true,
+        true
+      ],
+      "curl_dirs_left": [],
+      "fake_servers_left": 0,
+      "stderr": "",
+      "build": "0.9.0 + per-request directory"
+    }
+  ]
+}
