@@ -103,7 +103,7 @@ context7 在开发机上是 `npx` 起的本机进程，配置里和 Filesystem �
 
 ### 5.3 HTTP 怎么连
 
-ccnm 没有 HTTP 客户端（第 3 步刻意没带），而第 4 步默认给的恰好全是 HTTP 的。用 Agent 上系统自带的 `curl`：TLS、HTTP/2、代理变量都是它的，ccnm 不多一套 TLS 依赖。地址和请求头写进只有本账号能读的临时文件交给 `curl -K`，不上命令行（exa 的 key 就在地址里）。拆 SSE 那一段和 gld 同一份（`toexec-mcp` 的 `sse`）。实测真实 DeepWiki 经它读全 407 KB。
+ccnm 没有 HTTP 客户端（第 3 步刻意没带），而第 4 步默认给的恰好全是 HTTP 的。用 Agent 上系统自带的 `curl`：TLS、HTTP/2、代理变量都是它的，ccnm 不多一套 TLS 依赖。地址和请求头写进只有本账号能读的临时文件交给 `curl -K`，不上命令行（exa 的 key 就在地址里），**这一条请求结束就删**——Claude Code 退出时强杀 MCP server、不关 stdin，等会话结束再删的话文件会留在盘上（2026-09-23 真机轮查出来的，[证据](../../evidence/v4-mcp/agent-mcp/README.md#2026-09-23-补测)）。拆 SSE 那一段和 gld 同一份（`toexec-mcp` 的 `sse`）。实测真实 DeepWiki 经它读全 407 KB，Linux（Debian 13）上也一样。
 
 ### 5.4 附带修掉的两处
 
