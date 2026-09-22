@@ -40,14 +40,14 @@ Owner：xwfe\
 
 **只能收窄，不能放宽**：产品自己的设置（gld 的 `tool-profile`、ccnm 的 `external_mcp = "read"`、skill 自己 frontmatter 里的 `disable-model-invocation`）先决定上限，这个文件只能在上限里再关掉一些。写 `"on"` 不会把一个 frontmatter 说只给用户的 skill 放给模型。
 
-**改完就生效**：gld 每次列工具、调工具都会看文件有没有变；ccnm 每个会话开始时读一次。已经连着的客户端可能缓存了旧的工具表，但被关掉的工具调了也会被拒。
+**改完就生效**：gld 每次列工具、调工具都重读一遍（文件只有几百字节），不用重启；ccnm 每个会话开始时读一次，下一个会话生效。已经连着的客户端可能缓存了旧的工具表，但被关掉的工具调了也会被拒。
 
 **写错会怎样**：
 
 - 文件不存在：什么都不收窄，和以前一样。
-- JSON 写坏了、字段类型不对、档位拼错（比如 `"hidden"`）：**拒绝服务并指出哪一处**（gld 列工具时报错，ccnm 会话打不开）。这时退回"什么都不收窄"等于把你想关的又打开了，所以宁可停。
-- 工具名写错（`"exec_comand"`）：服务照常，`gld doctor` / `ccnm doctor` 报出来。工具名随版本增减，旧名字让整个服务停掉代价太大；但写错的那个工具**照样暴露着**，所以 doctor 要把它当失败项。
-- `mcpServers` 里别的条目（比如 `context7`）和它们的 `command` / `url`：这一版不读、不启动，也不报错。
+- JSON 写坏了、字段类型不对、档位拼错（比如 `"hidden"`）：**拒绝服务并指出哪一处**。gld 一个工具都不给，`tools/list` 以错误返回原因（形如 `~/.agents/mcp.json: mcpServers.gld.disabledTools: expected an array of tool names`）；ccnm 会话打不开，报 `CCNM_E_CONFIG`。这时退回"什么都不收窄"等于把你想关的又打开了，所以宁可停。
+- 工具名写错（`"exec_comand"`）：服务照常，`gld doctor` / `ccnm doctor` 的"暴露规则"一行报失败，ccnm 的 `workspace_info` 也会列出来。工具名随版本增减，旧名字让整个服务停掉代价太大；但写错的那个工具**照样暴露着**，所以要当失败报。
+- `mcpServers` 里别的条目（比如 `context7`）的 `command` / `url`：这一版不读、不启动。条目本身必须是对象（`{...}`），否则按写坏处理。
 
 ## 背景与动机
 
@@ -79,13 +79,13 @@ gld 现在只能按来源整批开关 skills（`skill-sources`），工具只有
 
 **文件位置**：`$HOME/.agents/mcp.json`，没有别的环境变量。ccnm 的工具跑在 Runtime 上、以执行账号的身份，所以读的是**执行账号**的 HOME——专用执行账号（比如 `ccrun`）要在它自己的 HOME 下写。
 
-**gld**：hub 的 `tools/list`、`tools/call`、`workspace_context`、`gld tool list` 都过同一个判断；skill 目录、`list_skills`、`get_skill` 按档处理。`user-invocable-only` 沿用 gld 对 `disable-model-invocation` 的做法（不进目录，点名时照样能 `get_skill`，正文前注明）。缓存按文件修改时间，改了下一次请求就读新的。
+**gld**：hub 的 `tools/list`、`tools/call`、`workspace_context`、`gld tool list` 都过同一个判断；skill 目录、`list_skills`、`get_skill` 按档处理。`user-invocable-only` 沿用 gld 对 `disable-model-invocation` 的做法（不进目录，点名时照样能 `get_skill`，正文前注明）。不缓存，每次用到都重读。
 
 **ccnm**：`internal mcp-serve` 打开会话时读一次，和 `external_mcp` 的读写模式叠加：工具不列、调用拒；`load_skill` 的目录、`load_skill` 本身、MCP prompts 按档处理。`user-invocable-only` 沿用 ccnm 对 `disable-model-invocation` 的做法（模型调用 `load_skill` 被拒，prompt 可用）。受管会话 Agent 一侧的放行清单不用改：Runtime 没列的工具，放行了也调不到。
 
 ## 缺点
 
-- 多了一个要找的地方：工具没了，原因可能在 `tool-profile`、`external_mcp`，也可能在这个文件。所以两边的 doctor 和 `gld tool list` 都要说明是被哪条规则关的。
+- 多了一个要找的地方：工具没了，原因可能在 `tool-profile`、`external_mcp`，也可能在这个文件。所以两边的 doctor 都有一行"暴露规则"列出这个文件关掉的工具，按名字硬调被关的工具时也会指出是哪条规则；`gld tool list` 只是不列它们，不单独说明。
 - 条目名固定成 `gld` / `ccnm`：如果你的客户端配置里恰好也用这个名字定义了别的东西，这里会被当成 gld / ccnm 的规则。
 - 工具名写错时不停服务，写错的工具照样暴露——只能靠 doctor 提醒。
 
@@ -104,7 +104,7 @@ gld 现在只能按来源整批开关 skills（`skill-sources`），工具只有
 
 ## 影响分析
 
-- 性能：gld 每次列工具、调工具多一次 `stat`，文件变了才重读；ccnm 每个会话读一次。
+- 性能：gld 每次列工具、调工具多读几次一个几百字节的文件；ccnm 每个会话读一次。
 - 安全：只收窄。坏配置拒绝服务而不是放行。ccnm 读的是执行账号 HOME 下的文件，执行账号本身能改它——和它能改自己的 `~/.config/ccnm/config.toml` 是同一个信任面，不比现在更差；但也意味着这个文件**不是**对模型的约束：模型经 `exec_command` 能改它，下一个会话就生效。要约束模型，用 ccnm 的 `external_mcp` / 执行门或 gld 的 `tool-profile`。
 - 兼容性：文件不存在时行为和以前逐字节相同。ccnm 冻结的 Remote Workspace MCP 契约里的工具表是"不收窄时"的样子，收窄等同于 `read` 模式那种按 Runtime 配置少给工具，协议文档注明。
 - 运维：doctor 各加一项。
@@ -118,3 +118,13 @@ gld 现在只能按来源整批开关 skills（`skill-sources`），工具只有
 
 - 项目里的 `.agents/mcp.json`：只允许**再收窄**（项目文件模型能写，不能让它放开用户关掉的东西）。
 - 第二、三层：`mcpServers` 里其他条目的定义已经在同一个文件里，开关语义（`enabledTools` / `disabledTools`）不用改。
+
+## 落地记录（2026-09-22）
+
+| 仓库 | 提交 | 内容 |
+| --- | --- | --- |
+| toexec | `3c1b478`（tag `toexec-agents-v0.1.0`） | 共享解析，8 条单元测试 |
+| ccnm | `b5915b9`（P47） | 工具在 `call_tool` 总入口拦、skills 四档作用在目录 / 列表 / `load_skill` / prompts；`workspace_info` 列出关掉的和写错的；doctor 新行"暴露规则"（敲命令的不是执行账号时跳过并说该去哪看）；7 条新测试，其中 2 条经真实二进制 |
+| gld | `3bd2384`、`572f04c` | 收在 `exposed_tool_names` 一处，hub 自有工具另过一遍；skills 收在 `current_skill_scan`；doctor 新行；CLI 测试给守护进程设临时 HOME；6 条新测试，其中 2 条经真实服务（不重启就生效、写坏时 `tools/list` 报原因） |
+
+**没验的**：真实 AI 客户端连上来之后的表现（缓存了旧工具表的客户端调被关的工具，只有服务端的拒绝兜底，客户端怎么显示没看）；Linux 上没跑。
