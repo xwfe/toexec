@@ -1,0 +1,35 @@
+initialize mentions relay: True
+tools/list: 31 tools, 37065 bytes; relay tools: ['list_mcp_tools', 'call_mcp_tool', 'read_mcp_result']
+list_mcp_tools description: MCP servers installed on the machine this service runs on, relayed through this service. Turned on here: context7 (local process), deepwiki (remote URL), exa-search (remote URL), Filesystem (local process), mcp-time (local process). Without arguments: those se
+relay tools need workspace: False
+
+overview: [{"kind": "local process", "name": "context7", "state": "not started"}, {"kind": "remote URL", "name": "deepwiki", "state": "not started"}, {"kind": "remote URL", "name": "exa-search", "state": "not started"}, {"kind": "local process", "name": "Filesystem", "state": "not started"}, {"kind": "local process", "name": "mcp-time", "state": "not started"}]
+
+list context7: 2 tools, 11758 bytes, 1.4s, omitted=None, instructions=632B
+    ['resolve-library-id', 'query-docs']
+
+list deepwiki: 3 tools, 9170 bytes, 0.9s, omitted=None, instructions=3097B
+    ['ask_wiki_question', 'read_wiki_contents', 'read_wiki_structure']
+
+list exa-search: 3 tools, 13925 bytes, 0.7s, omitted=None, instructions=0B
+    ['web_search_exa', 'web_search_advanced_exa', 'web_fetch_exa']
+
+list mcp-time: 2 tools, 3096 bytes, 1.1s, omitted=None, instructions=0B
+    ['get_current_time', 'convert_time']
+
+list Filesystem: 14 tools, 20050 bytes, 0.9s, omitted=None, instructions=0B
+    ['read_file', 'read_text_file', 'read_media_file', 'read_multiple_files', 'write_file', 'edit_file', 'create_directory', 'list_directory', 'list_directory_with_sizes', 'directory_tree', 'move_file', 'search_files', 'get_file_info', 'list_allowed_directories']
+
+mcp-time get_current_time: isError False text 123 chars {'gld/mcp_server': 'mcp-time', 'gld/mcp_tool': 'get_current_time'}
+
+context7 resolve-library-id: False 1638 chars, 2.1s
+
+deepwiki read_wiki_contents: response 67897 bytes; False structured; 2 text items
+  first part 65520 bytes; note: [gld: this result is 406840 bytes, too long to return at once; this part is bytes 0-65520. Next part: read_mcp_result ref=rfd72fe61ef52 offset=65520. Kept for 10 minutes.]
+  read back in 2 more calls: 406840 bytes total; last note: [gld: bytes 327654-406840 of 406840; that is the end]
+
+unknown tool: MCP_TOOL_UNKNOWN MCP server deepwiki has no tool no_such_tool. It has: ask_wiki_question, read_wiki_contents, read_wiki_structure
+not turned on: MCP_SERVER_UNKNOWN No MCP server desktop-commander here. Turned on: context7, deepwiki, exa-search, Filesystem, mcp-time
+Filesystem list_allowed_directories: isError False text 41 chars
+
+overview after: [('context7', 'running', 2), ('deepwiki', 'running', 3), ('exa-search', 'running', 3), ('Filesystem', 'running', 14), ('mcp-time', 'running', 2)]

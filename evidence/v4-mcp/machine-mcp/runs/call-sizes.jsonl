@@ -1,0 +1,5 @@
+context7 tools ['resolve-library-id', 'query-docs']
+{"call": "context7 resolve-library-id react", "error": null, "isError": null, "content_items": [["text", 1638]], "structured_bytes": null, "total_bytes": 1718}
+{"call": "context7 query-docs", "error": null, "isError": null, "content_items": [["text", 7199]], "structured_bytes": null, "total_bytes": 7486}
+{"call": "deepwiki read_wiki_structure", "error": null, "isError": false, "content_items": [["text", 1197]], "structured_bytes": 1253, "total_bytes": 2576}
+{"call": "deepwiki read_wiki_contents", "error": null, "isError": false, "content_items": [["text", 406748]], "structured_bytes": 419514, "total_bytes": 839098}
