@@ -169,13 +169,26 @@ for found in inject::find(body) {
 }
 ```
 
-### 三块各自的规矩
+skill 目录里的其他文件（0.3.0 起）——skill 装在项目外面、产品的读文件工具又只读项目时，靠它读附件：
+
+```rust
+use toexec_skill::dir;
+
+let skill = Path::new("/home/me/.claude/skills/pdf");   // 可以是指向别处的符号链接
+let listing = dir::list(skill);                         // ["reference.md", "scripts/fill.py"]，more=超过 100 个
+let real = dir::resolve(skill, "scripts/fill.py")?;     // 只许在这个目录里、不许点文件
+// 产品要插自己的检查就放在这两步中间（gld 在这里拒绝它自己的数据目录）
+let text = dir::read_text(&real, 256 * 1024)?;          // 普通文件、不超过上限、必须是 UTF-8
+```
+
+### 四块各自的规矩
 
 | 模块 | 规矩 |
 | --- | --- |
 | `frontmatter` | **读法照 Claude Code 2.1.278**：先严格按 YAML 读；读不了，照宿主的规则给顶层带特殊字符的值加引号、行首 tab 换空格再读；还读不了（宿主此时把整段当空的），用宽松读法读出来，`reading()` 标成 `Lenient`。读得了：单行值、引号（可跨行）、`>` / `|` 块标量、`- ` 列表、缩进嵌套、`[a, b]` 和 `{k: v}`（可跨行、嵌套）。仍然报错的：引号没闭合、转义写错、缩进里的 tab、锚点/别名/标签出现在嵌套的位置、嵌套超过 32 层 |
 | `args` | 对的是 Claude Code 2.1.273 的实际行为，不只是文档：`$N` 和 `$ARGUMENTS[N]` 没给到就**原样留着**；声明过的 `$name` 没给到是空串；`\$0` 转义；一个都没换成而又给了参数，就在末尾补 `ARGUMENTS: …` |
 | `inject` | `` !`cmd` `` 和 ```` ```! ```` 代码块。普通代码块里的不算——文档里举例写一个，不是在要求执行它 |
+| `dir` | 只收普通相对路径（`..`、绝对路径报 `NotRelative`）；跟着符号链接解析完还得在 skill 目录里（否则 `Outside`）；解析后的路径上任何一段以 `.` 开头都拒绝（`Hidden`，指向 `.secret` 的 `visible.txt` 也算）。`list` 不列顶层 `SKILL.md`、点文件和符号链接本身，最多 4 层、100 个，同层按名字排 |
 
 ### 容易踩的几处
 
@@ -187,10 +200,12 @@ for found in inject::find(body) {
 - **`words` 只按空白切**（文档原话 "space-separated"），逗号是名字的一部分，纯数字的名字丢掉——和宿主一样。
 - **frontmatter 读不了时，整个文件的 frontmatter 都拿不到**，不会给你读了一半的结果。`ParseError` 里有行号（frontmatter 里的第几行）和分类，报错怎么措辞由你定。
 - **`hooks:` 这种三层嵌套也读得进来**，哪怕你根本不用它：读不过去的话，带 hooks 的 skill 连名字都拿不到。
+- **`dir::ReadError` 只说是哪一种，措辞和错误码由你定。** 两个产品对"越界"报的码不同（gld `SKILL_FILE_OUTSIDE`，ccnm `CCNM_E_POLICY`），这是它们各自的对外契约。
+- **skill 目录本身是符号链接很正常**（`skills` CLI 把每个都从 `~/.agents/skills` 链进 `~/.claude/skills`），`resolve` 先把目录解析成真实路径再圈范围，所以链进来的 skill 照样能读自己的文件，而指到目录外的链接照样被拒。
 
 ### 这个 crate 不管的事
 
-去哪些目录找 skill、最多收多少个、目录怎么排版、经什么通道交给模型。两个产品在这几件事上各不相同。
+去哪些目录找 skill、最多收多少个、目录怎么排版、经什么通道交给模型、一次读多少（ccnm 分段 64 KiB，gld 整个文件最多 256 KiB）。两个产品在这几件事上各不相同。
 
 ### 拿什么验的
 

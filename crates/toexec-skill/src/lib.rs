@@ -9,18 +9,20 @@
 //! 要挤进 2048 个 UTF-16 码元，gld 是 50 条 × 250 字符），而且跑不跑命令是
 //! 安全决定，不是解析细节。
 //!
-//! 三块纯机制：
+//! 四块纯机制：
 //!
 //! ```text
 //! frontmatter::split / parse   拆出 frontmatter，读成键值
 //! args::split / substitute     切参数，换 $ARGUMENTS、$0、$name、${CLAUDE_SKILL_DIR}
 //! inject::find                 找出正文里的 !`命令` 和 ```! 代码块
+//! dir::list / resolve / read_text  列出、读取 skill 目录里的其他文件（只在它自己的目录里）
 //! ```
 //!
 //! 字段语义以 Claude Code 官方文档的 skills 一页和 Agent Skills 规范
 //! （agentskills.io/specification）为准。
 
 pub mod args;
+pub mod dir;
 pub mod frontmatter;
 pub mod inject;
 
