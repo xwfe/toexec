@@ -1,6 +1,6 @@
 # 实施方案 v4：gld / ccnm 用上两台机器上已经装好的 skills 和 MCP server
 
-日期：2026-09-22。状态：**第 1 步（skills）做完，第 2–4 步没开工**。产品进度仍由各自仓库记录（ccnm 的 `docs/plan/status.json`、gld 的 RFC）；这里只放跨仓的决定和顺序。
+日期：2026-09-22。状态：**第 1 步（skills）、第 2 步（gld 转本机 MCP server）做完，第 3–4 步没开工**。产品进度仍由各自仓库记录（ccnm 的 `docs/plan/status.json`、gld 的 RFC）；这里只放跨仓的决定和顺序。
 
 承接 [v3 方案](implementation-plan-v3-native-parity.md)：v3 让 gld / ccnm 自己的工具对齐原生能力，外加**项目里**的 skills。v4 回答下一个问题——**用户已经在两台机器上装好的 skills 和 MCP server，怎么也用上**。
 
@@ -15,11 +15,11 @@
 | 步 | 做什么 | 为什么排这里 | 状态 |
 | --- | --- | --- | --- |
 | 1 | 两台机器上装好的 skills | 只读、风险最低，用户点名先做 | **做完**（ccnm P48，gld 同步） |
-| 2 | gld 聚合本机装好的 MCP server，经它一个入口交给 ChatGPT 这类 Web AI | Web AI 用上本机 MCP 的唯一办法 | 没开工 |
+| 2 | gld 聚合本机装好的 MCP server，经它一个入口交给 ChatGPT 这类 Web AI | Web AI 用上本机 MCP 的唯一办法 | **做完**（gld RFC-0006） |
 | 3 | ccnm 在 Runtime 上代理 MCP server（含项目自带的 `.mcp.json`） | 数据库这类只能在项目旁边跑的 server | 没开工 |
 | 4 | ccnm 会话接 Agent 上装好的 MCP server | 技术上最简单、风险最大：Filesystem、desktop-commander 这类一接进来就绕过"项目只能经 Runtime 碰到"的保证 | 没开工 |
 
-"默认"按产品分：**ccnm 默认全开**（用户定）；gld 可能挂在公网隧道上，第 2 步的 MCP 聚合默认只放网络类 server，skills 维持 gld 现有的默认。
+"默认"按产品分：**ccnm 默认全开**（用户定）；gld 可能挂在公网隧道上，skills 维持 gld 现有的默认，第 2 步的 MCP 转发**默认一个都不开、按名字开**（原来写的"默认只放网络类"实测做不到，见 3.3）。
 
 "已安装"的清单直接读各家现成的配置，不让用户再写一份：skills 读 `~/.claude/skills`、`~/.agents/skills`、`~/.codex/skills`、`~/.claude/commands`；MCP server（第 2–4 步）读 `~/.claude.json` 的 user 级 `mcpServers` 和 `~/.codex/config.toml` 的 `mcp_servers`。另外只需要一份"放行 / 藏哪些"的清单。
 
@@ -54,8 +54,29 @@
 
 各仓记录里有逐项清单。toexec 这边是 `toexec-skill` 的 `dir` 模块——gld 的 `get_skill` 也在用，删之前把它挪回 gld。
 
-## 3. 第 2–4 步只记开放问题
+## 3. 第 2 步：gld 转本机 MCP server
 
-- 第 2 步：gld 聚合时工具怎么命名（`<server>__<tool>`？）、公网隧道下默认放行哪些、server 起不来 / 超时怎么报、一次调用的超时和输出上限。
+实测在 [`evidence/v4-mcp/machine-mcp/`](../../evidence/v4-mcp/machine-mcp/README.md)，gld 的决定和删除清单在 gld [RFC-0006](https://github.com/xwfe/gld/blob/main/docs/rfc/0006-machine-mcp.md)。这里只记跨仓要知道的。
+
+### 3.1 做法
+
+- 读 `~/.claude.json` 的 `mcpServers` 和 `$CODEX_HOME/config.toml` 的 `[mcp_servers.*]`，同名时 Claude 的那份生效；gld 自己只存一份"开了哪几个"（`gld mcp on/off`）。
+- 模型看到三个服务级工具：`list_mcp_tools`、`call_mcp_tool`、`read_mcp_result`，不把每个 server 的工具平铺进工具表（开发机上 playwright 一家 21 KB，而 ChatGPT 只在连上时读一次工具表）。
+- 连接按"server + 调用方"分、用到才开、闲 5 分钟收；stdio 的起在自己的进程组里，关的时候连子进程一起收。
+
+### 3.2 会不会丢信息、数据量大不大
+
+deepwiki 的 `read_wiki_contents` 一次 839 KB（407 KB 正文 + 一份内容相同的 `structuredContent`）。gld：有文字时不带那份重复的；文字一次交 64 KiB，剩下的留 10 分钟，`read_mcp_result` 接着读——实测三次读全 406,840 字节。单条超过 16 MiB 的后半截、单个超过 5 MiB 的图片会丢，都在结果里写明。
+
+### 3.3 默认为什么不是"只放网络类"
+
+context7 在开发机上是 `npx` 起的本机进程，配置里和 Filesystem 长得一样，从配置分不出谁只走网络。所以 gld 默认全关、按名字开；ccnm 第 4 步要分"网络类"时会撞上同一个问题，到时要么也按名字，要么只把远端 URL 那一类算网络类。
+
+### 3.4 共用代码为什么还没进 toexec
+
+读两份配置的代码（gld `machine_mcp/installed.rs`）第 3、4 步 ccnm 都要用，但这一步只有 gld 在用，而读 Codex 的 TOML 要 `toml` 库——toexec 的规矩是"两个产品都在用才进来"和"不加依赖"。所以它先留在 gld、只依赖标准库 + serde_json + toml，第 3 步 ccnm 要用时整个搬成 `toexec-mcp`，那时对"不加依赖"单独破例并写明理由。
+
+## 4. 第 3–4 步只记开放问题
+
 - 第 3 步：Runtime 上以执行账号起 server，风险和 `exec_command` 同级，要不要过同一道执行门；gld hub 的 G1 白名单是静态的，要动态透传。
 - 第 4 步：哪些 server 算"只走网络"（context7、exa、deepwiki、mcp-time），哪些碰本机（Filesystem、desktop-commander、playwright、Puppeteer、frida、idapro），默认怎么定。
