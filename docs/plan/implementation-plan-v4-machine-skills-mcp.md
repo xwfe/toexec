@@ -1,6 +1,6 @@
 # 实施方案 v4：gld / ccnm 用上两台机器上已经装好的 skills 和 MCP server
 
-日期：2026-09-22。状态：**第 1 步（skills）、第 2 步（gld 转本机 MCP server）做完，第 3–4 步没开工**。产品进度仍由各自仓库记录（ccnm 的 `docs/plan/status.json`、gld 的 RFC）；这里只放跨仓的决定和顺序。
+日期：2026-09-22。状态：**第 1–3 步做完**（skills；gld 转本机 MCP server；ccnm 转项目那台机器上的 MCP server），第 4 步没开工。产品进度仍由各自仓库记录（ccnm 的 `docs/plan/status.json`、gld 的 RFC）；这里只放跨仓的决定和顺序。
 
 承接 [v3 方案](implementation-plan-v3-native-parity.md)：v3 让 gld / ccnm 自己的工具对齐原生能力，外加**项目里**的 skills。v4 回答下一个问题——**用户已经在两台机器上装好的 skills 和 MCP server，怎么也用上**。
 
@@ -16,7 +16,7 @@
 | --- | --- | --- | --- |
 | 1 | 两台机器上装好的 skills | 只读、风险最低，用户点名先做 | **做完**（ccnm P48，gld 同步） |
 | 2 | gld 聚合本机装好的 MCP server，经它一个入口交给 ChatGPT 这类 Web AI | Web AI 用上本机 MCP 的唯一办法 | **做完**（gld RFC-0006） |
-| 3 | ccnm 在 Runtime 上代理 MCP server（含项目自带的 `.mcp.json`） | 数据库这类只能在项目旁边跑的 server | 没开工 |
+| 3 | ccnm 在 Runtime 上代理 MCP server（含项目自带的 `.mcp.json`） | 数据库这类只能在项目旁边跑的 server | **做完**（ccnm P49，gld hub 同步；共用代码成了 `toexec-mcp` 0.1.0） |
 | 4 | ccnm 会话接 Agent 上装好的 MCP server | 技术上最简单、风险最大：Filesystem、desktop-commander 这类一接进来就绕过"项目只能经 Runtime 碰到"的保证 | 没开工 |
 
 "默认"按产品分：**ccnm 默认全开**（用户定）；gld 可能挂在公网隧道上，skills 维持 gld 现有的默认，第 2 步的 MCP 转发**默认一个都不开、按名字开**（原来写的"默认只放网络类"实测做不到，见 3.3）。
@@ -72,11 +72,19 @@ deepwiki 的 `read_wiki_contents` 一次 839 KB（407 KB 正文 + 一份内容�
 
 context7 在开发机上是 `npx` 起的本机进程，配置里和 Filesystem 长得一样，从配置分不出谁只走网络。所以 gld 默认全关、按名字开；ccnm 第 4 步要分"网络类"时会撞上同一个问题，到时要么也按名字，要么只把远端 URL 那一类算网络类。
 
-### 3.4 共用代码为什么还没进 toexec
+### 3.4 共用代码什么时候进的 toexec
 
-读两份配置的代码（gld `machine_mcp/installed.rs`）第 3、4 步 ccnm 都要用，但这一步只有 gld 在用，而读 Codex 的 TOML 要 `toml` 库——toexec 的规矩是"两个产品都在用才进来"和"不加依赖"。所以它先留在 gld、只依赖标准库 + serde_json + toml，第 3 步 ccnm 要用时整个搬成 `toexec-mcp`，那时对"不加依赖"单独破例并写明理由。
+第 2 步时只有 gld 在用，按 toexec 的规矩（"两个产品都在用才进来"）留在 gld；第 3 步 ccnm 也要了，就整块搬成 `toexec-mcp` 0.1.0：读配置、握手调用、子进程通道、连接池、结果整理。它是 toexec 里第一个有依赖的 crate（serde_json、toml），例外写在 `docs/development.md` 第 3 条。gld 那边删掉自己那份、改链它，行为没变（跟着代码搬走的测试在 toexec 里接着跑）。
 
-## 4. 第 3–4 步只记开放问题
+## 4. 第 3 步：ccnm 转项目那台机器上的 MCP server
 
-- 第 3 步：Runtime 上以执行账号起 server，风险和 `exec_command` 同级，要不要过同一道执行门；gld hub 的 G1 白名单是静态的，要动态透传。
+实测在 [`evidence/v4-mcp/runtime-relay/`](../../evidence/v4-mcp/runtime-relay/README.md)，ccnm 的设计和删除清单在 ccnm 的 P49 记录。
+
+- **一个工具 `call_mcp_tool`**：不带参数列 server，带 `server` 列它的工具（这一步才起它），再带 `tool` 和 `arguments` 调用。一个而不是 gld 那样三个，是因为起 server 就是以执行账号跑程序：在有人值守的会话里它得和 `exec_command` 一样每次都问人，分成"列"和"调"两个工具只会多问一次。大结果接 ccnm 现成的 `read_output`（同一个留存目录、同一套上限和过期），不另加工具。
+- **哪些 server**：项目的 `.mcp.json` 在前、同名压过执行账号装的（Claude Code 的 project > user）。只转 stdio 的：HTTP 的不需要跑在项目旁边，从 Agent 那边连（第 4 步），列出来并写明原因。
+- **默认全开**（用户定），但过的门和 `exec_command` 一样：只有能写的会话有这个工具，执行门和 Runtime 凭据检查在起 server 之前，工作区配了 OS 沙箱就套沙箱（没网络），环境按命令的规矩清理。配置里给 server 的 token 照传；Agent 的登录变量不传，`${VAR}` 也查不到像凭据的名字。会话结束时先停 server 再放写锁。开关是 Runtime 自己的 `[runtime_mcp]`（`enabled`、`project`、`hidden`）。
+- **gld hub**：多一个静态的 `remote_call_mcp_tool`（coding 会话里），原来担心的"白名单是静态的、要动态透传"不成问题——远端的工具面就这一个固定的工具。远端没有可转的 server 时 ccnm 不列它，hub 报"那边没东西可转"，不报"升级 ccnm"。
+
+## 5. 第 4 步只记开放问题
+
 - 第 4 步：哪些 server 算"只走网络"（context7、exa、deepwiki、mcp-time），哪些碰本机（Filesystem、desktop-commander、playwright、Puppeteer、frida、idapro），默认怎么定。
