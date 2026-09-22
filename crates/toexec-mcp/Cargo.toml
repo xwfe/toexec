@@ -1,7 +1,7 @@
 [package]
 name = "toexec-mcp"
 description = "gld 与 ccnm 共用的 MCP 转发机制：读装好的 server、握手调用、子进程通道、连接池、结果整理"
-version = "0.1.0"
+version = "0.2.0"
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
@@ -9,7 +9,7 @@ license.workspace = true
 # toexec 里第一个有依赖的 crate。JSON-RPC 和两种配置格式（JSON、TOML）就是它
 # 要处理的东西，手写解析器只会更糟；版本跟两个产品已经在用的一样
 # （ccnm 两个都有，gld 的 toml 是 v4 第 2 步加的）。仍然不碰 tokio、不碰
-# 任何产品的类型：HTTP 通道、进程怎么起怎么杀，留在产品那边。
+# 任何产品的类型：HTTP 请求怎么发、进程怎么起怎么杀，留在产品那边。
 [dependencies]
 serde_json = "1"
 toml = "0.9"
