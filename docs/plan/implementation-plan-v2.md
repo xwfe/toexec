@@ -20,7 +20,7 @@
 
 ### 0.1 最终目标：三种客户端 × 三种操作系统（用户 2026-09-17 明确）
 
-Claude Code、Codex CLI、Web AI（经 gld hub）三种客户端，在 macOS、Linux、Windows 三种操作系统上都能用同一条执行路径。封存原生链就是为了只剩一条路径可做跨平台。**这是目标，不是计划**：Windows 那一列还没有任何设计，要另立 RFC。当前覆盖（汇总；事实以 ccnm `docs/support-matrix.md` 和 gld `docs/install.md` 为准，两边有出入以那两处为准）：
+Claude Code、Codex CLI、Web AI（经 gld hub）三种客户端，在 macOS、Linux、Windows 三种操作系统上都能用同一条执行路径。封存原生链就是为了只剩一条路径可做跨平台。**这是目标，不是计划**：Windows 那一列只有"当 Runtime"排了期（见本节末尾），其余没有设计。当前覆盖（汇总；事实以 ccnm `docs/support-matrix.md` 和 gld `docs/install.md` 为准，两边有出入以那两处为准）：
 
 | 客户端 | macOS | Linux | Windows |
 | --- | --- | --- | --- |
@@ -28,7 +28,7 @@ Claude Code、Codex CLI、Web AI（经 gld hub）三种客户端，在 macOS、L
 | Codex CLI（ccnm MCP 路径） | Agent 与 Runtime 都真机验过 | 当 Runtime 未在 MCP 路径上单独验过（P24 在 Debian 上验的是已封存的原生链）；当 Agent 未验收 | 不支持 |
 | Web AI（gld hub → ccnm bridge） | hub 与 Runtime 跨两台真机验过（两台都是 macOS） | gld 本地二进制实机验过；hub → ccnm → Linux Runtime 没有用 gld 验过（ccnm 在 Debian 13 上验过的外部 MCP，Host 是 Claude Code） | gld 本地每次发版构建、CI 编译检查，未真机跑过；hub 连远端要本机有 ccnm，而 ccnm 不跑 Windows |
 
-Windows 缺的不是一个平台分支：ccnm 的 Agent 半边靠 launchd 和 tmux，Runtime 半边靠 sshd、Unix 进程组和 `ps` / `/proc`；gld 有 Windows 的命名管道实现但没真机跑过。先定 Windows 当 Agent、当 Runtime、还是两者都要，再谈方案。
+Windows 缺的不是一个平台分支：ccnm 的 Agent 半边靠 launchd 和 tmux，Runtime 半边靠 sshd、Unix 进程组和 `ps` / `/proc`；gld 有 Windows 的命名管道实现但没真机跑过。2026-10-24 用户定了先只做 Windows 当 Runtime（项目机器），Agent 照旧是 macOS 或 Linux：设计、决定和未知项在 ccnm 的 `docs/plan/windows-runtime.md`，排成 ccnm P106–P112，进度看 ccnm 的 `docs/plan/status.json`。其中绕不开的 Windows unsafe 代码放进 toexec 新开的一个 crate（第一版只做"不让子进程继承标准句柄"），为什么不违反"进程与输出不共享"见 `evidence/v2-k/duplication-audit.md` 那一节末尾。Windows 当 Agent 还没有设计。上表的 Windows 一列等 P112 真机验收后再改。
 
 **MCP 可以接不同执行器，但协议能接通不等于整体值得替换。** V2-P1 保留无模型验证；只有它证明收益大于成本，才继续 Claude 专用接入。验证不通过就维持共享库路径，不阻塞 hub 或自动扩大执行端 fork 范围。
 

@@ -86,6 +86,15 @@ v2 第 6.2 节要求两边各自保留，所以编辑算法本来就不在共享
 要共享就得先统一执行模型，那是把 ccnm 拖进 async，或者把 gld 的会话机制拆开。
 代价远大于当前能省的重复。
 
+**2026-10-24 补记：** ccnm 要支持 Windows 当 Runtime（ccnm 的
+`docs/plan/windows-runtime.md`，P106–P112），用户定把绕不开的 Windows unsafe
+代码放进 toexec 新开的一个 crate。这条不推翻上面的结论：上面挡的是执行模型（同步
+还是 async、会话怎么管、输出放哪），新 crate 只放跟执行模型无关的系统调用包装，
+第一版只有"把本进程标准输入输出句柄改成不可继承"一件事。为什么非放不可：ccnm 整个
+workspace 禁 unsafe，而 Rust 在 Windows 上起子进程会交出全部可继承句柄
+（rust-lang/rust#38227），后台命令拿到 mcp-serve 的 SSH 通道后连接关不掉。gld 自己
+有一份同样的代码，换不换由 gld 定。
+
 ### 搜索：匹配逻辑不重复，读行重复
 
 ccnm 的 `search_text` 调外部 `ripgrep`；gld 自己实现 `Matcher`。匹配这一层没有可
