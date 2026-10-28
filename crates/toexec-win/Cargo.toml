@@ -1,12 +1,12 @@
 [package]
 name = "toexec-win"
-description = "Windows 上起子进程时要调系统 API 的那几件事：标准句柄不让继承、会话期间别睡"
-version = "0.1.0"
+description = "Windows 上起子进程时要调系统 API 的那几件事：标准句柄不让继承、会话期间别睡、Job Object"
+version = "0.2.0"
 edition.workspace = true
 rust-version.workspace = true
 license.workspace = true
 
-# 故意没有依赖：要的是 kernel32 里的三个函数，自己声明比为它们拉进 windows /
+# 故意没有依赖：要的是 kernel32 里的几个函数，自己声明比为它们拉进 windows /
 # windows-sys 两个大 crate 划算，也守住这个仓库"不加依赖"的规矩。不在
 # Windows 上编译时这个 crate 是空的，产品按 cfg(windows) 引用它。
 [dependencies]
